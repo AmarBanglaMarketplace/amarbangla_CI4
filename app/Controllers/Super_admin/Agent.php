@@ -1,0 +1,279 @@
+<?php
+
+namespace App\Controllers\Super_admin;
+
+use App\Controllers\BaseController;
+use App\Libraries\Permission;
+use App\Models\AgentModel;
+use App\Models\AgentpermittedareaModel;
+use App\Models\GlobaladdressModel;
+use App\Models\ShopsModel;
+
+class Agent extends BaseController
+{
+    protected $validation;
+    protected $session;
+    protected $agentModel;
+    protected $globaladdressModel;
+    protected $agentpermittedareaModel;
+    protected $shopsModel;
+
+    protected $crop;
+    protected $permission;
+
+    public function __construct()
+    {
+        $this->agentModel = new AgentModel();
+        $this->globaladdressModel = new GlobaladdressModel();
+        $this->agentpermittedareaModel = new AgentpermittedareaModel();
+        $this->shopsModel = new ShopsModel();
+        $this->validation = \Config\Services::validation();
+        $this->session = \Config\Services::session();
+        $this->permission = new Permission();
+        $this->crop = \Config\Services::image();
+    }
+    public function index() {
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+
+            $data['agent'] = $this->agentModel->where('deleted IS NULL')->findAll();
+
+            echo view('Super_admin/header');
+            echo view('Super_admin/sidebar');
+            echo view('Super_admin/Agent/index',$data);
+            echo view('Super_admin/footer');
+        }
+    }
+
+    public function create() {
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+
+            echo view('Super_admin/header');
+            echo view('Super_admin/sidebar');
+            echo view('Super_admin/Agent/create');
+            echo view('Super_admin/footer');
+        }
+    }
+
+    public function create_action(){
+
+        $supuserId = $this->session->userIdSuper;
+
+        $data['agent_name'] = $this->request->getPost('agent_name');
+        $data['email'] = $this->request->getPost('email');
+        $data['mobile'] = $this->request->getPost('mobile');
+        $data['password'] = SHA1($this->request->getPost('password'));
+        $data['con_password'] = SHA1($this->request->getPost('con_password'));
+        $data['pass'] = $this->request->getPost('password');
+        $data['createdBy'] = $supuserId;
+
+        $this->validation->setRules([
+            'agent_name' => ['label' => 'name', 'rules' => 'required'],
+            'email' => ['label' => 'email', 'rules' => 'required'],
+            'mobile' => ['label' => 'mobile', 'rules' => 'required'],
+            'password' => ['label' => 'Password', 'rules' => 'required|max_length[155]'],
+            'con_password' => ['label' => 'Con password', 'rules' => 'required|matches[password]'],
+        ]);
+
+        if ($this->validation->run($data) == FALSE) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_create');
+        } else {
+            $check = checkUniqueField($data['mobile'], 'mobile', 'agent');
+            if ($check == true) {
+                $this->agentModel->insert($data);
+
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Create Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/agent_create');
+            }else{
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">This number already exists! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/agent_create');
+            }
+
+        }
+    }
+
+
+
+    public function update($agent_id) {
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+
+            $data['agent'] = $this->agentModel->where('agent_id',$agent_id)->first();
+            $data['address'] = $this->globaladdressModel->where('global_address_id',$data['agent']->global_address_id)->first();
+            $data['area'] = $this->agentpermittedareaModel->where('agent_id',$agent_id)->findAll();
+
+            echo view('Super_admin/header');
+            echo view('Super_admin/sidebar');
+            echo view('Super_admin/Agent/update',$data);
+            echo view('Super_admin/footer');
+        }
+    }
+
+    public function update_action()
+    {
+        $supuserId = $this->session->userIdSuper;
+
+        $data['agent_id'] = $this->request->getPost('agent_id');
+        $data['agent_name'] = $this->request->getPost('agent_name');
+        $data['email'] = $this->request->getPost('email');
+        $data['mobile'] = $this->request->getPost('mobile');
+        $data['password'] = SHA1($this->request->getPost('password'));
+        $data['con_password'] = SHA1($this->request->getPost('con_password'));
+        $data['pass'] = $this->request->getPost('password');
+        $data['status'] = $this->request->getPost('status');
+
+        $this->validation->setRules([
+            'agent_name' => ['label' => 'name', 'rules' => 'required'],
+            'email' => ['label' => 'email', 'rules' => 'required'],
+            'mobile' => ['label' => 'mobile', 'rules' => 'required'],
+            'password' => ['label' => 'Password', 'rules' => 'required|max_length[155]'],
+            'con_password' => ['label' => 'Con password', 'rules' => 'required|matches[password]'],
+        ]);
+
+        if ($this->validation->run($data) == FALSE) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_update/' . $data['agent_id'].'?active=general');
+        } else {
+
+            $this->agentModel->update($data['agent_id'], $data);
+
+            $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Data update successfully <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_update/' . $data['agent_id'].'?active=general');
+
+        }
+    }
+
+    public function address_update(){
+        $supuserId = $this->session->userIdSuper;
+
+        $dataUp['agent_id'] = $this->request->getPost('agent_id');
+        $data['division'] = $this->request->getPost('division');
+        $data['zila'] = $this->request->getPost('district');
+        $data['upazila'] = $this->request->getPost('upazila');
+        $data['pourashava'] = $this->request->getPost('pourashava');
+        $data['ward'] = $this->request->getPost('ward');
+
+        $this->validation->setRules([
+            'agent_id' => ['label' => 'agent_id', 'rules' => 'required'],
+        ]);
+
+        if ($this->validation->run($dataUp) == FALSE) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'].'?active=personal');
+        } else {
+            $address = $this->globaladdressModel->where($data)->first();
+            if (!empty($address)) {
+                $dataUp['global_address_id'] = $address->global_address_id;
+
+                $this->agentModel->update($dataUp['agent_id'], $dataUp);
+
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Data update successfully <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'] . '?active=personal');
+            } else {
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Global address not match! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'] . '?active=personal');
+            }
+        }
+    }
+
+    public function area_update(){
+        $supuserId = $this->session->userIdSuper;
+
+        $dataUp['agent_id'] = $this->request->getPost('agent_id');
+        $data['division'] = $this->request->getPost('division');
+        $data['zila'] = $this->request->getPost('district');
+        $data['upazila'] = $this->request->getPost('upazila');
+        $data['pourashava'] = $this->request->getPost('pourashava');
+        $data['ward'] = $this->request->getPost('ward');
+
+        $this->validation->setRules([
+            'agent_id' => ['label' => 'agent_id', 'rules' => 'required'],
+        ]);
+
+        if ($this->validation->run($dataUp) == FALSE) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'].'?active=user');
+        } else {
+            $address = $this->globaladdressModel->where($data)->first();
+            if (!empty($address)) {
+
+                $area = $this->agentpermittedareaModel->where('global_address_id',$address->global_address_id)->first();
+                if (empty($area)) {
+                    $dataUp['global_address_id'] = $address->global_address_id;
+                    $dataUp['createdBy'] = $supuserId;
+
+                    $this->agentpermittedareaModel->insert($dataUp);
+
+                    $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Data insert successfully <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'] . '?active=user');
+                }else{
+                    $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Global address already exists! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'] . '?active=user');
+                }
+
+            } else {
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Global address not match! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/agent_update/' . $dataUp['agent_id'] . '?active=user');
+            }
+        }
+    }
+
+    public function delete($agent_id) {
+
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+            $supuserId = $this->session->userIdSuper;
+            $data['agent_id'] = $agent_id;
+            $data['deleted'] = $supuserId;
+            $data['deletedRole'] = $supuserId;
+
+            $this->agentModel->update($data['agent_id'], $data);
+            $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Delete Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/customer_type');
+
+        }
+    }
+    public function delete_area($agent_permitted_area_id,$agent_id) {
+
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+            $supuserId = $this->session->userIdSuper;
+            $data['agent_permitted_area_id'] = $agent_permitted_area_id;
+            $this->agentpermittedareaModel->delete($data['agent_permitted_area_id']);
+
+            $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Delete Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent_update/'.$agent_id.'?active=user');
+
+        }
+    }
+
+
+
+    public function commission($agent_id) {
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+
+            $data['shop'] = $this->shopsModel->where('agent_id',$agent_id)->findAll();
+
+            echo view('Super_admin/header');
+            echo view('Super_admin/sidebar');
+            echo view('Super_admin/Agent/commission',$data);
+            echo view('Super_admin/footer');
+        }
+    }
+
+}
