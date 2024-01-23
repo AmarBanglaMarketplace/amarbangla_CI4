@@ -129,7 +129,7 @@
                 </li>
 
                 <li class="nav-item ">
-                    <a href="<?php echo base_url('super_admin/agent')?>" class="nav-link">
+                    <a href="<?php echo base_url('super_admin/global_address')?>" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>Global Address </p>
                     </a>
