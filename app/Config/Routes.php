@@ -156,5 +156,10 @@ $routes->post('super_admin/agent_address_update', 'Super_admin\Agent::address_up
 $routes->post('super_admin/agent_area_update', 'Super_admin\Agent::area_update');
 $routes->get('super_admin/agent_delete/(:num)', 'Super_admin\Agent::delete/$1');
 $routes->get('super_admin/agent_commission/(:num)', 'Super_admin\Agent::commission/$1');
-
 $routes->get('super_admin/delete_area/(:num)/(:num)', 'Super_admin\Agent::delete_area/$1/$2');
+//super admin Agent
+
+//super admin Globaladdress
+$routes->get('super_admin/global_address', 'Super_admin\Globaladdress::index');
+$routes->get('super_admin/global_address_create', 'Super_admin\Globaladdress::create');
+$routes->post('super_admin/global_address_create_action', 'Super_admin\Globaladdress::create_action');
