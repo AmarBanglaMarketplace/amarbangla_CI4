@@ -1234,53 +1234,121 @@ function package_id_by_product($packageId)
     return $query;
 }
 
+function demo_singleImage_by_productId($proId,$size= null,$ke= 0,$class=null){
+    $table = DB()->table('demo_products');
+    $pro = $table->where("id", $proId)->get()->getRow();
+    $sz = ($size != null)?$size.'_':'';
+    $data = '';
+
+        $json = (array) json_decode(html_entity_decode($pro->picture));
+        $singleimg ='noImage.jpg';
+
+        if (!empty($json)) {
+            $singleimg = $json[$ke];
+            $imgPath = FCPATH.'uploads/demo_product_image/'.$pro->id.'/'.$sz.''.$singleimg;
+            if (!file_exists($imgPath)){
+                $data = '<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" class="'.$class.'">';
+            }else{
+                $data = '<img src="'.base_url().'uploads/demo_product_image/'.$pro->id.'/'.$sz.''.$singleimg.'" class="'.$class.'" >';
+            }
+        }else{
+            $data = '<img src="'.base_url().'uploads/demo_product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'">';
+        }
+
+
+    return $data;
+}
+
 function singleImage_by_productId($proId,$size= null,$ke= 0,$class=null){
     $table = DB()->table('products');
     $pro = $table->where("prod_id", $proId)->get()->getRow();
     $sz = ($size != null)?$size.'_':'';
     $data = '';
-    if (!empty($pro->demo_id) && empty($pro->picture) ){
+    if (!empty($pro->id) && empty($pro->picture) ){
         $dimg = get_data_by_id('picture','demo_products','id',$pro->demo_id);
         $json = (array) json_decode(html_entity_decode($dimg));
         $singleimg ='noImage.jpg';
 
         if (!empty($json)) {
             $singleimg = $json[$ke];
-
-            $imgPath = FCPATH.'/uploads/demo_product_image/'.$pro->demo_id.'/'.$sz.''.$singleimg;
+            $imgPath = FCPATH.'uploads/demo_product_image/'.$pro->demo_id.'/'.$sz.''.$singleimg;
             if (!file_exists($imgPath)){
-                $data = '<img src="'.base_url().'/uploads/demo_product_image/noImage.jpg" width="'.$sz.'" class="'.$class.'">';
+                $data = '<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" class="'.$class.'">';
             }else{
-                $data = '<img src="'.base_url().'/uploads/demo_product_image/'.$pro->demo_id.'/'.$sz.''.$singleimg.'" class="'.$class.'" >';
+                $data = '<img src="'.base_url().'uploads/demo_product_image/'.$pro->demo_id.'/'.$sz.''.$singleimg.'" class="'.$class.'" >';
             }
-
         }else{
-            $data = '<img src="'.base_url().'/uploads/demo_product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'">';
+            $data = '<img src="'.base_url().'uploads/demo_product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'">';
         }
-
     }else{
         $json = (array) json_decode(html_entity_decode($pro->picture));
         $singleimg ='noImage.jpg';
         if (!empty($json)) {
-            //$singleimg = $json[$ke];
+
             if (!empty($json[$ke])){
                 $singleimg = $json[$ke];
                 $imgPath = FCPATH.'/uploads/product_image/'.$pro->prod_id.'/'.$sz.''.$singleimg;
                 if (!file_exists($imgPath)){
-                    $data = '<img src="'.base_url().'/uploads/product_image/noImage.jpg" width="'.$sz.'" class="'.$class.'">';
+                    $data = '<img src="'.base_url().'uploads/product_image/noImage.jpg" width="'.$sz.'" class="'.$class.'">';
                 }else {
-                    $data = '<img src="' . base_url() . '/uploads/product_image/' . $pro->prod_id . '/' . $sz . '' . $singleimg . '" class="' . $class . '">';
+                    $data = '<img src="' . base_url() . 'uploads/product_image/' . $pro->prod_id . '/' . $sz . '' . $singleimg . '" class="' . $class . '">';
                 }
             }else{
-                $data = '<img src="'.base_url().'/uploads/product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'" >';
+                $data = '<img src="'.base_url().'uploads/product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'" >';
             }
 
         }else{
-            $data = '<img src="'.base_url().'/uploads/product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'" >';
+            $data = '<img src="'.base_url().'uploads/product_image/'.$singleimg.'" width="'.$sz.'" class="'.$class.'" >';
         }
+
     }
 
     return $data;
+}
+
+function demo_multipleImage_by_productId($proId,$size= null,$h_templete = '',$f_templete = ''){
+    $table = DB()->table('demo_products');
+    $pro = $table->where("id", $proId)->get()->getRow();
+    $sz = ($size != null)?$size.'_':'';
+    $data = '';
+    $i = 1;
+    if (!empty($pro->demo_id) && !empty($pro->picture) ){
+        $json = json_decode(html_entity_decode($pro->picture));
+        $val ='noImage.jpg';
+        if (!empty($json)) {
+            foreach ($json as $key => $val) {
+
+                $imgPath = FCPATH.'/uploads/demo_product_image/'.$pro->id.'/'.$sz.''.$val;
+                if (!file_exists($imgPath)){
+                    print $h_templete.'<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" >'.$f_templete;
+                }else {
+                    print $h_templete . '<img src="' . base_url() . 'uploads/demo_product_image/' . $pro->id . '/' . $sz . '' . $val . '" >' . $f_templete;
+                }
+
+            }
+        }else{
+            $data = $h_templete.'<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" >'.$f_templete;
+            print $data;
+        }
+    }else{
+        $json = json_decode(html_entity_decode($pro->picture));
+        $val ='noImage.jpg';
+        if (!empty($json)) {
+            foreach ($json as $key => $val) {
+                $imgPath = FCPATH.'/uploads/demo_product_image/'.$pro->id.'/'.$sz.''.$val;
+                if (!file_exists($imgPath)) {
+                    $data = $h_templete.'<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" >'.$f_templete;
+                    print $data;
+                }else{
+                    $data = $h_templete.'<img src="' . base_url() . 'uploads/demo_product_image/' . $pro->id . '/' . $sz . '' .$val . '"  '.$i++.'>'.$f_templete;
+                    print $data;
+                }
+            }
+        }else{
+            $data = $h_templete.'<img src="'.base_url().'uploads/demo_product_image/noImage.jpg" width="'.$sz.'" >'.$f_templete;
+            print $data;
+        }
+    }
 }
 
 function invoice_id_by_package($invoiceId)
@@ -1383,4 +1451,154 @@ function shop_id_by_total_sale_commission($shopId){
     $table = DB()->table('sup_commi_invoice');
     $result = $table->selectSum('commission')->where('sch_id', $shopId)->get()->getRow()->commission;
     return $result;
+}
+function subCategoryListOptionSuper($selected)
+{
+    $table = DB()->table('demo_category');
+    $query = $table->where('parent_pro_cat', 0)->get()->getResult();
+
+    $options = '';
+    foreach ($query as $value) {
+        $options .= '<option value="' . $value->cat_id . '" ';
+        $options .= ($value->cat_id == $selected) ? ' selected="selected"' : '';
+        $options .= '>' . $value->product_category . '</option>';
+    }
+    return $options;
+}
+
+function getCatListInOptionsuper($selected)
+{
+    $table = DB()->table('demo_category');
+    $query = $table->where('parent_pro_cat', 0)->get();
+    $options = '';
+    foreach ($query->getResult() as $value) {
+        $options .= '<option value="' . $value->cat_id . '" ';
+        $options .= ($value->cat_id == $selected) ? ' selected="selected"' : '';
+        $options .= '>' . $value->product_category . '</option>';
+    }
+    return $options;
+}
+
+function selectOptions($selected = '', $array = null){
+    $options = '';
+    if (count($array)) {
+        foreach ($array as $key => $value) {
+            $options .= '<option value="' . $key . '" ';
+            $options .= ($key == $selected) ? ' selected="selected"' : '';
+            $options .= '>' . $value . '</option>';
+        }
+    }
+    return $options;
+}
+
+function unitArray()
+{
+    $status = [
+        '1' => 'Piece',
+        // '2' => 'KG',
+        // '3' => 'LETTER',
+        // '4' => 'TON'
+    ];
+    return $status;
+}
+function showUnitName($selected = '1')
+{
+    $status = unitArray();
+    $row = $status[$selected];
+    return $row;
+}
+
+function categoryListInOptionsuper($categoryId)
+{
+    $table = DB()->table('demo_category');
+    $query = $table->where('parent_pro_cat', 0)->get();
+
+    $catId = get_data_by_id('parent_pro_cat', 'demo_category', 'cat_id', $categoryId);
+
+    $options = '';
+    if (!empty($catId)) {
+        foreach ($query->getResult() as $value) {
+            $options .= '<option value="' . $value->cat_id . '" ';
+            $options .= ($value->cat_id == $catId) ? ' selected="selected"' : '';
+            $options .= '>' . $value->product_category . '</option>';
+        }
+    } else {
+        foreach ($query->getResult() as $value) {
+            $options .= '<option value="' . $value->cat_id . '" ';
+            $options .= ($value->cat_id == $categoryId) ? ' selected="selected"' : '';
+            $options .= '>' . $value->product_category . '</option>';
+        }
+    }
+    return $options;
+}
+
+function subCatListInOptionsuper($categoryId){
+    $table = DB()->table('demo_category');
+    $catId = get_data_by_id('parent_pro_cat', 'demo_category', 'cat_id', $categoryId);
+
+    $query = $table->where('parent_pro_cat', $catId)->get();
+
+    $options = '';
+    if (!empty($catId)) {
+        foreach ($query->getResult() as $value) {
+            $options .= '<option value="' . $value->cat_id . '" ';
+            $options .= ($value->cat_id == $categoryId) ? ' selected="selected"' : '';
+            $options .= '>' . $value->product_category . '</option>';
+        }
+    }
+    return $options;
+}
+
+function subCatDemoOption($categoryId)
+{
+    $table = DB()->table('demo_category');
+    $query = $table->where('parent_pro_cat', $categoryId)->get();
+    $options = '';
+    foreach ($query->getResult() as $value) {
+        $options .= '<option value="' . $value->cat_id . '">' . $value->product_category . '</option>';
+    }
+
+    return $options;
+}
+function checkParentCategorydemo($categoryId)
+{
+    $table = DB()->table('demo_category');
+    $query = $table->where('cat_id', $categoryId)->get()->getRow();
+    $view = "";
+    if (!empty($query)) {
+        $view = $query->parent_pro_cat;
+    }
+    return $view;
+}
+
+function smsGlobalStatus($selected = '')
+{
+    $status = array(
+        '0' => 'Cancel',
+        '1' => 'Active',
+        '2' => 'Pending',
+    );
+
+    $row = '';
+    foreach ($status as $key => $option) {
+        $row .= '<option value="' . $key . '"';
+        $row .= ($selected == $key) ? ' selected' : '';
+        $row .= '>' . $option . '</option>';
+    }
+    return $row;
+}
+
+function smsStatusView($selected = '')
+{
+    $status = array(
+        '0' => 'Cancel',
+        '1' => 'Active',
+        '2' => 'Pending',
+    );
+
+    $row = '';
+    foreach ($status as $key => $option) {
+        $row .= ($selected == $key) ? $option : '';
+    }
+    return $row;
 }

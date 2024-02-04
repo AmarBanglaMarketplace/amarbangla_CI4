@@ -163,3 +163,85 @@ $routes->get('super_admin/delete_area/(:num)/(:num)', 'Super_admin\Agent::delete
 $routes->get('super_admin/global_address', 'Super_admin\Globaladdress::index');
 $routes->get('super_admin/global_address_create', 'Super_admin\Globaladdress::create');
 $routes->post('super_admin/global_address_create_action', 'Super_admin\Globaladdress::create_action');
+$routes->get('super_admin/global_address_update/(:num)', 'Super_admin\Globaladdress::update/$1');
+$routes->post('super_admin/global_address_update_action', 'Super_admin\Globaladdress::update_action');
+$routes->get('super_admin/global_address_delete/(:num)', 'Super_admin\Globaladdress::delete/$1');
+$routes->post('super_admin/global_address_search', 'Super_admin\Globaladdress::search');
+//super admin Globaladdress
+
+//super admin demo product category
+$routes->get('super_admin/demo_product_category', 'Super_admin\Demoproduccategory::index');
+$routes->get('super_admin/demo_product_category_create', 'Super_admin\Demoproduccategory::create');
+$routes->post('super_admin/demo_product_category_create_action', 'Super_admin\Demoproduccategory::create_action');
+$routes->get('super_admin/demo_product_category_update/(:num)', 'Super_admin\Demoproduccategory::update/$1');
+$routes->post('super_admin/demo_product_category_update_action', 'Super_admin\Demoproduccategory::update_action');
+$routes->get('super_admin/demo_product_category_delete/(:num)', 'Super_admin\Demoproduccategory::delete/$1');
+//super admin demo product category
+
+//super admin demo product category
+$routes->get('super_admin/demo_product', 'Super_admin\Demoproducts::index');
+$routes->get('super_admin/demo_product_list', 'Super_admin\Demoproducts::product_list');
+$routes->post('super_admin/demo_product_create_action', 'Super_admin\Demoproducts::create_action');
+$routes->post('super_admin/demo_product_add_cart', 'Super_admin\Demoproducts::addCart');
+$routes->post('super_admin/demo_product_remove_cart', 'Super_admin\Demoproducts::remove_cart');
+$routes->post('super_admin/demo_product_clearCart', 'Super_admin\Demoproducts::clearCart');
+$routes->post('super_admin/demo_product_get_sub_cat', 'Super_admin\Demoproducts::get_sub_cat');
+$routes->get('super_admin/demo_product_update/(:num)', 'Super_admin\Demoproducts::update/$1');
+$routes->post('super_admin/demo_product_update_action', 'Super_admin\Demoproducts::update_action');
+$routes->post('super_admin/demo_product_photo_action', 'Super_admin\Demoproducts::photo_action');
+$routes->get('super_admin/demo_product_delete/(:num)', 'Super_admin\Demoproducts::delete/$1');
+$routes->post('super_admin/demo_product_search_by_key', 'Super_admin\Demoproducts::search_keyword');
+$routes->post('super_admin/demo_product_search_by_cat', 'Super_admin\Demoproducts::search_category');
+//super admin demo product category
+
+//super admin demo product color
+$routes->get('super_admin/product_color', 'Super_admin\Productcolor::index');
+$routes->get('super_admin/product_color_create', 'Super_admin\Productcolor::create');
+$routes->post('super_admin/product_color_create_action', 'Super_admin\Productcolor::create_action');
+$routes->get('super_admin/product_color_update/(:num)', 'Super_admin\Productcolor::update/$1');
+$routes->post('super_admin/product_color_update_action', 'Super_admin\Productcolor::update_action');
+$routes->get('super_admin/product_color_delete/(:num)', 'Super_admin\Productcolor::delete/$1');
+//super admin demo product color
+
+//super admin demo Campaign
+$routes->get('super_admin/campaign', 'Super_admin\Campaign::index');
+$routes->post('super_admin/campaign_status_update', 'Super_admin\Campaign::status_update');
+$routes->get('super_admin/campaign_update/(:num)', 'Super_admin\Campaign::update/$1');
+$routes->post('super_admin/campaign_update_action', 'Super_admin\Campaign::update_action');
+//super admin demo Campaign
+
+//super admin demo Campaign
+$routes->get('super_admin/group_post', 'Super_admin\Grouppost::index');
+$routes->get('super_admin/group_post_update/(:num)', 'Super_admin\Grouppost::update/$1');
+$routes->post('super_admin/group_post_update_action', 'Super_admin\Grouppost::update_action');
+$routes->get('super_admin/group_post_delete/(:num)', 'Super_admin\Grouppost::delete/$1');
+//super admin demo Campaign
+
+//super admin Website settings
+$routes->get('super_admin/website_settings/logo', 'Super_admin\Websitesettings::logo');
+$routes->post('super_admin/website_settings/logo_action', 'Super_admin\Websitesettings::logo_action');
+$routes->get('super_admin/website_settings/banner', 'Super_admin\Websitesettings::banner');
+$routes->post('super_admin/website_settings/banner_action_left', 'Super_admin\Websitesettings::banner_action_left');
+$routes->post('super_admin/website_settings/banner_action_right', 'Super_admin\Websitesettings::banner_action_right');
+$routes->post('super_admin/website_settings/banner_action_top', 'Super_admin\Websitesettings::banner_action_top');
+$routes->post('super_admin/website_settings/banner_action_bottom', 'Super_admin\Websitesettings::banner_action_bottom');
+$routes->get('super_admin/website_settings/banner_product', 'Super_admin\Websitesettings::banner_product');
+$routes->post('super_admin/website_settings/banner_product_action', 'Super_admin\Websitesettings::banner_product_action');
+$routes->get('super_admin/website_settings/slider', 'Super_admin\Websitesettings::slider');
+$routes->post('super_admin/website_settings/slider_action', 'Super_admin\Websitesettings::slider_action');
+$routes->get('super_admin/website_settings/footer', 'Super_admin\Websitesettings::footer');
+$routes->post('super_admin/website_settings/footer_action', 'Super_admin\Websitesettings::footer_action');
+$routes->get('super_admin/website_settings/mobile_slider', 'Super_admin\Websitesettings::mobile_slider');
+$routes->get('super_admin/website_settings/home_banner', 'Super_admin\Websitesettings::home_banner');
+$routes->post('super_admin/website_settings/home_banner_action', 'Super_admin\Websitesettings::home_banner_action');
+$routes->post('super_admin/website_settings/home_banner_small_action', 'Super_admin\Websitesettings::home_banner_small_action');
+//super admin Website settings
+
+//super admin Sms panel
+$routes->get('super_admin/sms_panel', 'Super_admin\Smspanel::index');
+$routes->post('super_admin/update_status', 'Super_admin\Smspanel::update_status');
+//super admin Sms panel
+
+//super admin Sms panel
+$routes->get('super_admin/general_settings', 'Super_admin\Generalsettings::index');
+$routes->post('super_admin/update_action', 'Super_admin\Generalsettings::update_action');

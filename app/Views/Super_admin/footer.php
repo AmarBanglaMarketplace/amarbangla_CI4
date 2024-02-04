@@ -61,6 +61,8 @@
 <script src="<?php echo base_url()?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php print base_url(); ?>assets/dist/js/spartan-multi-image-picker.js"></script>
+<script src="<?php print base_url(); ?>assets/dist/js/ckeditor.js"></script>
 <script>
     $(function () {
         $("#example1").DataTable({
@@ -96,6 +98,102 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    $(function(){
+
+        $("#coba").spartanMultiImagePicker({
+            fieldName:        'userfile[]',
+            directUpload : {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam : {
+                    name : 'My Name'
+                },
+                success : function(data, textStatus, jqXHR){
+                },
+                error : function(jqXHR, textStatus, errorThrown){
+                }
+            }
+        });
+    });
+
+    $(function() {
+
+        $("#coba2").spartanMultiImagePicker({
+            fieldName: 'userfile2',
+            maxCount: 1,
+            directUpload: {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam: {
+                    name: 'My Name'
+                },
+                success: function(data, textStatus, jqXHR) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            }
+        });
+    });
+
+    $(function() {
+
+        $("#coba3").spartanMultiImagePicker({
+            fieldName: 'userfile2',
+            maxCount: 1,
+            directUpload: {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam: {
+                    name: 'My Name'
+                },
+                success: function(data, textStatus, jqXHR) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            }
+        });
+    });
+
+    $(function() {
+
+        $("#coba4").spartanMultiImagePicker({
+            fieldName: 'userfile2',
+            maxCount: 1,
+            directUpload: {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam: {
+                    name: 'My Name'
+                },
+                success: function(data, textStatus, jqXHR) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            }
+        });
+    });
+
+    $(function() {
+
+        $("#coba5").spartanMultiImagePicker({
+            fieldName: 'userfile2',
+            maxCount: 1,
+            directUpload: {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam: {
+                    name: 'My Name'
+                },
+                success: function(data, textStatus, jqXHR) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            }
+        });
+    });
+
     function shopSubCategory(id) {
         $.ajax({
             type: "POST",
@@ -121,7 +219,10 @@
 
             beforeSend: function() {
                 $('#district').html(
-                    '<img src="<?php print base_url(); ?>/assets/images/loading.gif" width="20" alt="loading"/> Progressing...'
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+                $('#district2').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
                 );
             },
             success: function(msg) {
@@ -143,7 +244,10 @@
 
             beforeSend: function() {
                 $('#upazila').html(
-                    '<img src="<?php print base_url(); ?>/assets/images/loading.gif" width="20" alt="loading"/> Progressing...'
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+                $('#upazila2').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
                 );
             },
             success: function(msg) {
@@ -174,6 +278,11 @@
                 status: status,
                 calling_id: id
             },
+            beforeSend: function() {
+                //$('#message').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(msg) {
                 $('#message').html(msg);
             }
@@ -189,6 +298,11 @@
             data: {
                 sch_id: id,
                 seller_id: sellerId
+            },
+            beforeSend: function() {
+                //$('#commDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
             },
             success: function(data) {
 
@@ -208,7 +322,11 @@
                 sch_id: id,
                 seller_id: sellerId
             },
-
+            beforeSend: function() {
+                //$('#commTotalDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(data) {
                 $('#commTotalDetail').html(data);
             }
@@ -224,7 +342,11 @@
             data: {
                 seller_id: sellerId
             },
-
+            beforeSend: function() {
+                //$('#commTotalDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(data) {
                 $('#commTotalDetail').html(data);
             }
@@ -240,6 +362,11 @@
             data: {
                 sch_id: schId,
                 seller_id: sellerId
+            },
+            beforeSend: function() {
+                //$('#shopOrder').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
             },
             success: function(data) {
                 $('#shopOrder').html(data);
@@ -258,7 +385,11 @@
                 sch_id: id,
                 delivery_boy_id: deliveryBoyId
             },
-
+            beforeSend: function() {
+                //$('#commDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(data) {
                 $('#commDetail').html(data);
             }
@@ -275,7 +406,11 @@
                 sch_id: id,
                 delivery_boy_id: deliveryBoyId
             },
-
+            beforeSend: function() {
+                //$('#commTotalDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(data) {
                 $('#commTotalDetail').html(data);
             }
@@ -291,10 +426,196 @@
             data: {
                 delivery_boy_id: deliveryBoyId
             },
+            beforeSend: function() {
+                //$('#commTotalDetail').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+            },
             success: function(data) {
                 $('#commTotalDetail').html(data);
             }
 
+        });
+    }
+
+    function showSubCategory(id, url) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "text",
+            data: {
+                cat_id: id
+            },
+            beforeSend: function() {
+                //$('#subCat').html(
+                //    '<img src="<?php //print base_url(); ?>///assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                //);
+                // $('.preloader').show();
+            },
+            success: function(msg) {
+                $('#subCat').html(msg);
+            }
+        });
+    }
+
+    function addCart() {
+        var category = $('[name=category]').val();
+        var subCatId = $('[name=sub_category]').val();
+        var name = $('[name=name]').val();
+        var unit = $('[name=unit]').val();
+        var Qty = $('[name=qty]').val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/demo_product_add_cart') ?>",
+            dataType: "text",
+            data: {
+                subCatId: subCatId,
+                name: name,
+                category: category,
+                unit: unit,
+                qty: Qty
+            },
+            success: function(msg) {
+                $('#message').html(msg);
+                $('#table-reload').load(document.URL + ' #example2');
+                $('[name=category]').val('');
+                $('[name=sub_category]').val('');
+                $('[name=name]').val('');
+            }
+        });
+    }
+
+    function remove_cart_data(val) {
+        // var Id = $(Id).attr("id");
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/demo_product_remove_cart') ?>",
+            dataType: "text",
+            data: {
+                id: val
+            },
+            success: function(msg) {
+                $('#message').html(msg);
+                $('#table-reload').load(document.URL + ' #example2');
+            }
+        });
+    }
+
+    function clearCart() {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/demo_product_clearCart') ?>",
+            dataType: "text",
+            success: function(msg) {
+                $('#message').html(msg);
+                $('#table-reload').load(document.URL + ' #example2');
+            }
+        });
+    }
+
+    function _productNameSearch(key) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/demo_product_search_by_key') ?>",
+            dataType: "text",
+            data: {
+                keyword: key
+            },
+            success: function(msg) {
+                $('#subCat').html(msg);
+                $('#example2_info').hide();
+                $('#example2_paginate').hide();
+                // alert(msg);
+            }
+        });
+    }
+
+    function _prodSearch(id) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/demo_product_search_by_cat') ?>",
+            dataType: "text",
+            data: {
+                catId: id
+            },
+            success: function(msg) {
+                $('#subCat').html(msg);
+                $('#example2_info').hide();
+                $('#example2_paginate').hide();
+                // alert(msg);
+            }
+        });
+    }
+
+    function statusActive(status, id) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/campaign_status_update') ?>",
+            dataType: "text",
+            data: {
+                campaign_id: id,
+                status: status
+            },
+            beforeSend: function() {
+                $('#loding').html('<i class="fa fa-spinner fa-spin"></i>');
+            },
+            success: function(msg) {
+                $('#message').html(msg);
+            }
+        });
+    }
+
+    function Upload() {
+        //Get reference of FileUpload.
+        var fileUpload = document.getElementById("imageFile");
+        //Check whether the file is valid Image.
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            //Check whether HTML5 is supported.
+            if (typeof(fileUpload.files) != "undefined") {
+                //Initiate the FileReader object.
+                var reader = new FileReader();
+                //Read the contents of Image File.
+                reader.readAsDataURL(fileUpload.files[0]);
+                reader.onload = function(e) {
+                    //Initiate the JavaScript Image object.
+                    var image = new Image();
+                    //Set the Base64 string return from FileReader as source.
+                    image.src = e.target.result;
+                    //Validate the File Height and Width.
+                    image.onload = function() {
+                        var height = this.height;
+                        var width = this.width;
+                        if (height > 100 || width > 390) {
+                            $('#validImg').html('<b style="color: red;">Image size must be greater than 390x100</b>');
+                            $('#imageFile').val('');
+                        } else {
+                            $('#validImg').html('<b style="color: green;">Image is valid</b>');
+                        }
+                    };
+                }
+            } else {
+                $('#validImg').html('<b style="color: red;">Image size must be greater than 390x100</b>');
+                $('#imageFile').val('');
+            }
+        } else {
+            $('#validImg').html('<b style="color: red;">Please select a valid Image file.</b>');
+            $('#imageFile').val('');
+        }
+    }
+
+    function statusChange(status, sms_request_id) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/update_status') ?>",
+            dataType: "text",
+            data: {
+                status: status,
+                sms_request_id: sms_request_id
+            },
+            success: function(msg) {
+                $('#message').html(msg);
+            }
         });
     }
 

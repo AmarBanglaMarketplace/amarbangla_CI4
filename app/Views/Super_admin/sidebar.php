@@ -135,6 +135,113 @@
                     </a>
                 </li>
 
+                <li class="nav-item ">
+                    <a href="<?php echo base_url('super_admin/demo_product_category')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Product category</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a href="<?php echo base_url('super_admin/demo_product')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Product</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a href="<?php echo base_url('super_admin/product_color')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Product Color</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a href="<?php echo base_url('super_admin/campaign')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Campaign</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a href="<?php echo base_url('super_admin/group_post')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Group Post</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            Website settings
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/logo')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Logo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/banner')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Banner</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/banner_product')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Banner product page</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/slider')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Slider</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/footer')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Footer</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/mobile_slider')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Mobile Slider</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('super_admin/website_settings/home_banner')?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Home banner</p>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?php echo base_url('super_admin/sms_panel')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Sms Panel</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?php echo base_url('super_admin/general_settings')?>" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>General settings</p>
+                    </a>
+                </li>
 
 
             </ul>
