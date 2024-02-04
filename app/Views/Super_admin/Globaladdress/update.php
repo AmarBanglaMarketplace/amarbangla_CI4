@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Global Address create</h1>
+                    <h1>Global Address update</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?php echo base_url('super_admin/shops')?>">Home</a></li>
-                        <li class="breadcrumb-item active">Global Address create</li>
+                        <li class="breadcrumb-item active">Global Address update</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Global Address create</h3>
+                            <h3 class="card-title">Global Address update</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -34,13 +34,13 @@
                                     <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
                                 </div>
                                 <div class="col-md-6">
-                                    <form action="<?php echo base_url('super_admin/global_address_create_action'); ?>" method="post">
+                                    <form action="<?php echo base_url('super_admin/global_address_update_action'); ?>" method="post">
 
                                         <div class="form-group">
                                             <label for="varchar">Division </label>
                                             <select class="form-control" name="division" onchange="viewdistrict(this.value)" required >
                                                 <option value="">Please Select</option>
-                                                <?php echo divisionView() ; ?>
+                                                <?php echo divisionView($address->division) ; ?>
                                             </select>
 
 
@@ -50,7 +50,7 @@
                                             <label for="varchar">District </label>
                                             <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo districtselect() ; ?>
+                                                <?php echo districtselect($address->zila,$address->division) ; ?>
                                             </select>
 
 
@@ -60,7 +60,7 @@
                                             <label for="varchar">Upazila </label>
                                             <select class="form-control" name="upazila" id="upazila" onchange="checkCity(this.value)"  required>
                                                 <option value="">Please Select</option>
-                                                <?php echo upazilaselect() ; ?>
+                                                <?php echo upazilaselect($address->upazila,$address->zila) ; ?>
                                             </select>
                                         </div>
 
@@ -68,7 +68,7 @@
                                             <label for="varchar">Pourashava/Union</label>
                                             <select class="form-control" name="pourashava" id="reuq" >
                                                 <option value="">Please Select</option>
-                                                <?php echo pourashavaUnion() ; ?>
+                                                <?php echo pourashavaUnion($address->pourashava) ; ?>
                                             </select>
                                         </div>
 
@@ -76,12 +76,12 @@
                                             <label for="varchar">Ward</label>
                                             <select class="form-control" name="ward" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo wardView() ; ?>
+                                                <?php echo wardView($address->ward) ; ?>
                                             </select>
                                         </div>
 
-
-                                        <button type="submit" class="btn btn-primary">Create</button>
+                                        <input type="hidden" name="global_address_id" value="<?php echo $address->global_address_id; ?>" >
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                         <a href="<?php echo site_url('super_admin/global_address') ?>" class="btn btn-danger">Cancel</a>
                                     </form>
                                 </div>

@@ -25,7 +25,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <a href="<?php echo base_url('super_admin/global_address_create');?>" class="btn btn-xs btn-primary w-25 float-right">Create</a>
+                            <a href="<?php echo base_url('super_admin/global_address');?>" class="btn btn-xs btn-danger float-right">Back</a>
                             <h3 class="card-title">Global Address list</h3>
                         </div>
                         <!-- /.card-header -->
@@ -37,21 +37,21 @@
                                             <label for="varchar">Division </label>
                                             <select class="form-control" name="division" onchange="viewdistrict(this.value)" required >
                                                 <option value="">Please Select</option>
-                                                <?php echo divisionView(); ?>
+                                                <?php echo divisionView($division); ?>
                                             </select>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="varchar">District </label>
                                             <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" >
                                                 <option value="">Please Select</option>
-                                                <?php echo districtselect(); ?>
+                                                <?php echo districtselect($district,$division); ?>
                                             </select>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="varchar">Upazila </label>
                                             <select class="form-control" name="upazila" id="upazila" onchange="checkCity(this.value)" >
                                                 <option value="">Please Select</option>
-                                                <?php echo upazilaselect(); ?>
+                                                <?php echo upazilaselect($upazila,$district); ?>
                                             </select>
                                         </div>
                                         <div class="col-md-3">

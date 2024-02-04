@@ -14,8 +14,7 @@ class SmsrequestModel extends Model
     protected $primaryKey = 'sms_request_id';
     protected $returnType = 'object';    
     protected $useSoftDeletes = false;
-    protected $allowedFields =  ["sms_request_id",	"sch_id", "sms_qty", "status",
-    	"createdBy", "createdDtm",	"updatedBy", "updatedDtm", "deleted", "deletedRole"];
+    protected $allowedFields =  ["sms_request_id",	"sch_id", "sms_qty", "status", "createdBy", "createdDtm",	"updatedBy", "updatedDtm", "deleted", "deletedRole"];
     protected $useTimestamps = false;
     protected $createdField  = 'created_at'; 
     protected $updatedField  = 'updated_at';
