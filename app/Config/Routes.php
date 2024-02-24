@@ -245,3 +245,21 @@ $routes->post('super_admin/update_status', 'Super_admin\Smspanel::update_status'
 //super admin Sms panel
 $routes->get('super_admin/general_settings', 'Super_admin\Generalsettings::index');
 $routes->post('super_admin/update_action', 'Super_admin\Generalsettings::update_action');
+
+// shop admin login
+$routes->get('shop_admin/login', 'Shop_admin\Login::index');
+$routes->post('shop_admin/login_action', 'Shop_admin\Login::login_action');
+$routes->get('shop_admin/logout', 'Shop_admin\Login::logout');
+$routes->get('shop_admin/forgot_password', 'Shop_admin\Login::forgotPassword');
+$routes->post('shop_admin/reset_link', 'Shop_admin\Login::reset_link');
+$routes->get('shop_admin/otp', 'Shop_admin\Login::otp');
+$routes->post('shop_admin/otp_action', 'Shop_admin\Login::otp_action');
+$routes->get('shop_admin/otp_action', 'Shop_admin\Login::reset_password');
+$routes->get('shop_admin/reset_password', 'Shop_admin\Login::reset_password');
+$routes->post('shop_admin/reset_password_action', 'Shop_admin\Login::reset_password_action');
+// shop admin login end
+
+// shop admin Dashboard
+$routes->get('shop_admin/dashboard', 'Shop_admin\Dashboard::index');
+$routes->post('shop_admin/opening_status', 'Shop_admin\Dashboard::opening_status');
+// shop admin Dashboard end
