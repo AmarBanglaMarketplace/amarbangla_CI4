@@ -1602,3 +1602,20 @@ function smsStatusView($selected = '')
     }
     return $row;
 }
+
+function admin_cash()
+{
+    
+    $result = '';
+    if (!empty($_SESSION['shopId'])) {
+        $builder = DB()->table('shops')->where('sch_id', $_SESSION['shopId'])->get();
+        $result = $builder->getNumRows();
+    }
+
+    if ($result == 0) {
+        $data = "No Cash Available";
+    } else {
+        $data = showWithCurrencySymbol($builder->getRow()->cash);
+    }
+    return $data;
+}
