@@ -12,6 +12,7 @@ use App\Models\PurchaseModel;
 use App\Models\PurchaseitemModel;
 use App\Models\PackageModel;
 use App\Models\ShopsModel;
+use App\Libraries\Permission;
 
 class Dashboard extends BaseController
 {
@@ -25,6 +26,7 @@ class Dashboard extends BaseController
     protected $packageModel;
     protected $shopsModel;
     protected $rolesModel;
+    protected $permission;
     public function __construct()
     {
         $this->session = \Config\Services::session();
@@ -37,25 +39,9 @@ class Dashboard extends BaseController
         $this->shopsModel = new ShopsModel();
         $this->rolesModel = new RolesModel();
         $this->purchaseitemModel = new PurchaseitemModel();
+        $this->permission = new permission();
     }
 
-    private function module_permission_list($role_id, $module_name)
-    {
-        $result = $this->rolesModel->select('permission')->where('role_id', $role_id)->first();
-
-        $obj = json_decode($result->permission, true);
-
-        return $obj[$module_name];
-    }
-
-    private function have_access($roleId, $module_name, $sub_permission)
-    {
-
-        $result = $this->rolesModel->where('role_id', $roleId)->first();
-        //print_r($result->permission);        	
-        $obj = json_decode($result->permission, true);
-        return $obj[$module_name][$sub_permission];
-    }
 
     public function index()
     {
@@ -70,7 +56,8 @@ class Dashboard extends BaseController
             $shopId = $this->session->shopId;
             $roleId = $this->session->role;
 
-            $totalProduct = $this->productModel->where('sch_id', $shopId)->get()->getNumRows();
+            $totalProduct = $this->productModel->where('sch_id', $shopId)->countAllResults();
+          
 
             $row = $this->shopsModel->where('sch_id', $shopId)->first();
 
@@ -109,7 +96,7 @@ class Dashboard extends BaseController
             //  var_dump($purchId);
             foreach ($purchId as $value) {
                 // purchasa itame fiend count (start)
-                $purItem = $this->purchaseitemModel->select('purchase_item_id')->where('purchase_id', $value->purchase_id)->get()->getNumRows();
+                $purItem = $this->purchaseitemModel->select('purchase_item_id')->where('purchase_id', $value->purchase_id)->countAllResults();
                 // purchasa itame fiend count (end)
 
                 //deleted Nul value in purchase (start)
@@ -141,17 +128,17 @@ class Dashboard extends BaseController
             }
             //  var_dump($invoice);
             // $perm = $this->permission->module_permission_list($role_id,role_id);
-            $perm = $this->module_permission_list($roleId, 'Dashboard');
+            $perm = $this->permission->module_permission_list($roleId, 'Dashboard');
 
             foreach ($perm as $key => $value) {
-                $data[$key] = $this->have_access($roleId, 'Dashboard', $key);
+                $data[$key] = $this->permission->have_access($roleId, 'Dashboard', $key);
             }
             //  echo '<pre>';
             //  var_dump($data);
             //  echo '</pre>';
             echo view('Shop_admin/header');
             echo view('Shop_admin/sidebar');
-            echo view('Shop_admin/dashboard', $data);
+            echo view('Shop_admin/Dashboard/dashboard', $data);
             echo view('Shop_admin/footer');
             // var_dump($data);
             // echo "</pre>";
