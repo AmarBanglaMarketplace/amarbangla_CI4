@@ -1619,3 +1619,116 @@ function admin_cash()
     }
     return $data;
 }
+
+
+function checkBankBalance($bankID, $requiredBalance)
+{
+    $query = DB()->table("bank")->select("balance")->where( array("bank_id" => $bankID, "sch_id" => $_SESSION['shopId']))->get();
+    $result = $query->getNumRows();
+    if ($result == 0) {
+        $data = false;
+    } else {
+        $balance = $query->getRow()->balance;
+        if ($balance >= $requiredBalance) {
+            $data = true;
+        } else {
+            $data = false;
+        }
+    }
+    return $data;
+}
+
+function checkNagadBalance($requiredBalance)
+{
+    $query = DB()->table('shops')->where("sch_id" , $_SESSION['shopId'])->get();
+    $result = $query->getNumRows();
+    if ($result == 0) {
+        $data = false;
+    } else {
+       
+        $balance = $query->getRow()->cash;
+        $reserveCash = $query->getRow()->reserve_cash;
+
+        $lastBalance = $balance - $reserveCash;
+       
+        if ($lastBalance >= $requiredBalance) {
+            $data = true;
+        } else {
+            $data = false;
+        }
+    }
+    return $data;
+}
+
+function profile_name()
+{
+   
+    $shopId = isset($_SESSION['shopId']) ? $_SESSION['shopId'] : "0";
+
+    if ($shopId != 0) {
+        $query = DB()->table('shops')->select('name')->where('sch_id',$shopId)->get()->getRow();
+
+        $result = $query->name;
+
+    } else {
+        $result = "#";
+    }
+    return $result;
+}
+
+function sms_send($message,$number){
+
+    $url = "https://bulksmsbd.net/api/smsapi";
+    $api_key = "Pyz60uQAQmoas9m077SH";
+    $senderid = "8809612443871";
+    // $number = $number;
+//    $message = "Your AmarBangla OTP Is: ".$otp;
+
+    $shopId = $_SESSION['shopId'];
+    $masLength = strlen($message);
+    $totalSmsSend = 0; $x = 0;
+    while($x <= $masLength) { $x+=61; $totalSmsSend+=1; }
+    $shopSms = get_data_by_id('sms','shops','sch_id',$shopId);
+    if ($shopSms >= $totalSmsSend) {
+
+        $data = array(
+            "api_key" => $api_key,
+            "senderid" => $senderid,
+            "number" => $number,
+            "message" => $message
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        //sms update
+        $newSms = $shopSms-$totalSmsSend;
+        $shopDataSms = array('sms'=>$newSms);
+        DB()->table('shops')->where('sch_id',$shopId)->update($shopDataSms);
+
+    }
+
+}
+
+function getAllListInOption($selected, $tblId, $needCol, $table)
+{
+    $query = DB()->table($table)->where( ["deleted"=>  NULL , "sch_id" =>  $_SESSION['shopId']]);
+    $options = '';
+    foreach ($query->get()->getResult() as $value) {
+        $options .= '<option value="' . $value->$tblId . '" ';
+        $options .= ($value->$tblId == $selected) ? ' selected="selected"' : '';
+        $options .= '>' . $value->$needCol . '</option>';
+    }
+    return $options;
+}
+
+function bdDateFormat($data = '0000-00-00')
+{
+    return ($data == '0000-00-00') ? 'Unknown' : date('d/m/y', strtotime($data));
+}
