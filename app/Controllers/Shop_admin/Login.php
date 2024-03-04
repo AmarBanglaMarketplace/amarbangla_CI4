@@ -31,7 +31,7 @@ class Login extends BaseController
 
         if (!isset($isLoggedInShopAdmin) || $isLoggedInShopAdmin != TRUE) {
 
-            return view('Shop_admin/Login');
+            return view('Shop_admin/Login/Login');
 
         } else {
             return redirect()->to(site_url("shop_admin/dashboard"));
@@ -149,8 +149,10 @@ class Login extends BaseController
     public function logout()
     {
 
-        unset($_SESSION['userIdShop']);
-        unset($_SESSION['shop_name']);
+        unset($_SESSION['userId']);
+        unset($_SESSION['shopId']);
+        unset($_SESSION['role']);
+        unset($_SESSION['name']);
         unset($_SESSION['isLoggedInShopAdmin']);
 
         //        $this->session->destroy();
@@ -164,7 +166,7 @@ class Login extends BaseController
 
         if (!isset($isLoggedInShopAdmin) || $isLoggedInShopAdmin != TRUE) {
 
-            echo view('Shop_admin/ForgotPassword');
+            echo view('Shop_admin/Login/ForgotPassword');
 
         } else {
             // return redirect()->to(site_url("super_admin/shops"));
@@ -177,7 +179,7 @@ class Login extends BaseController
 
         $email = $this->request->getPost('email');
 
-        $result = $this->userModel->where('email', $email)->get()->getNumRows();
+        $result = $this->userModel->where('email', $email)->countAllResults();
 
         if ($result > 0) {
             $tokan = rand(1000, 9999);
@@ -198,7 +200,7 @@ class Login extends BaseController
             //     echo 'Reset password link sent successfully!';
             // }
 
-            return redirect()->to(site_url("shop_admin/otp"));
+            return redirect()->to(site_url("shop_admin/Login/otp"));
         } else {
             // $this->session->set_flashdata('message', '<div style="margin-top: 12px" class="alert alert-danger" id="message">Your Email Address Could Not Be Found</div>');
 
@@ -213,7 +215,7 @@ class Login extends BaseController
 
         if (!empty($_SESSION['tokan'])) {
             echo ($_SESSION['tokan']);
-            return view('Shop_admin/otp');
+            return view('Shop_admin/Login/otp');
         } else {
             return redirect()->to(site_url("shop_admin/forgot_password"));
         }
@@ -241,7 +243,7 @@ class Login extends BaseController
     {
         if (!empty($_SESSION['tokan']) && !empty($_SESSION['isReset'])) {
 
-            return view("Shop_admin/Reset_password");
+            return view("Shop_admin/Login/Reset_password");
         } else {
 
             return redirect()->to(site_url("shop_admin/otp"));
@@ -267,7 +269,7 @@ class Login extends BaseController
                 unset($_SESSION['otp']);
                 unset($_SESSION['forgetPassword']);
 
-                return view("Shop_admin/login");
+                return view("Shop_admin/Login/login");
 
             } else {
                 return view("Shop_admin/Reset_password");

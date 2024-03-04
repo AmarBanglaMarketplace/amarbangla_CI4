@@ -263,3 +263,10 @@ $routes->post('shop_admin/reset_password_action', 'Shop_admin\Login::reset_passw
 $routes->get('shop_admin/dashboard', 'Shop_admin\Dashboard::index');
 $routes->post('shop_admin/opening_status', 'Shop_admin\Dashboard::opening_status');
 // shop admin Dashboard end
+
+//shop admin Bakir hishab
+$routes->get('shop_admin/bakir_hishab', 'Shop_admin\Bakir_hishab::index');
+$routes->get('shop_admin/bakir_hishab/create','Shop_admin\Bakir_hishab::create');
+$routes->post('shop_admin/bakir_hishab/create_action', 'Shop_admin\Bakir_hishab::create_action');
+$routes->post('shop_admin/bakir_hishab/lonProvData', 'Shop_admin\Bakir_hishab::lonProvData');
+// shop admin Dashboard end
