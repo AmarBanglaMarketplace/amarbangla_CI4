@@ -542,7 +542,6 @@
                 $('#subCat').html(msg);
                 $('#example2_info').hide();
                 $('#example2_paginate').hide();
-                // alert(msg);
             }
         });
     }
@@ -617,6 +616,55 @@
                 $('#message').html(msg);
             }
         });
+    }
+
+    function allshoporder(schId) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/order_filter_shop') ?>",
+            dataType: "text",
+            data:{ sch_id: schId },
+            success: function(data) {
+                $('#shopOrder').html(data);
+                $('#example1_info').hide();
+                $('#example1_paginate').hide();
+            }
+
+        });
+    }
+
+    function filter_invoice() {
+        let division = $('[name=division]').val();
+        let district = $('[name=district]').val();
+        let upazila = $('[name=upazila]').val();
+        let pourashava = $('[name=pourashava]').val();
+        let ward = $('[name=ward]').val();
+
+        if (division == '') {
+            $('[name=division]').css('border-color', '#ff0000');
+        } else {
+            $('[name=division]').css('border-color', '#008000');
+        }
+
+        if (division != '') {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('super_admin/order_filter_invoice') ?>",
+                dataType: "text",
+                data: {
+                    division: division,
+                    district: district,
+                    upazila: upazila,
+                    pourashava: pourashava,
+                    ward: ward
+                },
+                success: function(msg) {
+                    $('#shopOrder').html(msg);
+                    $('#example1_info').hide();
+                    $('#example1_paginate').hide();
+                }
+            });
+        }
     }
 
 </script>

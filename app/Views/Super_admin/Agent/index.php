@@ -30,6 +30,61 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="col-md-12">
+                                <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
+                            </div>
+                            <div class="col-md-12">
+                                <form action="<?php echo base_url('super_admin/agent_filter')?>" method="post">
+                                    <div class="row">
+
+                                        <div class="form-group col-md-2">
+                                            <label for="varchar">Division </label>
+                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)">
+                                                <option value="">Please Select</option>
+                                                <?php echo divisionView(); ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="varchar">District</label>
+                                            <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" required>
+                                                <option value="">Please Select</option>
+                                                <?php echo districtselect(); ?>
+                                            </select>
+
+
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="varchar">Upazila </label>
+                                            <select class="form-control" name="upazila" id="upazila" required>
+                                                <option value="">Please Select</option>
+                                                <?php echo upazilaselect(); ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="varchar">Pourashava/Union</label>
+                                            <select class="form-control" name="pourashava">
+                                                <option value="">Please Select</option>
+                                                <?php echo pourashavaUnion(); ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="varchar">Ward</label>
+                                            <select class="form-control" name="ward">
+                                                <option value="">Please Select</option>
+                                                <?php echo wardView(); ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <button type="submit" class="btn btn-primary "  style="margin-top: 30px; width:100%;">Filter </button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>

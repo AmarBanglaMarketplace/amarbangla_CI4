@@ -31,8 +31,8 @@
                             <div class="col-md-6">
                                 <a href="<?php echo site_url('super_admin/order_filter_status/2') ?>" class="btn btn-primary btn-xs">Pending</a>
                                 <a href="<?php echo site_url('super_admin/order_filter_not_accepted/') ?>" class="btn btn-warning btn-xs">Not Accepted</a>
-                                <a href="<?php echo site_url('super_admin/order_filter/') ?>" class="btn btn-info btn-xs">Accepted</a>
-                                <a href="<?php echo site_url('super_admin/order_filter/') ?>"  class="btn btn-success btn-xs">Complete</a>
+                                <a href="<?php echo site_url('super_admin/order_filter/0') ?>" class="btn btn-info btn-xs">Accepted</a>
+                                <a href="<?php echo site_url('super_admin/order_filter/1') ?>"  class="btn btn-success btn-xs">Complete</a>
                                 <a href="<?php echo site_url('super_admin/order_filter_status/3') ?>" class="btn btn-danger btn-xs">Cancel</a>
                             </div>
                             <div class="col-md-3">
@@ -48,55 +48,7 @@
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="varchar">Division </label>
-                                    <select class="form-control" name="division" onchange="viewdistrict(this.value)">
-                                        <option value="">Please Select</option>
-                                        <?php echo divisionView() ; ?>
-                                    </select>
 
-
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="varchar">District</label>
-                                    <select class="form-control" name="district" onchange="viewupazila(this.value)"
-                                            id="district" required>
-                                        <option value="">Please Select</option>
-                                        <?php echo districtselect() ; ?>
-                                    </select>
-
-
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="varchar">Upazila </label>
-                                    <select class="form-control" name="upazila" id="upazila" required>
-                                        <option value="">Please Select</option>
-                                        <?php echo upazilaselect() ; ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="varchar">Pourashava/Union</label>
-                                    <select class="form-control" name="pourashava">
-                                        <option value="">Please Select</option>
-                                        <?php echo pourashavaUnion() ; ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="varchar">Ward </label>
-                                    <select class="form-control" name="ward">
-                                        <option value="">Please Select</option>
-                                        <?php echo wardView() ; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <button type="button" class="btn btn-primary " onclick="filter_invoice()" style="margin-top: 30px; width:100%;">Filter</button>
-                                </div>
-                            </div>
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
@@ -109,7 +61,7 @@
                                     <th>Customer order list</th>
                                 </tr>
                                 </thead>
-                                <tbody id="shopOrder">
+                                <tbody id="shopOrder" >
                                 <?php  foreach ($order as $view){ ?>
                                     <tr>
                                         <td><?php echo $view->invoice_id;?></td>
