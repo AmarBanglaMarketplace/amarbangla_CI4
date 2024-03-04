@@ -71,7 +71,7 @@
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Pourashava/Union</label>
-                                            <select class="form-control" name="pourashava">
+                                            <select class="form-control" name="pourashava" required>
                                                 <option value="">Please Select</option>
                                                 <?php echo pourashavaUnion($address->pourashava); ?>
                                             </select>
@@ -79,7 +79,7 @@
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Ward</label>
-                                            <select class="form-control" name="ward">
+                                            <select class="form-control" name="ward" required>
                                                 <option value="">Please Select</option>
                                                 <?php echo wardView($address->ward); ?>
                                             </select>

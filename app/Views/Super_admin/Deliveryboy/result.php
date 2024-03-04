@@ -41,7 +41,7 @@
                                             <label for="varchar">Division </label>
                                             <select class="form-control" name="division" onchange="viewdistrict(this.value)">
                                                 <option value="">Please Select</option>
-                                                <?php echo divisionView(); ?>
+                                                <?php echo divisionView($address->division); ?>
                                             </select>
                                         </div>
 
@@ -49,7 +49,7 @@
                                             <label for="varchar">District</label>
                                             <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo districtselect(); ?>
+                                                <?php echo districtselect($address->zila,$address->division); ?>
                                             </select>
 
 
@@ -59,23 +59,23 @@
                                             <label for="varchar">Upazila </label>
                                             <select class="form-control" name="upazila" id="upazila" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo upazilaselect(); ?>
+                                                <?php echo upazilaselect($address->upazila,$address->zila); ?>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Pourashava/Union</label>
-                                            <select class="form-control" name="pourashava">
+                                            <select class="form-control" name="pourashava" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo pourashavaUnion(); ?>
+                                                <?php echo pourashavaUnion($address->pourashava); ?>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Ward</label>
-                                            <select class="form-control" name="ward">
+                                            <select class="form-control" name="ward" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo wardView(); ?>
+                                                <?php echo wardView($address->ward); ?>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">

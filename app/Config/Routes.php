@@ -102,6 +102,12 @@ $routes->post('super_admin/customer_filter', 'Super_admin\Customer::filter');
 //super admin Order
 $routes->get('super_admin/order', 'Super_admin\Order::index');
 $routes->get('super_admin/order_invoice/(:num)', 'Super_admin\Order::invoice/$1');
+$routes->get('super_admin/order_filter_status/(:num)', 'Super_admin\Order::order_filter_status/$1');
+$routes->get('super_admin/order_filter/(:num)', 'Super_admin\Order::order_filter/$1');
+$routes->get('super_admin/order_filter_not_accepted', 'Super_admin\Order::order_filter_not_accepted');
+$routes->post('super_admin/order_filter_shop', 'Super_admin\Order::order_filter_shop');
+$routes->post('super_admin/order_filter_invoice', 'Super_admin\Order::order_filter_invoice');
+
 //super admin Order
 
 //super admin Calling request
@@ -126,6 +132,7 @@ $routes->post('super_admin/sellers_order_data', 'Super_admin\Sellers::sellers_or
 $routes->post('super_admin/commission_data', 'Super_admin\Sellers::commission_data');
 $routes->post('super_admin/commission_data_total', 'Super_admin\Sellers::commission_data_total');
 $routes->post('super_admin/commission_all', 'Super_admin\Sellers::commission_all');
+$routes->post('super_admin/sellers_filter', 'Super_admin\Sellers::filter');
 //super admin Sellers
 
 //super admin Delivery Boy
@@ -144,6 +151,7 @@ $routes->get('super_admin/delivery_boy_order/(:num)', 'Super_admin\Deliveryboy::
 $routes->post('super_admin/delivery_boy_commission_data', 'Super_admin\Deliveryboy::commission_data');
 $routes->post('super_admin/delivery_boy_commission_data_total', 'Super_admin\Deliveryboy::commission_data_total');
 $routes->post('super_admin/delivery_boy_commission_all', 'Super_admin\Deliveryboy::commission_all');
+$routes->post('super_admin/delivery_boy_filter', 'Super_admin\Deliveryboy::filter');
 //super admin Delivery Boy
 
 //super admin Agent
@@ -157,6 +165,7 @@ $routes->post('super_admin/agent_area_update', 'Super_admin\Agent::area_update')
 $routes->get('super_admin/agent_delete/(:num)', 'Super_admin\Agent::delete/$1');
 $routes->get('super_admin/agent_commission/(:num)', 'Super_admin\Agent::commission/$1');
 $routes->get('super_admin/delete_area/(:num)/(:num)', 'Super_admin\Agent::delete_area/$1/$2');
+$routes->post('super_admin/agent_filter', 'Super_admin\Agent::filter');
 //super admin Agent
 
 //super admin Globaladdress

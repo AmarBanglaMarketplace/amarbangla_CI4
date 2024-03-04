@@ -419,4 +419,42 @@ class Deliveryboy extends BaseController
         print $rowview;
     }
 
+    public function filter(){
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+            $supuserId = $this->session->userIdSuper;
+
+            $data['division'] = $this->request->getPost('division');
+            $data['zila'] = $this->request->getPost('district');
+            $data['upazila'] = $this->request->getPost('upazila');
+            $data['pourashava'] = $this->request->getPost('pourashava');
+            $data['ward'] = $this->request->getPost('ward');
+            $this->validation->setRules([
+                'division' => ['label' => 'division', 'rules' => 'required'],
+                'zila' => ['label' => 'zila', 'rules' => 'required'],
+                'upazila' => ['label' => 'upazila', 'rules' => 'required'],
+                'pourashava' => ['label' => 'pourashava', 'rules' => 'required'],
+                'ward' => ['label' => 'ward', 'rules' => 'required'],
+            ]);
+
+            if ($this->validation->run($data) == FALSE) {
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/delivery_boy');
+            } else {
+
+                $glAddress = $this->globaladdressModel->where($data)->first();
+
+                $data['address'] = $glAddress;
+                $data['deliveryboy'] = $this->deliveryboyModel->where('global_address_id',$glAddress->global_address_id)->where('deleted IS NULL')->findAll();
+
+                echo view('Super_admin/header');
+                echo view('Super_admin/sidebar');
+                echo view('Super_admin/Deliveryboy/result', $data);
+                echo view('Super_admin/footer');
+            }
+        }
+    }
+
 }

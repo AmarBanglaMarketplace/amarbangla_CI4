@@ -85,9 +85,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <button type="submit" class="btn btn-primary " onclick="filter_customer()"
-                                                    style="margin-top: 30px; width:100%;">Filter
-                                            </button>
+                                            <button type="submit" class="btn btn-primary " style="margin-top: 30px; width:100%;">Filter  </button>
                                         </div>
 
                                     </div>
