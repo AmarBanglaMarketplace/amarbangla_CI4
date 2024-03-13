@@ -25,17 +25,8 @@ class Login extends BaseController
         $this->rolesModel = new RolesModel();
     }
 
-    public function index()
-    {
-        $isLoggedInShopAdmin = $this->session->isLoggedInShopAdmin;
-
-        if (!isset($isLoggedInShopAdmin) || $isLoggedInShopAdmin != TRUE) {
-
-            return view('Shop_admin/Login/Login');
-
-        } else {
-            return redirect()->to(site_url("shop_admin/dashboard"));
-        }
+    public function index(){
+        return view('Shop_admin/Login/Login');
     }
 
     private function licenseCheck($shopId)
@@ -108,15 +99,6 @@ class Login extends BaseController
 
                     return redirect()->to(site_url("shop_admin/login"));
                 }
-
-                // $sessionArray = array(
-                //     'userId' => $result->user_id,
-                //     'shop_name' => $result->name,
-                //     'isLoggedInShopAdmin' => TRUE
-                // );
-                // $this->session->set($sessionArray);
-                // echo "hello deshbord";
-                //  return redirect()->to(site_url("shop_admin/dashboard"));
 
 
             } else {

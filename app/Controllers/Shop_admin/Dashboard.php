@@ -27,6 +27,8 @@ class Dashboard extends BaseController
     protected $shopsModel;
     protected $rolesModel;
     protected $permission;
+
+    private $module_name = 'Dashboard';
     public function __construct()
     {
         $this->session = \Config\Services::session();
@@ -45,111 +47,92 @@ class Dashboard extends BaseController
 
     public function index()
     {
-        $isLoggedIn = $this->session->isLoggedInShopAdmin;
+        $shopId = $this->session->shopId;
+        $roleId = $this->session->role;
 
-        if (!isset($isLoggedIn) || $isLoggedIn != TRUE) {
+        $totalProduct = $this->productModel->where('sch_id', $shopId)->countAllResults();
 
-            return redirect()->to(site_url("shop_admin/login"));
 
-        } else {
+        $row = $this->shopsModel->where('sch_id', $shopId)->first();
 
-            $shopId = $this->session->shopId;
-            $roleId = $this->session->role;
+        $loanprovider = $this->loanproviderModel->select('balance')->where('sch_id', $shopId)->findAll();
 
-            $totalProduct = $this->productModel->where('sch_id', $shopId)->countAllResults();
-          
-
-            $row = $this->shopsModel->where('sch_id', $shopId)->first();
-
-            $loanprovider = $this->loanproviderModel->select('balance')->where('sch_id', $shopId)->findAll();
-
-            // Lone Due balance count (start) 
-            $totalLoneDue = 0;
-            foreach ($loanprovider as $result) {
-                if ($result->balance < 0) {
-                    $totalLoneDue += $result->balance;
-                }
+        // Lone Due balance count (start)
+        $totalLoneDue = 0;
+        foreach ($loanprovider as $result) {
+            if ($result->balance < 0) {
+                $totalLoneDue += $result->balance;
             }
-            // Lone Due balance count (end) 
+        }
+        // Lone Due balance count (end)
 
-            //Supplier Balance  total due count (start)
-            $supplier = $this->suppliersModel->select('balance')->where('sch_id', $shopId)->findAll();
-            $totalsuppDue = 0;
-            foreach ($supplier as $result) {
-                if ($result->balance < 0) {
-                    $totalsuppDue += $result->balance;
-                }
+        //Supplier Balance  total due count (start)
+        $supplier = $this->suppliersModel->select('balance')->where('sch_id', $shopId)->findAll();
+        $totalsuppDue = 0;
+        foreach ($supplier as $result) {
+            if ($result->balance < 0) {
+                $totalsuppDue += $result->balance;
             }
-            //Supplier Balance  total due count (end)
+        }
+        //Supplier Balance  total due count (end)
 
-            //Total All Due calculet(start)
-            $totalDue = $totalLoneDue + $totalsuppDue;
-            //Total All Due calculet(end)   
+        //Total All Due calculet(start)
+        $totalDue = $totalLoneDue + $totalsuppDue;
+        //Total All Due calculet(end)
 
-            //total Bank Balance calculet (start)
-            $bank = $this->bankModel->selectSum('balance')->where('sch_id', $shopId)->first();
-            $totalBankBal = $bank->balance;
-            //total Bank Balance calculet (end)
+        //total Bank Balance calculet (start)
+        $bank = $this->bankModel->selectSum('balance')->where('sch_id', $shopId)->first();
+        $totalBankBal = $bank->balance;
+        //total Bank Balance calculet (end)
 
-            //purchase table null value delete (start)
-            $purchId = $this->purchaseModel->where(['sch_id' => $shopId, 'due' => NULL])->findAll();
-            //  var_dump($purchId);
-            foreach ($purchId as $value) {
-                // purchasa itame fiend count (start)
-                $purItem = $this->purchaseitemModel->select('purchase_item_id')->where('purchase_id', $value->purchase_id)->countAllResults();
-                // purchasa itame fiend count (end)
+        //purchase table null value delete (start)
+        $purchId = $this->purchaseModel->where(['sch_id' => $shopId, 'due' => NULL])->findAll();
+        //  var_dump($purchId);
+        foreach ($purchId as $value) {
+            // purchasa itame fiend count (start)
+            $purItem = $this->purchaseitemModel->select('purchase_item_id')->where('purchase_id', $value->purchase_id)->countAllResults();
+            // purchasa itame fiend count (end)
 
-                //deleted Nul value in purchase (start)
-                if ($purItem < 1) {
-                    $this->purchaseModel->where('purchase_id', $value->purchase_id)->purchaseitemModel->delete();
-                }
-                //deleted Nul value in purchase (end) 
+            //deleted Nul value in purchase (start)
+            if ($purItem < 1) {
+                $this->purchaseModel->where('purchase_id', $value->purchase_id)->purchaseitemModel->delete();
             }
-            //purchase table null value delete (end)
+            //deleted Nul value in purchase (end)
+        }
+        //purchase table null value delete (end)
 
-            //Total due amount calculet (start)
-            $totalGet = $totalLoneDue;
-            //Total due amount calculet (end)
+        //Total due amount calculet (start)
+        $totalGet = $totalLoneDue;
+        //Total due amount calculet (end)
 
-            $invoice = $this->packageModel->where(['sch_id' => $shopId, 'status' => '0'])->first();
+        $invoice = $this->packageModel->where(['sch_id' => $shopId, 'status' => '0'])->first();
 
-            if ($row) {
-                $data = array(
-                    'id' => $row->sch_id,
-                    'name' => $row->name,
-                    'address' => $row->address,
-                    'totalProduct' => $totalProduct,
-                    'totalDue' => $totalDue,
-                    'totalGet' => $totalGet,
-                    'totalBankBal' => $totalBankBal,
-                    'invoiceCount' => $invoice,
-                    'opening_status' => $row->opening_status,
-                );
-            }
-            //  var_dump($invoice);
-            // $perm = $this->permission->module_permission_list($role_id,role_id);
-            $perm = $this->permission->module_permission_list($roleId, 'Dashboard');
+        if ($row) {
+            $data = array(
+                'id' => $row->sch_id,
+                'name' => $row->name,
+                'address' => $row->address,
+                'totalProduct' => $totalProduct,
+                'totalDue' => $totalDue,
+                'totalGet' => $totalGet,
+                'totalBankBal' => $totalBankBal,
+                'invoiceCount' => $invoice,
+                'opening_status' => $row->opening_status,
+            );
+        }
 
-            foreach ($perm as $key => $value) {
-                $data[$key] = $this->permission->have_access($roleId, 'Dashboard', $key);
-            }
-            //  echo '<pre>';
-            //  var_dump($data);
-            //  echo '</pre>';
-            echo view('Shop_admin/header');
-            echo view('Shop_admin/sidebar');
+
+        $permi = $this->permission->module_permission($roleId, $this->module_name);
+        if (isset($permi['mod_access']) and $permi['mod_access'] == 1) {
             echo view('Shop_admin/Dashboard/dashboard', $data);
-            echo view('Shop_admin/footer');
-            // var_dump($data);
-            // echo "</pre>";
+        }else{
+            echo view('Shop_admin/no_permission');
         }
     }
 
     public function opening_status()
     {
         $shopId = $this->session->shopId;
-        // $this->dashboard_model->get_by_id($shopId);
-        // $shopId = $this->session->userdata('shopId');
         $row = $this->shopsModel->where('sch_id',$shopId)->first();
         if ($row->opening_status == 1) {
             $data = array(
@@ -161,5 +144,7 @@ class Dashboard extends BaseController
             );
         }
        $this->shopsModel->where('sch_id',$shopId)->update($shopId, $data);
+
+        print '<div class="alert alert-success alert-dismissible" role="alert">Successfully update <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
     }
 }

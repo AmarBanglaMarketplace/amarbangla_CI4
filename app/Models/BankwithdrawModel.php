@@ -10,7 +10,7 @@ class BankwithdrawModel extends Model
      * Called during initialization. Appends
      * our custom field to the module's model.
      */
-    protected $table = 'bank_deposit'; 
+    protected $table = 'bank_withdraw';
     protected $primaryKey = 'wthd_id';
     protected $returnType = 'object';
     protected $useSoftDeletes = false;

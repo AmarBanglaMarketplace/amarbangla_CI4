@@ -46,28 +46,12 @@ class Bakir_hishab extends BaseController
 
     public function index()
     {
-        $isLoggedIn = $this->session->isLoggedInShopAdmin;
-        $role = $this->session->role;
 
-        if (!isset($isLoggedIn) || $isLoggedIn != TRUE) {
-
-            return redirect()->to(site_url("shop_admin/login"));
-
-        } else {
-
-        }
     }
 
     public function create()
     {
-        $isLoggedIn = $this->session->isLoggedInShopAdmin;
-        $role = $this->session->role;
 
-        if (!isset($isLoggedIn) || $isLoggedIn != TRUE) {
-
-            return redirect()->to(site_url("shop_admin/login"));
-
-        } else {
 
             $perm = $this->permission->module_permission_list($role, 'Transaction');
             foreach ($perm as $key => $val) {
@@ -79,7 +63,7 @@ class Bakir_hishab extends BaseController
             echo view('Shop_admin/sidebar');
             echo view('Shop_admin/Bakir_hishab/create', $data);
             echo view('Shop_admin/footer');
-        }
+
     }
 
     public function create_action()
