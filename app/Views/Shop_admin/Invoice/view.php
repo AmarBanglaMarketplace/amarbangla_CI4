@@ -152,7 +152,12 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <button type="button" onclick="print_page()" class="btn btn-primary float-right ml-3"><i class="fas fa-print"></i> Print</button>
+<!--                                <button type="button" onclick="print_page()" class="btn btn-primary float-right ml-3"><i class="fas fa-print"></i> Print</button>-->
+
+                                <a href="<?= base_url('shop_admin/invoice_a4_print/'.$package)?>"  class="btn btn-primary float-right ml-3"><i class="fas fa-print"></i> A4-Print</a>
+                                <a href="<?= base_url('shop_admin/invoice_pos_print/'.$package)?>"  class="btn btn-primary float-right ml-3"><i class="fas fa-print"></i> POS-Print</a>
+
+
                                 <?php if ($status == 0){?>
                                 <a href="<?= base_url('shop_admin/invoice_package_action/' . $package); ?>" class="btn btn-warning float-right"><i class="fas fa-edit"></i> Paid </a>
                                 <?php } ?>

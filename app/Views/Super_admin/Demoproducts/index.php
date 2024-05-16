@@ -24,7 +24,9 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+
                             <a href="<?php echo base_url('super_admin/demo_product_list'); ?>" class="btn btn-xs btn-warning float-right"><i class="fas fa-list"></i> Product list</a>
+                            <a href="<?php echo base_url('super_admin/demo_product_bulk_upload'); ?>" class="btn btn-xs btn-info float-right mr-2"><i class="fas fa-upload"></i> Bulk Upload</a>
                             <h3 class="card-title">Product Insert</h3>
                         </div>
                         <!-- /.card-header -->

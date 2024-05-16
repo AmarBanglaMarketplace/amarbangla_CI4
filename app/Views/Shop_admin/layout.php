@@ -31,7 +31,8 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
+    <!-- summernote -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/summernote/summernote-bs4.min.css">
     <!-- DataTables -->
     <link rel="stylesheet"
           href="<?php echo base_url() ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -69,6 +70,12 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
+            <li>
+                <a href="#" class="btn btn-primary">Cash: <?= showWithCurrencySymbol(Auth()->cash);?></a>
+            </li>
+            <li>
+                <a href="<?= base_url('shop_admin/transaction_create')?>" class="btn btn-info ml-4">Transaction</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
@@ -194,7 +201,7 @@
 
     <?= $this->renderSection('content') ?>
 
-    <footer class="main-footer">
+    <footer class="main-footer no-print">
         <strong>Copyright &copy; 2024 <a href="https://dnationsoft.com/">DNationSoft</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
@@ -261,6 +268,9 @@
 <script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php print base_url(); ?>assets/dist/js/spartan-multi-image-picker.js"></script>
 <script src="<?php print base_url(); ?>assets/dist/js/ckeditor.js"></script>
+<!-- Summernote -->
+<script src="<?php echo base_url() ?>assets/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="<?php print base_url(); ?>assets/dist/js/spartan-multi-image-picker.js"></script>
 
 <script>
     $(function () {
@@ -271,7 +281,7 @@
         $('#example2').DataTable({
             "paging": true,
             "lengthChange": true,
-            "searching": false,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
@@ -283,8 +293,84 @@
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
-        })
+        });
+
+        // Summernote
+        $('#editor').summernote({
+            height: 200
+        });
+        $('#editor2').summernote({
+            height: 200
+        });
+
+        $("#coba").spartanMultiImagePicker({
+            fieldName:        'userfile[]',
+            directUpload : {
+                status: true,
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                url: '../c.php',
+                additionalParam : {
+                    name : 'My Name'
+                },
+                success : function(data, textStatus, jqXHR){
+                },
+                error : function(jqXHR, textStatus, errorThrown){
+                }
+            }
+        });
+
+
     });
+
+    function viewdistrict(id) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/search_district') ?>",
+            dataType: "text",
+            data: {
+                divisionsId: id
+            },
+
+            beforeSend: function() {
+                $('#district').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+                $('#district2').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+            },
+            success: function(msg) {
+                $('#district').html(msg);
+                $('#district2').html(msg);
+            }
+
+        });
+    }
+
+    function viewupazila(id) {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('super_admin/search_upazila') ?>",
+            dataType: "text",
+            data: {
+                districtId: id
+            },
+
+            beforeSend: function() {
+                $('#upazila').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+                $('#upazila2').html(
+                    '<img src="<?php print base_url(); ?>/assets/loading.gif" width="20" alt="loading"/> Progressing...'
+                );
+            },
+            success: function(msg) {
+                $('#upazila').html(msg);
+                $('#upazila2').html(msg);
+            }
+
+        });
+    }
 </script>
 
 <?= $this->renderSection('java_script') ?>

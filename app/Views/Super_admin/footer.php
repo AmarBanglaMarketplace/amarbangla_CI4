@@ -63,8 +63,12 @@
 <script src="<?php echo base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php print base_url(); ?>assets/dist/js/spartan-multi-image-picker.js"></script>
 <script src="<?php print base_url(); ?>assets/dist/js/ckeditor.js"></script>
+<!-- Select2 -->
+<script src="<?php echo base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script>
     $(function () {
+        $('.select2').select2();
+
         $("#example1").DataTable({
             "responsive": true,
             "lengthChange": true,
@@ -665,6 +669,50 @@
                 }
             });
         }
+    }
+
+    function purchase_price_update(id){
+        alert(id);
+    }
+
+    function updateFunction(proId, input, value, viewId, formName,updateRow) {
+        var formID = "'" + formName + "'"
+        var data = '<form id="' + formName +
+            '" action="<?= base_url('super_admin/demo_product_price_update') ?>" data-row="'+updateRow+'" method="post"><input type="text" name="' +
+            input +
+            '" class="form-control mb-2" value="' + value +
+            '" ><input type="hidden" name="product_id" class="form-control mb-2" value="' + proId +
+            '" ><button type="button" onclick="submitFormBulk(' + formID +
+            ')" class="btn btn-xs btn-primary mr-2">Update</button><a href="javascript:void(0)" onclick="hideInput(this)" class="btn btn-xs btn-danger">Cancel</button> </form>';
+
+        $('#' + viewId).html(data);
+    }
+
+    function submitFormBulk(formID) {
+        var form = document.getElementById(formID);
+        var upRow = $(form).attr('data-row');
+
+        var done = false;
+        $.ajax({
+            url: $(form).prop('action'),
+            type: "POST",
+            data: new FormData(form),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                // $("#message").html(data);
+                $("#mess").show();
+                var div = $("#"+upRow).html(data);
+                div.animate({opacity: '0.5'});
+                div.animate({opacity: '1'});
+
+            }
+        });
+    }
+
+    function hideInput(data) {
+        $(data).parent().remove();
     }
 
 </script>

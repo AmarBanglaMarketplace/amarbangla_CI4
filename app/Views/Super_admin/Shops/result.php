@@ -90,6 +90,7 @@
                                     <th>Balance</th>
                                     <th>Logo</th>
                                     <th>Image</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -101,6 +102,7 @@
                                         <td><?php echo showWithCurrencySymbol($val->cash) ?></td>
                                         <td width="120px"><?php echo image_view('uploads/schools', '', $val->logo, 'no_image.jpg', 'w-100', '');?></td>
                                         <td width="120px"><?php echo image_view('uploads/schools', '', $val->image, 'no_image.jpg', 'w-100', '');?></td>
+                                        <td><?php echo statusView($val->status);?></td>
                                         <td width="160px">
                                             <a href="<?php echo base_url('super_admin/shops_view/'.$val->sch_id);?>" class="btn btn-xs btn-info">View</a>
                                             <a href="<?php echo base_url('super_admin/shops_update/'.$val->sch_id);?>" class="btn btn-xs btn-warning ">Update</a>
@@ -116,6 +118,7 @@
                                     <th>Balance</th>
                                     <th>Logo</th>
                                     <th>Image</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>

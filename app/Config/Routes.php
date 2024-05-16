@@ -65,6 +65,7 @@ $routes->post('super_admin/settings_photo_update', 'Super_admin\Settings::photo_
 
 //super admin Settings
 $routes->get('super_admin/shops_commission', 'Super_admin\Shopscommission::index');
+$routes->post('super_admin/shops_commission_address_search', 'Super_admin\Shopscommission::address_search');
 $routes->get('super_admin/shops_commission_unpaid_list/(:num)', 'Super_admin\Shopscommission::unpaid_list/$1');
 $routes->get('super_admin/shops_commission_paid_list/(:num)', 'Super_admin\Shopscommission::paid_list/$1');
 $routes->get('super_admin/shops_commission_pay_list/(:num)', 'Super_admin\Shopscommission::pay_list/$1');
@@ -74,6 +75,7 @@ $routes->post('super_admin/shops_commission_confirm', 'Super_admin\Shopscommissi
 
 //super admin Ledger
 $routes->get('super_admin/ledger', 'Super_admin\Ledger::index');
+$routes->post('super_admin/ledger_filter', 'Super_admin\Ledger::ledger_filter');
 //super admin Ledger
 
 //super admin Ledger
@@ -113,6 +115,8 @@ $routes->post('super_admin/order_filter_invoice', 'Super_admin\Order::order_filt
 //super admin Calling request
 $routes->get('super_admin/calling_request', 'Super_admin\Callingrequest::index');
 $routes->post('super_admin/calling_status_update', 'Super_admin\Callingrequest::status_update');
+$routes->post('super_admin/calling_search_agent', 'Super_admin\Callingrequest::search_agent');
+$routes->post('super_admin/calling_search_address', 'Super_admin\Callingrequest::search_address');
 //super admin Calling request
 
 //super admin Sellers
@@ -201,6 +205,10 @@ $routes->post('super_admin/demo_product_photo_action', 'Super_admin\Demoproducts
 $routes->get('super_admin/demo_product_delete/(:num)', 'Super_admin\Demoproducts::delete/$1');
 $routes->post('super_admin/demo_product_search_by_key', 'Super_admin\Demoproducts::search_keyword');
 $routes->post('super_admin/demo_product_search_by_cat', 'Super_admin\Demoproducts::search_category');
+
+$routes->post('super_admin/demo_product_price_update', 'Super_admin\Demoproducts::price_update');
+$routes->get('super_admin/demo_product_bulk_upload', 'Super_admin\Demoproducts::bulk_upload');
+$routes->post('super_admin/demo_product_bulk_upload_action', 'Super_admin\Demoproducts::bulk_upload_action');
 //super admin demo product category
 
 //super admin demo product color
@@ -290,10 +298,10 @@ $routes->group('shop_admin',['filter' => 'AuthCheck'], function ($routes) {
     // shop admin Dashboard end
 
     //shop admin Bakir hishab
-    $routes->get('bakir_hishab', 'Shop_admin\Bakir_hishab::index');
-    $routes->get('bakir_hishab/create','Shop_admin\Bakir_hishab::create');
-    $routes->post('bakir_hishab/create_action', 'Shop_admin\Bakir_hishab::create_action');
-    $routes->post('bakir_hishab/lonProvData', 'Shop_admin\Bakir_hishab::lonProvData');
+    $routes->get('bakir_hishab', 'Shop_admin\BakirHishab::index');
+    $routes->get('bakir_hishab_create','Shop_admin\BakirHishab::create');
+    $routes->post('bakir_hishab_create_action', 'Shop_admin\BakirHishab::create_action');
+    $routes->post('bakir_hishab/lonProvData', 'Shop_admin\BakirHishab::lonProvData');
     // shop admin Dashboard end
 
     //Bank route
@@ -444,13 +452,282 @@ $routes->group('shop_admin',['filter' => 'AuthCheck'], function ($routes) {
     //Invoice route
     $routes->get('invoice', 'Shop_admin\Invoice::index');
     $routes->get('invoice_view/(:num)', 'Shop_admin\Invoice::view/$1');
+    $routes->get('invoice_a4_print/(:num)', 'Shop_admin\Invoice::a4_print/$1');
+    $routes->get('invoice_pos_print/(:num)', 'Shop_admin\Invoice::pos_print/$1');
     $routes->get('invoice_package_action/(:num)', 'Shop_admin\Invoice::package_action/$1');
     $routes->post('invoice_package_create_action', 'Shop_admin\Invoice::package_create_action');
     $routes->get('invoice_cancel/(:num)', 'Shop_admin\Invoice::cancel/$1');
     //Invoice route
 
+    //User route
+    $routes->get('user', 'Shop_admin\User::index');
+    $routes->get('user_create', 'Shop_admin\User::create');
+    $routes->post('user_create_action', 'Shop_admin\User::create_action');
+    $routes->get('user_update/(:num)', 'Shop_admin\User::update/$1');
+    $routes->post('user_update_action', 'Shop_admin\User::update_action');
+    $routes->post('user_personal_action', 'Shop_admin\User::personal_action');
+    $routes->post('user_photo_action', 'Shop_admin\User::photo_action');
+    $routes->get('user_delete/(:num)', 'Shop_admin\User::delete/$1');
+    //User route
+
+    //Role route
+    $routes->get('role', 'Shop_admin\Role::index');
+    $routes->get('role_create', 'Shop_admin\Role::create');
+    $routes->post('role_create_action', 'Shop_admin\Role::create_action');
+    $routes->get('role_update/(:num)', 'Shop_admin\Role::update/$1');
+    $routes->post('role_update_action', 'Shop_admin\Role::update_action');
+    $routes->get('role_delete/(:num)', 'Shop_admin\Role::delete/$1');
+    //Role route
+
+    //Campaign route
+    $routes->get('campaign', 'Shop_admin\Campaign::index');
+    $routes->get('campaign_create', 'Shop_admin\Campaign::create');
+    $routes->post('campaign_create_action', 'Shop_admin\Campaign::create_action');
+    $routes->get('campaign_update/(:num)', 'Shop_admin\Campaign::update/$1');
+    $routes->post('campaign_update_action', 'Shop_admin\Campaign::update_action');
+    //Campaign route
+
+    //MyPost route
+    $routes->get('my_post', 'Shop_admin\MyPost::index');
+    $routes->get('my_post_create', 'Shop_admin\MyPost::create');
+    $routes->post('my_post_create_action', 'Shop_admin\MyPost::create_action');
+    $routes->get('my_post_update/(:num)', 'Shop_admin\MyPost::update/$1');
+    $routes->post('my_post_update_action', 'Shop_admin\MyPost::update_action');
+    $routes->get('my_post_delete/(:num)', 'Shop_admin\MyPost::delete/$1');
+    //MyPost route
+
+    //Group post route
+    $routes->get('group_post', 'Shop_admin\GroupPost::index');
+    $routes->post('group_post_like_submit', 'Shop_admin\GroupPost::like_submit');
+    $routes->post('group_post_show_comment', 'Shop_admin\GroupPost::show_comment');
+    $routes->post('group_post_comment_action', 'Shop_admin\GroupPost::comment_action');
+    //Group post route
+
+    //Message route
+    $routes->get('message', 'Shop_admin\Message::index');
+    $routes->get('message_view/(:num)', 'Shop_admin\Message::view/$1');
+    //Message route
+
+    //SmsPanel route
+    $routes->get('sms_panel', 'Shop_admin\SmsPanel::index');
+    $routes->get('sms_panel_update/(:num)', 'Shop_admin\SmsPanel::update/$1');
+    $routes->post('sms_panel_update_action', 'Shop_admin\SmsPanel::update_action');
+    //SmsPanel route
+
+    //Settings route
+    $routes->get('settings', 'Shop_admin\Settings::index');
+    $routes->get('settings_update/(:num)', 'Shop_admin\Settings::update/$1');
+    $routes->post('settings_update_action', 'Shop_admin\Settings::update_action');
+    $routes->post('settings_photo_action', 'Shop_admin\Settings::photo_action');
+    $routes->post('settings_photo_action', 'Shop_admin\Settings::photo_action');
+    $routes->post('settings_general_action', 'Shop_admin\Settings::general_action');
+    $routes->post('settings_vat_action', 'Shop_admin\Settings::vat_action');
+    $routes->post('settings_address_action', 'Shop_admin\Settings::address_action');
+    $routes->post('settings_customer_action', 'Shop_admin\Settings::customer_action');
+    $routes->post('settings_customer_action', 'Shop_admin\Settings::customer_action');
+    $routes->get('settings_database_backup', 'Shop_admin\Settings::database_backup');
+
+    //Settings route
+
+    //Get Product route
+    $routes->get('get_product', 'Shop_admin\GetProduct::index');
+    $routes->post('get_product_account_holder', 'Shop_admin\GetProduct::account_holder_action');
+    $routes->post('get_product_suppliers', 'Shop_admin\GetProduct::suppliers_action');
+    $routes->post('get_product_bank', 'Shop_admin\GetProduct::bank_action');
+    $routes->post('get_product_cash', 'Shop_admin\GetProduct::cash_action');
+    $routes->post('get_product_update', 'Shop_admin\GetProduct::update_action');
+    $routes->post('get_product_product_show_key_search', 'Shop_admin\GetProduct::product_show_key_search');
+    $routes->post('get_product_product_show_by_category', 'Shop_admin\GetProduct::product_show_by_category');
+    //Get Product route
+
+    //Transaction route
+    $routes->get('transaction', 'Shop_admin\Transaction::index');
+    $routes->get('transaction_create', 'Shop_admin\Transaction::create');
+
+    $routes->post('transaction_supplier', 'Shop_admin\Transaction::supplierTransaction');
+    $routes->post('transaction_supplier_action', 'Shop_admin\Transaction::supplier_action');
+
+    $routes->post('transaction_account_holder', 'Shop_admin\Transaction::account_holder_transaction');
+    $routes->post('transaction_account_holder_action', 'Shop_admin\Transaction::account_holder_action');
+
+    $routes->post('transaction_bank', 'Shop_admin\Transaction::bank_transaction');
+    $routes->post('transaction_bank', 'Shop_admin\Transaction::bank_transaction');
+    $routes->post('transaction_bank_balance', 'Shop_admin\Transaction::bank_balance');
+    $routes->post('transaction_bank_action', 'Shop_admin\Transaction::bank_action');
+    $routes->post('transaction_expense_action', 'Shop_admin\Transaction::expense_action');
+    $routes->post('transaction_others_action', 'Shop_admin\Transaction::others_action');
+    $routes->post('transaction_search_employee_salary', 'Shop_admin\Transaction::search_employee_salary');
+    $routes->post('transaction_employee_action', 'Shop_admin\Transaction::employee_action');
+    $routes->post('transaction_vat_ledger', 'Shop_admin\Transaction::vat_ledger');
+    $routes->post('transaction_vat_action', 'Shop_admin\Transaction::vat_action');
+    $routes->post('transaction_sale_commission_action', 'Shop_admin\Transaction::sale_commission_action');
+    //Transaction route
+
+    //Brand route
+    $routes->get('brand', 'Shop_admin\Brand::index');
+    $routes->get('brand_create', 'Shop_admin\Brand::create');
+    $routes->post('brand_create_action', 'Shop_admin\Brand::create_action');
+    $routes->get('brand_update/(:num)', 'Shop_admin\Brand::update/$1');
+    $routes->post('brand_update_action', 'Shop_admin\Brand::update_action');
+    $routes->get('brand_delete/(:num)', 'Shop_admin\Brand::delete/$1');
+    //Brand route
+
+    //Product Category route
+    $routes->get('product_category', 'Shop_admin\ProductCategory::index');
+    $routes->get('product_category_create', 'Shop_admin\ProductCategory::create');
+    $routes->post('product_category_create_action', 'Shop_admin\ProductCategory::create_action');
+    $routes->get('product_category_update/(:num)', 'Shop_admin\ProductCategory::update/$1');
+    $routes->post('product_category_update_action', 'Shop_admin\ProductCategory::update_action');
+    $routes->get('product_category_delete/(:num)', 'Shop_admin\ProductCategory::delete/$1');
+    //Product Category route
 
 
+    //Stores route
+    $routes->get('stores', 'Shop_admin\Stores::index');
+    $routes->get('stores_create', 'Shop_admin\Stores::create');
+    $routes->post('stores_create_action', 'Shop_admin\Stores::create_action');
+    $routes->get('stores_update/(:num)', 'Shop_admin\Stores::update/$1');
+    $routes->post('stores_update_action', 'Shop_admin\Stores::update_action');
+    $routes->get('stores_delete/(:num)', 'Shop_admin\Stores::delete/$1');
+    //Stores route
+
+    //Products route
+    $routes->get('products', 'Shop_admin\Products::index');
+    $routes->get('products_create', 'Shop_admin\Products::create');
+    $routes->post('products_create_action', 'Shop_admin\Products::create_action');
+    $routes->get('products_update/(:num)', 'Shop_admin\Products::update/$1');
+    $routes->post('products_update_action', 'Shop_admin\Products::update_action');
+    $routes->post('products_update_detail_action', 'Shop_admin\Products::update_detail_action');
+    $routes->post('products_update_meta_data_action', 'Shop_admin\Products::update_meta_data_action');
+    $routes->post('products_update_related_product_action', 'Shop_admin\Products::update_related_product_action');
+    $routes->post('products_update_image_action', 'Shop_admin\Products::update_image_action');
+    $routes->post('products_update_product_features_action', 'Shop_admin\Products::update_product_features_action');
+    $routes->post('products_update_product_special_action', 'Shop_admin\Products::product_special_action');
+    $routes->get('products_delete/(:num)', 'Shop_admin\Products::delete/$1');
+    $routes->get('products_status_update/(:num)/(:num)', 'Shop_admin\Products::status_update/$1/$2');
+    $routes->post('products_get_sub_category', 'Shop_admin\Products::check_sub_cat');
+    $routes->get('products_price_update', 'Shop_admin\Products::price_update');
+    $routes->post('products_search_price_update', 'Shop_admin\Products::search_price_update');
+    $routes->post('products_price_update_action', 'Shop_admin\Products::price_update_action');
+    $routes->post('products_price_update_super_action', 'Shop_admin\Products::price_update_super_action');
+    $routes->get('products_short_list', 'Shop_admin\Products::short_list');
+    $routes->get('products_print_list', 'Shop_admin\Products::print_list');
+    $routes->post('products_barcode', 'Shop_admin\Products::barcode');
+    //Products route
+
+    //Purchase route
+    $routes->get('purchase', 'Shop_admin\Purchase::index');
+    $routes->get('purchase_create', 'Shop_admin\Purchase::create');
+    $routes->post('purchase_create_action', 'Shop_admin\Purchase::create_action');
+    $routes->get('purchase_view/(:num)', 'Shop_admin\Purchase::view/$1');
+    $routes->get('purchase_new_product', 'Shop_admin\Purchase::new_product');
+    $routes->get('purchase_existing_product', 'Shop_admin\Purchase::existing_product');
+    $routes->post('get_sub_category', 'Shop_admin\Purchase::get_sub_category');
+    $routes->post('purchase_add_to_cart', 'Shop_admin\Purchase::add_to_cart');
+    $routes->post('purchase_remove_cart', 'Shop_admin\Purchase::remove_cart');
+    $routes->get('purchase_clear_cart', 'Shop_admin\Purchase::clear_cart');
+    $routes->post('purchase_check_shop_balance', 'Shop_admin\Purchase::check_shop_balance');
+    $routes->post('purchase_check_bank_balance', 'Shop_admin\Purchase::check_bank_balance');
+    $routes->post('purchase_action', 'Shop_admin\Purchase::action');
+    $routes->post('purchase_existing_action', 'Shop_admin\Purchase::existing_action');
+    //Purchase route
+
+    //Return Purchase route
+    $routes->get('return_purchase', 'Shop_admin\ReturnPurchase::index');
+    $routes->get('return_purchase_create', 'Shop_admin\ReturnPurchase::create');
+    $routes->post('return_purchase_product', 'Shop_admin\ReturnPurchase::return_product');
+    $routes->post('return_purchase_create_action', 'Shop_admin\ReturnPurchase::create_action');
+    $routes->get('return_purchase_view/(:num)', 'Shop_admin\ReturnPurchase::view/$1');
+    //Return Purchase route
+
+    //Daily book route
+    $routes->get('daily_book', 'Shop_admin\DailyBook::index');
+    $routes->post('daily_book_search_bank_ledger', 'Shop_admin\DailyBook::search_bank_ledger');
+    $routes->post('daily_book_search', 'Shop_admin\DailyBook::search');
+    //Daily book route
+
+
+
+
+
+});
+
+
+
+
+// All agent route (start)
+$routes->group('agent',['filter' => 'AgentLoggedIn'], function ($routes) {
+    $routes->get('/', 'Agent\Login::index');
+    $routes->get('login', 'Agent\Login::index');
+    $routes->post('login_action', 'Agent\Login::login_action');
+});
+
+$routes->group('agent',['filter' => 'AgentAuthCheck'], function ($routes) {
+    $routes->get('logout', 'Agent\Login::logout');
+    $routes->get('dashboard', 'Agent\Dashboard::index');
+
+    //SuperCommission
+    $routes->get('super_commission', 'Agent\SuperCommission::index');
+    $routes->get('unpaid_list/(:num)', 'Agent\SuperCommission::unpaid_list/$1');
+    $routes->get('paid_list/(:num)', 'Agent\SuperCommission::paid_list/$1');
+
+    //customers
+    $routes->get('customers', 'Agent\Customers::index');
+    $routes->get('order_list/(:num)', 'Agent\Customers::order_list/$1');
+    $routes->get('invoice/(:num)', 'Agent\Customers::invoice/$1');
+    $routes->get('customer_update/(:num)', 'Agent\Customers::customer_update/$1');
+    $routes->post('customer_update_action', 'Agent\Customers::customer_update_action');
+    $routes->post('customer_personal_update', 'Agent\Customers::customer_personal_update');
+    $routes->post('customer_address_update', 'Agent\Customers::customer_address_update');
+    $routes->post('customer_photo_update', 'Agent\Customers::customer_photo_update');
+
+    //order
+    $routes->get('order', 'Agent\Order::index');
+
+    //Calling request
+    $routes->get('calling_request', 'Agent\Callingrequest::index');
+    $routes->post('calling_status_update', 'Agent\Callingrequest::status_update');
+
+    //Sellers
+    $routes->get('sellers', 'Agent\Sellers::index');
+    $routes->get('sellers_create', 'Agent\Sellers::create');
+    $routes->post('sellers_action', 'Agent\Sellers::create_action');
+    $routes->get('sellers_update/(:num)', 'Agent\Sellers::update/$1');
+    $routes->post('sellers_update_action', 'Agent\Sellers::update_action');
+    $routes->post('sellers_personal_update_action', 'Agent\Sellers::personal_action');
+    $routes->post('sellers_address_update_action', 'Agent\Sellers::address_action');
+    $routes->post('sellers_photo_update_action', 'Agent\Sellers::photo_action');
+    $routes->get('sellers_ledger/(:num)', 'Agent\Sellers::ledger/$1');
+    $routes->get('sellers_commission/(:num)', 'Agent\Sellers::commission/$1');
+    $routes->get('sellers_order/(:num)', 'Agent\Sellers::sellers_order/$1');
+
+    //Delivery Boy
+    $routes->get('delivery_boy', 'Agent\DeliveryBoy::index');
+    $routes->get('delivery_boy_create', 'Agent\DeliveryBoy::create');
+    $routes->post('delivery_boy_action', 'Agent\DeliveryBoy::create_action');
+    $routes->get('delivery_boy_update/(:num)', 'Agent\DeliveryBoy::update/$1');
+    $routes->post('delivery_boy_update_action', 'Agent\DeliveryBoy::update_action');
+    $routes->post('delivery_boy_personal_update', 'Agent\DeliveryBoy::personal_update');
+    $routes->post('delivery_boy_address_update', 'Agent\DeliveryBoy::address_update');
+    $routes->post('delivery_boy_photo_update', 'Agent\DeliveryBoy::photo_update');
+    $routes->get('delivery_boy_ledger/(:num)', 'Agent\DeliveryBoy::ledger/$1');
+    $routes->get('delivery_boy_commission/(:num)', 'Agent\DeliveryBoy::commission/$1');
+    $routes->get('delivery_boy_order/(:num)', 'Agent\DeliveryBoy::delivery_boy_order/$1');
+
+    //campaign
+    $routes->get('campaign', 'Agent\Campaign::index');
+    $routes->post('campaign_status_update', 'Agent\Campaign::status_update');
+    $routes->get('campaign_update/(:num)', 'Agent\Campaign::update/$1');
+    $routes->post('campaign_update_action', 'Agent\Campaign::update_action');
+
+    //campaign
+    $routes->get('group_post', 'Agent\Grouppost::index');
+    $routes->get('group_post_update/(:num)', 'Agent\Grouppost::update/$1');
+    $routes->post('group_post_update_action', 'Agent\Grouppost::update_action');
+
+    //campaign
+    $routes->get('settings', 'Agent\Settings::index');
+    $routes->post('settings_update_action', 'Agent\Settings::update_action');
 
 
 
