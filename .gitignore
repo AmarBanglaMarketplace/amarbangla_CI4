@@ -128,5 +128,5 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 
-*.access.log
-*.error.log
+access.log
+error.log
