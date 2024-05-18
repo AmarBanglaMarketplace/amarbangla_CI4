@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Permission;
+
 function DB()
 {
     $db = \Config\Database::connect();
@@ -1732,3 +1734,140 @@ function bdDateFormat($data = '0000-00-00')
 {
     return ($data == '0000-00-00') ? 'Unknown' : date('d/m/y', strtotime($data));
 }
+
+function monthDateFormat($datetime = '0000-00-00 00:00:00')
+{
+
+    if ($datetime == '0000-00-00 00:00:00' or $datetime == '0000-00-00' or $datetime == '') {
+        return 'Unknown';
+    }
+    return date(' M Y ', strtotime($datetime));
+}
+
+function Auth(){
+    $table = DB()->table('shops');
+    $table->select('*,shops.name as shopName, shops.email as shopEmail, shops.mobile as shopMobile, users.name as userName, users.mobile as userMobile,users.email as userEmail');
+    $table->join('users', 'users.sch_id = shops.sch_id');
+    $table->where( 'shops.sch_id', $_SESSION['shopId'])->where( 'users.is_default', '1');
+    $data = $table->get()->getRow();
+    return $data;
+}
+
+function all_menu_permission_check($module_name_array,$role_id){
+    $permission = new Permission();
+
+    foreach ($module_name_array as $module_name){
+        $access[] = $permission->have_access($role_id, $module_name, 'mod_access');
+    }
+
+    if (empty(array_filter($access))){
+        $result = false;
+    }else{
+        $result = true;
+    }
+
+    return $result;
+}
+
+function add_main_ajax_based_menu_with_permission($title, $url, $roleId, $icon, $module_name){
+
+//    $active_url  = current_url(true);
+    $active_url  = uri_string();
+
+    $permission = new Permission();
+    $menu = '';
+    $access = $permission->have_access($roleId, $module_name, 'mod_access');
+    if ($access == 1) {
+        $class_active   = ($active_url === $url ) ? ' class="nav-link active"' : 'class="nav-link"';
+        $route = base_url($url);
+        $menu .= '<li class="nav-item" ><a href="'.$route.'"  '.$class_active.' > ';
+        $menu .= '<i class="'. $icon .'"></i>';
+        $menu .= '<span>'.$title .'</span>';
+        $menu .= '</a><li>';
+        return $menu;
+
+    }
+}
+
+function menu_active_or_inactive($arrayUrl){
+    if (in_array(uri_string(),$arrayUrl)){
+        $result = true;
+    }else{
+        $result = false;
+    }
+    return $result;
+}
+
+function getTwoValueInOption($selected, $tblId, $needCol, $needCol2, $table)
+{
+    $table = DB()->table($table);
+    $query = $table->where('sch_id',Auth()->sch_id)->where('deleted IS NULL')->get();
+    $options = '';
+    foreach ($query->getResult() as $value) {
+        $options .= '<option value="' . $value->$tblId . '" ';
+        $options .= ($value->$tblId == $selected) ? ' selected="selected"' : '';
+        $options .= '>' . $value->$needCol . '--' . $value->$needCol2 . '</option>';
+    }
+    return $options;
+}
+
+function get_all_result_by_id($table,$where_id,$id){
+    $bilder = DB()->table($table);
+    $data = $bilder->where($where_id,$id)->get()->getResult();
+    return $data;
+}
+
+function get_total($tbl, $sumRow, $trnsType, $wherId, $byId, $start_date = 0, $end_date = 0)
+{
+
+
+    if (($start_date == 0) && ($end_date == 0)) {
+        $table = DB()->table($tbl);
+        $query = $table->selectSum($sumRow)->where('trangaction_type',$trnsType)->where($wherId,$byId)->get()->getRow()->$sumRow;
+    } else {
+        $table = DB()->table($tbl);
+        $query = $table->selectSum($sumRow)->where('trangaction_type',$trnsType)->where($wherId,$byId)->where('createdDtm >=',$start_date . ' 00:00:00')->where('createdDtm <=',$end_date . ' 23:59:59')->get()->getRow()->$sumRow;
+    }
+
+    return $query;
+}
+
+function suppliersTotalPurchaseAmount($supplierId)
+{
+    $table = DB()->table('ledger_suppliers');
+    $result = $table->selectSum('amount')->where('supplier_id',$supplierId)->where('sch_id',Auth()->sch_id)->where('trangaction_type','Dr.')->get()->getRow();
+
+    if (!empty($result)) {
+        $balance = showWithCurrencySymbol($result->amount);
+    } else {
+        $balance = "No Pursess Available Amount";
+    }
+    return $balance;
+}
+
+function deliverystatus2($packageId)
+{
+    $table = DB()->table('delivery');
+    $query = $table->where('package_id' , $packageId)->get()->getRow();
+    if (!empty($query)) {
+        $status = $query->status;
+        $deliId = $query->delivery_boy_id;
+        $detail = "Delivery by admin";
+        if(!empty($deliId)) {
+            $name = get_data_by_id('name', 'delivery_boy', 'delivery_boy_id', $deliId);
+            $phone = get_data_by_id('mobile', 'delivery_boy', 'delivery_boy_id', $deliId);
+            $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
+        }
+        if ($status == 0) {
+            $data = '<span class="p-1 bg-info">Accepted</span><br>' . $detail;
+        }
+        if ($status == 1) {
+            $data = '<span class="p-1 bg-success">Complete</span><br>' . $detail;
+        }
+
+    } else {
+        $data = '<span class="p-1 bg-warning">Not Accepted</span>';
+    }
+    return $data;
+}
+

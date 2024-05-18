@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class LedgerdeliverybalanceModel extends Model
+class LedgervatModel extends Model
 {
     /**
      * Called during initialization. Appends

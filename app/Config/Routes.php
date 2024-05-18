@@ -255,27 +255,203 @@ $routes->post('super_admin/update_status', 'Super_admin\Smspanel::update_status'
 $routes->get('super_admin/general_settings', 'Super_admin\Generalsettings::index');
 $routes->post('super_admin/update_action', 'Super_admin\Generalsettings::update_action');
 
-// shop admin login
-$routes->get('shop_admin/login', 'Shop_admin\Login::index');
-$routes->post('shop_admin/login_action', 'Shop_admin\Login::login_action');
-$routes->get('shop_admin/logout', 'Shop_admin\Login::logout');
-$routes->get('shop_admin/forgot_password', 'Shop_admin\Login::forgotPassword');
-$routes->post('shop_admin/reset_link', 'Shop_admin\Login::reset_link');
-$routes->get('shop_admin/otp', 'Shop_admin\Login::otp');
-$routes->post('shop_admin/otp_action', 'Shop_admin\Login::otp_action');
-$routes->get('shop_admin/otp_action', 'Shop_admin\Login::reset_password');
-$routes->get('shop_admin/reset_password', 'Shop_admin\Login::reset_password');
-$routes->post('shop_admin/reset_password_action', 'Shop_admin\Login::reset_password_action');
-// shop admin login end
 
-// shop admin Dashboard
-$routes->get('shop_admin/dashboard', 'Shop_admin\Dashboard::index');
-$routes->post('shop_admin/opening_status', 'Shop_admin\Dashboard::opening_status');
-// shop admin Dashboard end
 
-//shop admin Bakir hishab
-$routes->get('shop_admin/bakir_hishab', 'Shop_admin\Bakir_hishab::index');
-$routes->get('shop_admin/bakir_hishab/create','Shop_admin\Bakir_hishab::create');
-$routes->post('shop_admin/bakir_hishab/create_action', 'Shop_admin\Bakir_hishab::create_action');
-$routes->post('shop_admin/bakir_hishab/lonProvData', 'Shop_admin\Bakir_hishab::lonProvData');
-// shop admin Dashboard end
+
+
+
+
+
+
+
+$routes->group('shop_admin',['filter' => 'AlreadyLoggedIn'], function ($routes) {
+    // shop admin login
+    $routes->get('/', 'Shop_admin\Login::index');
+    $routes->get('login', 'Shop_admin\Login::index');
+    $routes->post('login_action', 'Shop_admin\Login::login_action');
+
+    $routes->get('forgot_password', 'Shop_admin\Login::forgotPassword');
+    $routes->post('reset_link', 'Shop_admin\Login::reset_link');
+    $routes->get('otp', 'Shop_admin\Login::otp');
+    $routes->post('otp_action', 'Shop_admin\Login::otp_action');
+    $routes->get('otp_action', 'Shop_admin\Login::reset_password');
+    $routes->get('reset_password', 'Shop_admin\Login::reset_password');
+    $routes->post('reset_password_action', 'Shop_admin\Login::reset_password_action');
+    // shop admin login end
+});
+
+
+$routes->group('shop_admin',['filter' => 'AuthCheck'], function ($routes) {
+    $routes->get('logout', 'Shop_admin\Login::logout');
+
+    // shop admin Dashboard
+    $routes->get('dashboard', 'Shop_admin\Dashboard::index');
+    $routes->post('opening_status', 'Shop_admin\Dashboard::opening_status');
+    // shop admin Dashboard end
+
+    //shop admin Bakir hishab
+    $routes->get('bakir_hishab', 'Shop_admin\Bakir_hishab::index');
+    $routes->get('bakir_hishab/create','Shop_admin\Bakir_hishab::create');
+    $routes->post('bakir_hishab/create_action', 'Shop_admin\Bakir_hishab::create_action');
+    $routes->post('bakir_hishab/lonProvData', 'Shop_admin\Bakir_hishab::lonProvData');
+    // shop admin Dashboard end
+
+    //Bank route
+    $routes->get('bank', 'Shop_admin\Bank::index');
+    $routes->get('bank_create', 'Shop_admin\Bank::create');
+    $routes->post('bank_create_action', 'Shop_admin\Bank::create_action');
+    $routes->get('bank_update/(:num)', 'Shop_admin\Bank::update/$1');
+    $routes->post('bank_update_action', 'Shop_admin\Bank::update_action');
+    $routes->get('bank_delete/(:num)', 'Shop_admin\Bank::delete/$1');
+    //Bank route
+
+    //Bank Deposit
+    $routes->get('bank_deposit', 'Shop_admin\BankDeposit::index');
+    $routes->get('bank_deposit_create', 'Shop_admin\BankDeposit::create');
+    $routes->post('bank_deposit_create_action', 'Shop_admin\BankDeposit::create_action');
+    //Bank Deposit
+
+    //Bank Deposit
+    $routes->get('bank_withdraw', 'Shop_admin\BankWithdraw::index');
+    $routes->get('bank_withdraw_create', 'Shop_admin\BankWithdraw::create');
+    $routes->post('bank_withdraw_create_action', 'Shop_admin\BankWithdraw::create_action');
+    //Bank Deposit
+
+    //Chaque
+    $routes->get('chaque', 'Shop_admin\Chaque::index');
+    $routes->post('chaque_paid', 'Shop_admin\Chaque::paid');
+    //Chaque
+
+    //Suppliers route
+    $routes->get('suppliers', 'Shop_admin\Suppliers::index');
+    $routes->get('suppliers_create', 'Shop_admin\Suppliers::create');
+    $routes->post('suppliers_create_action', 'Shop_admin\Suppliers::create_action');
+    $routes->get('suppliers_update/(:num)', 'Shop_admin\Suppliers::update/$1');
+    $routes->post('suppliers_update_action', 'Shop_admin\Suppliers::update_action');
+    $routes->get('suppliers_delete/(:num)', 'Shop_admin\Suppliers::delete/$1');
+    $routes->get('suppliers_products/(:num)', 'Shop_admin\Suppliers::products/$1');
+    $routes->get('suppliers_transaction/(:num)', 'Shop_admin\Suppliers::transaction/$1');
+    //Suppliers route
+
+    //Loan provider route
+    $routes->get('loan_provider', 'Shop_admin\Loan_provider::index');
+    $routes->get('loan_provider_create', 'Shop_admin\Loan_provider::create');
+    $routes->post('loan_provider_create_action', 'Shop_admin\Loan_provider::create_action');
+    $routes->get('loan_provider_update/(:num)', 'Shop_admin\Loan_provider::update/$1');
+    $routes->post('loan_provider_update_action', 'Shop_admin\Loan_provider::update_action');
+    $routes->get('loan_provider_delete/(:num)', 'Shop_admin\Loan_provider::delete/$1');
+    //Loan provider route
+
+    //warranty manage route
+    $routes->get('warranty_manage', 'Shop_admin\WarrantyManage::index');
+    $routes->get('warranty_manage_create', 'Shop_admin\WarrantyManage::create');
+    $routes->post('warranty_manage_create_action', 'Shop_admin\WarrantyManage::create_action');
+    $routes->get('warranty_manage_update/(:num)', 'Shop_admin\WarrantyManage::update/$1');
+    $routes->post('warranty_manage_update_action', 'Shop_admin\WarrantyManage::update_action');
+    $routes->get('warranty_manage_delete/(:num)', 'Shop_admin\WarrantyManage::delete/$1');
+    //warranty manage route
+
+    //Employee route
+    $routes->get('employee', 'Shop_admin\Employee::index');
+    $routes->get('employee_create', 'Shop_admin\Employee::create');
+    $routes->post('employee_create_action', 'Shop_admin\Employee::create_action');
+    $routes->get('employee_update/(:num)', 'Shop_admin\Employee::update/$1');
+    $routes->post('employee_update_action', 'Shop_admin\Employee::update_action');
+    $routes->get('employee_delete/(:num)', 'Shop_admin\Employee::delete/$1');
+    //Employee route
+
+    //Ledger Employee route
+    $routes->get('ledger_employee', 'Shop_admin\LedgerEmployee::index');
+    $routes->post('ledger_employee_search', 'Shop_admin\LedgerEmployee::search');
+    $routes->post('ledger_employee_search_date', 'Shop_admin\LedgerEmployee::search_date');
+    //Ledger Employee route
+
+    //Ledger Bank route
+    $routes->get('ledger_bank', 'Shop_admin\LedgerBank::index');
+    $routes->post('ledger_bank_search', 'Shop_admin\LedgerBank::search');
+    $routes->post('ledger_bank_search_date', 'Shop_admin\LedgerBank::search_date');
+    //Ledger Bank route
+
+    //Ledger Loan route
+    $routes->get('ledger_loan', 'Shop_admin\LedgerLoan::index');
+    $routes->post('ledger_loan_search', 'Shop_admin\LedgerLoan::search');
+    $routes->post('ledger_loan_search_date', 'Shop_admin\LedgerLoan::search_date');
+    //Ledger Loan route
+
+    //Ledger Loan route
+    $routes->get('ledger_nagodan', 'Shop_admin\LedgerCash::index');
+    $routes->post('ledger_nagodan_search', 'Shop_admin\LedgerCash::search_date');
+    //Ledger Loan route
+
+    //Ledger Loan route
+    $routes->get('ledger_suppliers', 'Shop_admin\LedgerSuppliers::index');
+    $routes->post('ledger_suppliers_search', 'Shop_admin\LedgerSuppliers::search');
+    $routes->post('ledger_suppliers_search_date', 'Shop_admin\LedgerSuppliers::search_date');
+    //Ledger Loan route
+
+    //Ledger Vat route
+    $routes->get('ledger_vat', 'Shop_admin\LedgerVat::index');
+    //Ledger Vat route
+
+    //Balance Report route
+    $routes->get('balance_report', 'Shop_admin\BalanceReport::index');
+    //Balance Report route
+
+    //Stock Report route
+    $routes->get('stock_report', 'Shop_admin\StockReport::index');
+    $routes->post('stock_report_search', 'Shop_admin\StockReport::search');
+    //Stock Report route
+
+    //sales Report route
+    $routes->get('sales_report', 'Shop_admin\SalesReport::index');
+    $routes->post('sales_report_search', 'Shop_admin\SalesReport::search');
+    //Sales Report route
+
+    //purchase Report route
+    $routes->get('purchase_report', 'Shop_admin\PurchaseReport::index');
+    $routes->post('purchase_report_search', 'Shop_admin\PurchaseReport::search');
+    //purchase Report route
+
+    //Seller Commission route
+    $routes->get('seller_commission', 'Shop_admin\SellerCommission::index');
+    $routes->post('seller_commission_search', 'Shop_admin\SellerCommission::search');
+    $routes->get('seller_commission_pay/(:num)/(:num)', 'Shop_admin\SellerCommission::pay/$1/$2');
+    $routes->get('seller_commission_multi_pay', 'Shop_admin\SellerCommission::multi_pay');
+    $routes->post('seller_commission_pay_action', 'Shop_admin\SellerCommission::pay_action');
+    $routes->get('seller_commission_report', 'Shop_admin\SellerCommission::report');
+    $routes->post('seller_commission_report_search', 'Shop_admin\SellerCommission::reportSearch');
+    //Seller Commission route
+
+    //Delivery Boy Commission route
+    $routes->get('delivery_boy_commission', 'Shop_admin\DeliveryBoyCommission::index');
+    $routes->post('delivery_boy_commission_search', 'Shop_admin\DeliveryBoyCommission::search');
+    $routes->get('delivery_boy_commission_pay/(:num)/(:num)', 'Shop_admin\DeliveryBoyCommission::pay/$1/$2');
+    $routes->get('delivery_boy_commission_multi_pay', 'Shop_admin\DeliveryBoyCommission::multi_pay');
+    $routes->post('delivery_boy_commission_pay_action', 'Shop_admin\DeliveryBoyCommission::pay_action');
+    $routes->get('delivery_boy_commission_report', 'Shop_admin\DeliveryBoyCommission::report');
+    $routes->post('delivery_boy_commission_report_search', 'Shop_admin\DeliveryBoyCommission::reportSearch');
+    //Delivery Boy Commission route
+
+    //Shop Commission route
+    $routes->get('shop_commission', 'Shop_admin\ShopCommission::index');
+    $routes->get('shop_commission_pay_action/(:num)', 'Shop_admin\ShopCommission::pay_action/$1');
+    $routes->get('shop_commission_paid', 'Shop_admin\ShopCommission::paid');
+    $routes->get('shop_commission_unpaid', 'Shop_admin\ShopCommission::unpaid');
+    $routes->get('shop_commission_multipay', 'Shop_admin\ShopCommission::multipay');
+    $routes->post('shop_commission_multipay_action', 'Shop_admin\ShopCommission::multipay_action');
+    //Shop Commission route
+
+    //Invoice route
+    $routes->get('invoice', 'Shop_admin\Invoice::index');
+    $routes->get('invoice_view/(:num)', 'Shop_admin\Invoice::view/$1');
+    $routes->get('invoice_package_action/(:num)', 'Shop_admin\Invoice::package_action/$1');
+    $routes->post('invoice_package_create_action', 'Shop_admin\Invoice::package_create_action');
+    $routes->get('invoice_cancel/(:num)', 'Shop_admin\Invoice::cancel/$1');
+    //Invoice route
+
+
+
+
+
+
+});
