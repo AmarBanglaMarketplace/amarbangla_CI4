@@ -44,6 +44,9 @@
                                         <button type="submit" class="btn btn-primary">Upload</button>
                                     </form>
                                 </div>
+                                <div class="col-md-6">
+                                    <a href="<?= base_url('uploads/product.csv')?>"  class="btn btn-info mt-4 float-right" >Example CSV file</a>
+                                </div>
 
                             </div>
                         </div>
