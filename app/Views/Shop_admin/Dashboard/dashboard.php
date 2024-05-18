@@ -1,3 +1,6 @@
+<?= $this->extend('Shop_admin/layout') ?>
+
+<?= $this->section('content') ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper overflow-hidden">
     <!-- Content Header (Page header) -->
@@ -9,8 +12,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url('shop_admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -22,18 +25,17 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="alert alert-secondary" role="alert">
-                    <h4 class="alert-heading">Welcome To Bappy Bazar Word 4
-                        Shop Id: #2</h4>
+                <div class="col-md-12" id="message"></div>
+                <div class="col-md-12 alert alert-secondary text-center" role="alert">
+
+                    <h4 class=" alert-heading">Welcome To <?= Auth()->shopName; ?>
+                        <br> Shop Id: #<?= Auth()->sch_id;?></h4>
                     <hr>
                     <p class="mb-0">
                     <div class="form-group">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" <?php echo $opening_status == 1 ? 'checked' : '' ?>
-                                onchange="opening_status_update()" name="status" class="custom-control-input" value="0"
-                                id="customSwitch_6">
+                            <input type="checkbox" <?php echo Auth()->opening_status == 1 ? 'checked' : '' ?> onchange="opening_status_update()" name="status" class="custom-control-input" value="0" id="customSwitch_6">
                             <label class="custom-control-label" for="customSwitch_6"></label>
-
                             <label> Opening status</label>
                         </div>
                     </div>
@@ -344,3 +346,23 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<?= $this->endSection() ?>
+
+
+<?= $this->section('java_script') ?>
+<script>
+    function opening_status_update() {
+        const base_url = "<?= base_url("shop_admin/opening_status")?>";
+        $.ajax({
+            type: "POST",
+            url: base_url,
+            dataType: "text",
+            data: {},
+            success: function (data) {
+                $('#message').fadeIn();
+                $('#message').html(data).delay(200).fadeOut('slow');
+            }
+        });
+    }
+</script>
+<?= $this->endSection() ?>
