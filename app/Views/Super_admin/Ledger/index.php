@@ -29,10 +29,39 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="col-md-12">
+                                <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
+                            </div>
+                            <form action="<?= base_url('super_admin/ledger_filter')?>" method="post">
+                                <div class="row mb-3 " >
+                                    <div class="col-md-3"  >
+                                        <label>Shops</label>
+                                        <select name="shop" class="form-control select2">
+                                            <option value="">Please select</option>
+                                            <?php foreach ($shops as $row){ ?>
+                                                <option value="<?= $row->sch_id;?>"><?= $row->name;?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3"  >
+                                        <label>Start Date</label>
+                                        <input type="date" class="form-control" name="st_date" id="st_date" >
+                                    </div>
+                                    <div class="col-md-3"  >
+                                        <label>End Date</label>
+                                        <input type="date" class="form-control" name="en_date" id="en_date" >
+                                    </div>
+                                    <div class="col-md-3" style="padding: 4px;">
+                                        <button style="margin-top: 28px;"  class="btn btn-primary " type="submit">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Shop</th>
                                     <th>Date</th>
                                     <th>Particulars</th>
                                     <th>Debit</th>
@@ -48,6 +77,7 @@
                                 ?>
                                     <tr>
                                         <td><?php echo $val->sup_ledg_id;?></td>
+                                        <td><?php echo get_data_by_id('name','shops','sch_id',$val->sch_id);?></td>
                                         <td><?php echo $val->createdDtm;?></td>
                                         <td><?php echo $particulars ?></td>
                                         <td><?php echo $amountDr ?></td>
@@ -59,6 +89,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>No</th>
+                                    <th>Shop</th>
                                     <th>Date</th>
                                     <th>Particulars</th>
                                     <th>Debit</th>

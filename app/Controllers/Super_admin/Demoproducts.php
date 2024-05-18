@@ -44,7 +44,6 @@ class Demoproducts extends BaseController
             echo view('Super_admin/footer');
         }
     }
-
     public function create_action(){
         $name = $this->request->getPost('name[]');
         $unit = $this->request->getPost('unit[]');
@@ -66,8 +65,6 @@ class Demoproducts extends BaseController
             return redirect()->to('super_admin/demo_product');
         }
     }
-
-
     public function product_list(){
         $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
         if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
@@ -83,7 +80,6 @@ class Demoproducts extends BaseController
             echo view('Super_admin/footer');
         }
     }
-
     public function update($id){
         $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
         if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
@@ -98,7 +94,6 @@ class Demoproducts extends BaseController
             echo view('Super_admin/footer');
         }
     }
-
     public function update_action()
     {
         $supuserId = $this->session->userIdSuper;
@@ -136,7 +131,6 @@ class Demoproducts extends BaseController
 
         }
     }
-
     public function photo_action(){
         $supuserId = $this->session->userIdSuper;
 
@@ -190,7 +184,6 @@ class Demoproducts extends BaseController
 
         }
     }
-
     public function delete($id){
         $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
         if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
@@ -204,7 +197,6 @@ class Demoproducts extends BaseController
 
         }
     }
-
     public function get_sub_cat(){
         $cat_id = $this->request->getPost('cat_id');
         $query = $this->democategoryModel->where('parent_pro_cat', $cat_id)->findAll();
@@ -215,7 +207,6 @@ class Demoproducts extends BaseController
         }
         print $options;
     }
-
     public function addCart(){
         $subCatId = $this->request->getPost('subCatId');
         $category = $this->request->getPost('category');
@@ -245,7 +236,6 @@ class Demoproducts extends BaseController
             print '<div class="alert alert-danger alert-dismissible" role="alert">Something went wrong please try again! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
         }
     }
-
     public function remove_cart()
     {
         $id = $this->request->getPost('id');
@@ -256,14 +246,12 @@ class Demoproducts extends BaseController
             print '<div class="alert alert-danger alert-dismissible" role="alert">Something went wrong please try again! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
         }
     }
-
     public function clearCart()
     {
         $this->cart->destroy();
         print '<div class="alert alert-success alert-dismissible" role="alert">Remove to cart Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
 
     }
-
     public function search_keyword(){
         $keyword = $this->request->getPost('keyword');
 //        $where = "(`name` LIKE '%" . $keyword . "%' ESCAPE '!' OR `id` LIKE '%" . $keyword . "%' ESCAPE '!')";
@@ -272,13 +260,21 @@ class Demoproducts extends BaseController
         $view = '';
         foreach ($data as $val) {
             $image = demo_singleImage_by_productId($val->id,'70','0','');
-            $view .= '<tr>
+            $url1 = "updateFunction('".$val->id."', 'purchase_price', '".$val->purchase_price ."', 'pur_view_".$val->id."', 'pur_price_update_".$val->id ."','update_row_".$val->id."')";
+            $url2 = "updateFunction('".$val->id ."', 'selling_price', '". $val->selling_price ."', 'sel_view_". $val->id ."', 'sell_price_update_". $val->id."','update_row_".$val->id."')";
+            $view .= '<tr id="update_row_'.$val->id.'">
                         <td>' .$val->id . '</td>
                         <td>' . $val->name . '</td>
                         <td>' . $image . '</td>
                         <td>' . get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) . '</td>
-                        <td>' . showWithCurrencySymbol($val->purchase_price) . '</td>
-                    	<td>' . showWithCurrencySymbol($val->selling_price) . '</td>
+                        <td>
+                            <p onclick="'.$url1.'" >'.showWithCurrencySymbol($val->purchase_price).'</p>
+                            <p id="pur_view_'.$val->id.'"></p>
+                        </td>
+                    	<td>
+                    	<p onclick="'.$url2.'">'.showWithCurrencySymbol($val->selling_price).'</p>
+                        <p id="sel_view_'.$val->id.'"></p>
+                        </td>
                         
                         <td>
                             <a href="' . site_url('super_admin/demo_product_update/' . $val->id) . '" class="btn btn-xs btn-info " >Edit</a>
@@ -289,7 +285,6 @@ class Demoproducts extends BaseController
 
         print $view;
     }
-
     public function search_category(){
         $keyWord = $this->request->getPost('catId');
         $parentCat = checkParentCategorydemo($keyWord);
@@ -301,13 +296,21 @@ class Demoproducts extends BaseController
                 $data = $this->demoproductsModel->where('prod_cat_id', $row->cat_id)->findAll();
                 foreach ($data as $val) {
                     $image = demo_singleImage_by_productId($val->id,'70','0','');
-                    $view .= '<tr>
+                    $url1 = "updateFunction('".$val->id."', 'purchase_price', '".$val->purchase_price ."', 'pur_view_".$val->id."', 'pur_price_update_".$val->id ."','update_row_".$val->id."')";
+                    $url2 = "updateFunction('".$val->id ."', 'selling_price', '". $val->selling_price ."', 'sel_view_". $val->id ."', 'sell_price_update_". $val->id."','update_row_".$val->id."')";
+                    $view .= '<tr id="update_row_'.$val->id.'">
                         <td>' . $val->id . '</td>
                         <td>' . $val->name . '</td>
                         <td>' . $image . '</td>
                         <td>' . get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) . '</td>
-                        <td>' . showWithCurrencySymbol($val->purchase_price) . '</td>
-                    	<td>' . showWithCurrencySymbol($val->selling_price) . '</td>
+                        <td>
+                            <p onclick="'.$url1.'" >'.showWithCurrencySymbol($val->purchase_price).'</p>
+                            <p id="pur_view_'.$val->id.'"></p>
+                        </td>
+                    	<td>
+                    	<p onclick="'.$url2.'">'.showWithCurrencySymbol($val->selling_price).'</p>
+                        <p id="sel_view_'.$val->id.'"></p>
+                        </td>
                         <td>
                             <a href="' . site_url('super_admin/demo_product_update/' . $val->id) . '" class="btn btn-xs btn-info " >Edit</a>
                             <a href="' . site_url('super_admin/demo_product_delete/' . $val->id) . '" class="btn btn-xs btn-danger" >Delete</a>
@@ -320,13 +323,21 @@ class Demoproducts extends BaseController
             $data2 = $this->demoproductsModel->where('prod_cat_id', $keyWord)->findAll();
             foreach ($data2 as $val) {
                 $image = demo_singleImage_by_productId($val->id,'70','0','');
-                $view .= '<tr>
+                $url1 = "updateFunction('".$val->id."', 'purchase_price', '".$val->purchase_price ."', 'pur_view_".$val->id."', 'pur_price_update_".$val->id ."','update_row_".$val->id."')";
+                $url2 = "updateFunction('".$val->id ."', 'selling_price', '". $val->selling_price ."', 'sel_view_". $val->id ."', 'sell_price_update_". $val->id."','update_row_".$val->id."')";
+                $view .= '<tr id="update_row_'.$val->id.'">
                             <td>' . $val->id . '</td>
                             <td>' . $val->name . '</td>
                             <td>' . $image . '</td>
                             <td>' . get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) . '</td>
-                            <td>' . showWithCurrencySymbol($val->purchase_price) . '</td>
-                            <td>' . showWithCurrencySymbol($val->selling_price) . '</td>
+                            <td>
+                                <p onclick="'.$url1.'" >'.showWithCurrencySymbol($val->purchase_price).'</p>
+                                <p id="pur_view_'.$val->id.'"></p>
+                            </td>
+                            <td>
+                                <p onclick="'.$url2.'">'.showWithCurrencySymbol($val->selling_price).'</p>
+                                <p id="sel_view_'.$val->id.'"></p>
+                            </td>
                             
                             <td>
                                 <a href="' . site_url('super_admin/demo_product_update/' . $val->id) . '" class="btn btn-xs btn-info " >Edit</a>
@@ -338,6 +349,88 @@ class Demoproducts extends BaseController
 
 
         print $view;
+    }
+    public function price_update(){
+        $dataUp['id'] = $this->request->getPost('product_id');
+        $purchase_price = $this->request->getPost('purchase_price');
+        $selling_price = $this->request->getPost('selling_price');
+
+        if (!empty($purchase_price)){
+            $dataUp['purchase_price'] = $purchase_price;
+        }
+        if (!empty($selling_price)){
+            $dataUp['selling_price'] = $selling_price;
+        }
+
+        $this->demoproductsModel->update($dataUp['id'],$dataUp);
+
+        $data['result'] = $this->demoproductsModel->where('id',$dataUp['id'])->first();
+        echo view('Super_admin/Demoproducts/update_row',$data);
+    }
+    public function bulk_upload() {
+        $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;
+        if (!isset($isLoggedInSuperAdmin) || $isLoggedInSuperAdmin != TRUE) {
+            return redirect()->to(site_url("super_admin"));
+        } else {
+
+
+            echo view('Super_admin/header');
+            echo view('Super_admin/sidebar');
+            echo view('Super_admin/Demoproducts/bulk_upload');
+            echo view('Super_admin/footer');
+        }
+    }
+
+    public function bulk_upload_action(){
+        $input = $this->validate([
+            'file' => 'uploaded[file]|max_size[file,2048]|ext_in[file,csv],'
+        ]);
+        if (!$input) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/demo_product_bulk_upload');
+        }else{
+            if($file = $this->request->getFile('file')) {
+                if ($file->isValid() && ! $file->hasMoved()) {
+                    $target_dir = FCPATH . '/uploads/csv/';
+                    $newName = $file->getRandomName();
+                    $file->move($target_dir, $newName);
+
+                    $file = fopen($target_dir. '' .$newName,"r");
+                    $i = 0;
+                    $numberOfFields = 5;
+                    $csvArr = array();
+                    while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+                        $num = count($filedata);
+                        if($i > 0 && $num == $numberOfFields){
+                            $csvArr[$i]['name'] = $filedata[0];
+                            $csvArr[$i]['prod_cat_id'] = $filedata[1];
+                            $csvArr[$i]['quantity'] = $filedata[2];
+                            $csvArr[$i]['purchase_price'] = $filedata[3];
+                            $csvArr[$i]['selling_price'] = $filedata[4];
+                        }
+                        $i++;
+                    }
+                    fclose($file);
+
+                    foreach($csvArr as $userdata){
+                       $this->demoproductsModel->insert($userdata);
+                    }
+                    unlink($target_dir . '' . $newName);
+
+
+                    $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Rows successfully added <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    return redirect()->to('super_admin/demo_product_bulk_upload');
+                }else{
+                    $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">CSV file coud not be imported. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    return redirect()->to('super_admin/demo_product_bulk_upload');
+                }
+            }else{
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">CSV file coud not be imported.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/demo_product_bulk_upload');
+            }
+        }
+
+
     }
 
 

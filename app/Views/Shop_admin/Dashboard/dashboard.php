@@ -55,7 +55,7 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="<?php echo base_url('shop_admin/bakir_hishab/create')?>" class="small-box-footer">বাকির হিসাব<i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('shop_admin/bakir_hishab');?>" class="small-box-footer">বাকির হিসাব<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -70,7 +70,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Order <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('shop_admin/invoice');?>" class="small-box-footer">Order <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -85,7 +85,7 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Seller Commission <i
+                        <a href="<?= base_url('shop_admin/seller_commission');?>" class="small-box-footer">Seller Commission <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Delivery Boy Commission <i
+                        <a href="<?= base_url('shop_admin/delivery_boy_commission');?>" class="small-box-footer">Delivery Boy Commission <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Shop Commission<i
+                        <a href="<?= base_url('shop_admin/shop_commission');?>" class="small-box-footer">Shop Commission<i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Supplier Ledger <i
+                        <a href="<?= base_url('shop_admin/ledger_suppliers');?>" class="small-box-footer">Supplier Ledger <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Loan Ledger <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('shop_admin/ledger_bank');?>" class="small-box-footer">Loan Ledger <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -165,7 +165,7 @@
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Loan Ledger <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('shop_admin/ledger_loan');?>" class="small-box-footer">Loan Ledger <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -180,7 +180,7 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Get product<i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('shop_admin/get_product');?>" class="small-box-footer">Get product<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -189,156 +189,105 @@
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-8 connectedSortable">
+                <section class="col-lg-12 connectedSortable">
 
                     <div class="row">
-                        <div class="col-6">
-                            <div class="col-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                        <div class="col-4">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">TOTAL BANK AMOUNT</span>
-                                        <span class="info-box-number">
-                                            <?php echo showWithCurrencySymbol($totalBankBal) ?>
-                                        </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
+                                <div class="info-box-content">
+                                    <span class="info-box-text">TOTAL BANK AMOUNT</span>
+                                    <span class="info-box-number">
+                                        <?php echo showWithCurrencySymbol($totalBankBal) ?>
+                                    </span>
                                 </div>
-                                <!-- /.info-box -->
+                                <!-- /.info-box-content -->
                             </div>
-
-                            <div class="col-12">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-danger elevation-1"><i
-                                            class="fas fa-thumbs-up"></i></span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">TOTAL CASH AMOUNT</span>
-                                        <span class="info-box-number">
-                                            <?php echo admin_cash() ?>
-                                        </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-
-                            <div class="col-12 ">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-warning elevation-1"><i
-                                            class="fas fa-users"></i></span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">GET TOTAL AMOUNT</span>
-                                        <span class="info-box-number">
-                                            <?php echo showWithCurrencySymbol($totalGet) ?>
-                                        </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-
+                            <!-- /.info-box -->
                         </div>
-                        <div class="col-6">
-                            <!-- fix for small devices only -->
-                            <div class="clearfix hidden-md-up"></div>
-                            <div class="col-12 ">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-success elevation-1"><i
-                                            class="fas fa-shopping-cart"></i></span>
+                        <div class="col-4">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-danger elevation-1"><i
+                                        class="fas fa-thumbs-up"></i></span>
 
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">DUE TOTAL AMOUNT</span>
-                                        <span class="info-box-number">
-                                            <?php echo showWithCurrencySymbol($totalDue) ?>
-                                        </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
+                                <div class="info-box-content">
+                                    <span class="info-box-text">TOTAL CASH AMOUNT</span>
+                                    <span class="info-box-number">
+                                        <?php echo admin_cash() ?>
+                                    </span>
                                 </div>
-                                <!-- /.info-box -->
+                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.col -->
-                            <div class="col-12 ">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-warning elevation-1"><i
-                                            class="fas fa-users"></i></span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Total Product</span>
-                                        <span class="info-box-number">
-                                            <?php echo $totalProduct ?>
-                                        </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-12 ">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-warning elevation-1"><i
-                                            class="fas fa-users"></i></span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">TOTAL CUSTOMER</span>
-                                        <span class="info-box-number"> </span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
+                            <!-- /.info-box -->
                         </div>
+                        <!-- /.col -->
+                        <div class="col-4 ">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-warning elevation-1"><i
+                                        class="fas fa-users"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">GET TOTAL AMOUNT</span>
+                                    <span class="info-box-number">
+                                        <?php echo showWithCurrencySymbol($totalGet) ?>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4 ">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-success elevation-1"><i
+                                        class="fas fa-shopping-cart"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">DUE TOTAL AMOUNT</span>
+                                    <span class="info-box-number">
+                                        <?php echo showWithCurrencySymbol($totalDue) ?>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4 ">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-warning elevation-1"><i
+                                        class="fas fa-users"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Product</span>
+                                    <span class="info-box-number">
+                                        <?php echo $totalProduct ?>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4 ">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-warning elevation-1"><i
+                                        class="fas fa-users"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">TOTAL CUSTOMER</span>
+                                    <span class="info-box-number"> </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
                     </div>
                 </section>
                 <!-- /.Left col -->
-                <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                <section class="col-lg-4 connectedSortable">
-                    <!-- Calendar -->
-                    <div class="card bg-gradient-success">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">
-                                <i class="far fa-calendar-alt"></i>
-                                Calendar
-                            </h3>
-                            <!-- tools card -->
-                            <div class="card-tools">
-                                <!-- button with a dropdown -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle"
-                                        data-toggle="dropdown" data-offset="-52">
-                                        <i class="fas fa-bars"></i>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a href="#" class="dropdown-item">Add new event</a>
-                                        <a href="#" class="dropdown-item">Clear events</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="#" class="dropdown-item">View calendar</a>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <!-- /. tools -->
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body pt-0">
-                            <!--The calendar -->
-                            <div id="calendar" style="width: 100%"></div>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </section>
-                <!-- right col -->
+
             </div>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->

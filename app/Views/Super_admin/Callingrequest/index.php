@@ -32,6 +32,88 @@
                             <div class="col-md-12" id="message">
                                 <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4 ">
+                                    <form action="<?= base_url('super_admin/calling_search_agent')?>" method="post">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label for="varchar">Agent</label>
+                                                <select class="form-control" name="agent_id">
+                                                    <option value="">Please Select</option>
+                                                    <?php foreach ($agent as $row){ ?>
+                                                    <option value="<?= $row->agent_id;?>"><?= $row->agent_name;?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="varchar">Status</label>
+                                                <select class="form-control" name="status">
+                                                    <option value="">Please Select</option>
+                                                    <option value="Open">Open</option>
+                                                    <option value="Processing">Processing</option>
+                                                    <option value="Complete">Complete</option>
+                                                    <option value="Cancel">Cancel</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary" style="margin-top: 30px;">
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-6 border-left mb-4 ">
+                                    <form action="<?= base_url('super_admin/calling_search_address')?>" method="post">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="varchar">Division </label>
+                                                <select class="form-control" name="division" onchange="viewdistrict(this.value)" >
+                                                    <option value="">Please Select</option>
+                                                    <?php echo divisionView(); ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="varchar">District </label>
+                                                <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district">
+                                                    <option value="">Please Select</option>
+                                                    <?php echo districtselect(); ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="varchar">Upazila </label>
+                                                <select class="form-control" name="upazila" id="upazila"
+                                                        onchange="checkCity(this.value)">
+                                                    <option value="">Please Select</option>
+                                                    <?php echo upazilaselect(); ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="varchar">Pourashava/Union
+                                                </label>
+                                                <select class="form-control" name="pourashava">
+                                                    <option value="">Please Select</option>
+                                                    <?php echo pourashavaUnion(); ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="varchar">Ward</label>
+                                                <select class="form-control" name="ward">
+                                                    <option value="">Please Select</option>
+                                                    <?php echo wardView(); ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn btn-primary" style="margin-top: 30px;">
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>

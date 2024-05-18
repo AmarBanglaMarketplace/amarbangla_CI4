@@ -73,7 +73,7 @@
                     </a>
                     <ul class="nav nav-treeview" <?= ($urlArrayPurchase == true)?'style="display: block;"':'style="display: none;"'; ?>>
                         <?= add_main_ajax_based_menu_with_permission('Purchase', 'shop_admin/purchase', Auth()->role_id, 'far fa-circle nav-icon', 'Purchase'); ?>
-                        <?= add_main_ajax_based_menu_with_permission('Return Purchase', 'shop_admin/return_purchase', Auth()->role_id, 'far fa-circle nav-icon', 'Return_purchase'); ?>
+                        <?php  //echo add_main_ajax_based_menu_with_permission('Return Purchase', 'shop_admin/return_purchase', Auth()->role_id, 'far fa-circle nav-icon', 'Return_purchase'); ?>
                     </ul>
                 </li>
                 <?php }
@@ -113,16 +113,16 @@
                 $modArraySales = ['Sales','Return_sale'];
                 $menuAccessSales = all_menu_permission_check($modArraySales,Auth()->role_id); if ($menuAccessSales == true){
                 ?>
-                    <li class="nav-item treeview <?= ($urlArraySales == true)?'menu-is-opening menu-open':''; ?>">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p> Sales <i class="fas fa-angle-left right"></i> </p>
-                        </a>
-                        <ul class="nav nav-treeview" <?= ($urlArraySales == true)?'style="display: block;"':'style="display: none;"'; ?>>
-                            <?= add_main_ajax_based_menu_with_permission('Sales', 'shop_admin/sales', Auth()->role_id, 'far fa-circle nav-icon', 'Sales'); ?>
-                            <?= add_main_ajax_based_menu_with_permission('Return Sale', 'shop_admin/return_sale', Auth()->role_id, 'far fa-circle nav-icon', 'Return_sale'); ?>
-                        </ul>
-                    </li>
+<!--                    <li class="nav-item treeview --><?php //= ($urlArraySales == true)?'menu-is-opening menu-open':''; ?><!--">-->
+<!--                        <a href="#" class="nav-link">-->
+<!--                            <i class="nav-icon fas fa-book"></i>-->
+<!--                            <p> Sales <i class="fas fa-angle-left right"></i> </p>-->
+<!--                        </a>-->
+<!--                        <ul class="nav nav-treeview" --><?php //= ($urlArraySales == true)?'style="display: block;"':'style="display: none;"'; ?><!-- >-->
+                            <?php //echo add_main_ajax_based_menu_with_permission('Sales', 'shop_admin/sales', Auth()->role_id, 'far fa-circle nav-icon', 'Sales'); ?>
+                            <?php //echo add_main_ajax_based_menu_with_permission('Return Sale', 'shop_admin/return_sale', Auth()->role_id, 'far fa-circle nav-icon', 'Return_sale'); ?>
+<!--                        </ul>-->
+<!--                    </li>-->
                 <?php }
                 $urlArrayLedger = menu_active_or_inactive(['shop_admin/ledger_bank','shop_admin/ledger_loan','shop_admin/ledger_nagodan','shop_admin/ledger_suppliers','shop_admin/ledger_vat']);
                 $modArrayLedger = ['Ledger_bank','Ledger_loan','Ledger_nagodan','Ledger_suppliers','Ledger_vat'];
@@ -152,16 +152,7 @@
                     </a>
                 </li>
                 <?php }
-                $modArraySup = ['Warranty_manage'];
-                $menuAccessSup = all_menu_permission_check($modArraySup,Auth()->role_id); if ($menuAccessSup == true){
-                ?>
-                    <li class="nav-item <?= (menu_active_or_inactive(['shop_admin/warranty_manage'])== true)?'menu-open':''; ?>">
-                        <a href="<?php echo base_url('shop_admin/warranty_manage');?>" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p> Warranty manage </p>
-                        </a>
-                    </li>
-                <?php }
+
                 $urlArrayEmployee = menu_active_or_inactive(['shop_admin/employee','shop_admin/ledger_employee']);
                 $modArrayEmployee = ['Employee','Ledger_employee'];
                 $menuAccessEmployee = all_menu_permission_check($modArrayEmployee,Auth()->role_id); if ($menuAccessEmployee == true){
@@ -270,15 +261,25 @@
                         </a>
                     </li>
                 <?php }
-                $modArraySup = ['Sms_panel'];
-                $menuAccessSup = all_menu_permission_check($modArraySup,Auth()->role_id); if ($menuAccessSup == true){
-                    ?>
+                    $modArraySup = ['Sms_panel'];
+                    $menuAccessSup = all_menu_permission_check($modArraySup,Auth()->role_id); if ($menuAccessSup == true){
+                ?>
                     <li class="nav-item <?= (menu_active_or_inactive(['shop_admin/sms_panel'])== true)?'menu-open':''; ?>">
                         <a href="<?php echo base_url('shop_admin/sms_panel');?>" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p> Sms panel </p>
                         </a>
                     </li>
+                <?php }
+                $modArraySup = ['Warranty_manage'];
+                $menuAccessSup = all_menu_permission_check($modArraySup,Auth()->role_id); if ($menuAccessSup == true){
+                ?>
+                <li class="nav-item <?= (menu_active_or_inactive(['shop_admin/warranty_manage'])== true)?'menu-open':''; ?>">
+                    <a href="<?php echo base_url('shop_admin/warranty_manage');?>" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p> Warranty manage </p>
+                    </a>
+                </li>
                 <?php } ?>
 
             </ul>

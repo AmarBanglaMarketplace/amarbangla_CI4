@@ -29,12 +29,15 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="col-md-12">
+                                <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
+                            </div>
                             <div class="col-md-12" style="margin-bottom: 20px;">
-                                <form action="<?php echo site_url('super_admin/shops_search'); ?>" method="post">
+                                <form action="<?php echo site_url('super_admin/shops_commission_address_search'); ?>" method="post">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <label for="varchar">Division </label>
-                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)" required>
+                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)" >
                                                 <option value="">Please Select</option>
                                                 <?php echo divisionView(); ?>
                                             </select>
@@ -69,6 +72,14 @@
                                             <select class="form-control" name="ward">
                                                 <option value="">Please Select</option>
                                                 <?php echo wardView(); ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="varchar">Status</label>
+                                            <select class="form-control" name="status">
+                                                <option value="">Please Select</option>
+                                                <option value="1">Paid</option>
+                                                <option value="2">Unpaid</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">

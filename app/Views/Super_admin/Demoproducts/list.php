@@ -64,14 +64,20 @@
                                     </thead>
                                     <tbody id="subCat">
                                     <?php foreach ($product as $val) { ?>
-                                        <tr>
+                                        <tr id="update_row_<?= $val->id;?>">
                                             <td><?php echo $val->id ?></td>
                                             <td><?php echo $val->name ?></td>
 
                                             <td><?php echo demo_singleImage_by_productId($val->id,'70','0','');?> </td>
                                             <td><?php echo get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) ?></td>
-                                            <td><?php echo showWithCurrencySymbol($val->purchase_price) ?></td>
-                                            <td><?php echo showWithCurrencySymbol($val->selling_price) ?></td>
+                                            <td>
+                                                <p onclick="updateFunction('<?= $val->id ?>', 'purchase_price', '<?= $val->purchase_price ?>', 'pur_view_<?= $val->id ?>', 'pur_price_update_<?= $val->id ?>','update_row_<?= $val->id;?>')"><?php echo showWithCurrencySymbol($val->purchase_price) ?></p>
+                                                <p id="pur_view_<?= $val->id;?>"></p>
+                                            </td>
+                                            <td>
+                                                <p onclick="updateFunction('<?= $val->id ?>', 'selling_price', '<?= $val->selling_price ?>', 'sel_view_<?= $val->id ?>', 'sell_price_update_<?= $val->id ?>','update_row_<?= $val->id;?>')"><?php echo showWithCurrencySymbol($val->selling_price) ?></p>
+                                                <p id="sel_view_<?= $val->id;?>"></p>
+                                            </td>
 
                                             <td>
                                                 <a href="<?php echo site_url('super_admin/demo_product_update/' . $val->id) ?>" class="btn btn-xs btn-info ">Edit</a>

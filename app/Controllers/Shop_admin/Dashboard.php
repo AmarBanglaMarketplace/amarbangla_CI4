@@ -95,7 +95,7 @@ class Dashboard extends BaseController
 
             //deleted Nul value in purchase (start)
             if ($purItem < 1) {
-                $this->purchaseModel->where('purchase_id', $value->purchase_id)->purchaseitemModel->delete();
+                $this->purchaseModel->where('purchase_id', $value->purchase_id)->delete();
             }
             //deleted Nul value in purchase (end)
         }
