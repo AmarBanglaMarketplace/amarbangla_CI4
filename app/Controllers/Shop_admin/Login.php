@@ -21,7 +21,7 @@ class Login extends BaseController
         $this->session = \Config\Services::session();
         $this->email = \Config\Services::email();
         $this->userModel = new UsersModel();
-        $this->licenseModel = new licenseModel();
+        $this->licenseModel = new LicenseModel();
         $this->rolesModel = new RolesModel();
     }
 
