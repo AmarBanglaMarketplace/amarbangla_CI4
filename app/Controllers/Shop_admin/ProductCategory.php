@@ -4,7 +4,7 @@ namespace App\Controllers\Shop_admin;
 
 use App\Controllers\BaseController;
 use App\Libraries\Permission;
-use App\Models\productcategoryModel;
+use App\Models\ProductcategoryModel;
 
 class ProductCategory extends BaseController
 {

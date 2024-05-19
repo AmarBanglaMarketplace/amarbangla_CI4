@@ -3,7 +3,7 @@
 namespace App\Controllers\Shop_admin;
 
 use App\Controllers\BaseController;
-use App\Models\storesModel;
+use App\Models\StoresModel;
 use App\Libraries\Permission;
 
 class Stores extends BaseController

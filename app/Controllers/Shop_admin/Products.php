@@ -4,7 +4,7 @@ namespace App\Controllers\Shop_admin;
 
 use App\Controllers\BaseController;
 use App\Models\ProductfeaturesModel;
-use App\Models\productsModel;
+use App\Models\ProductsModel;
 use App\Libraries\Permission;
 use App\Models\ProductcategoryModel;
 use App\Models\ProductspecialModel;
