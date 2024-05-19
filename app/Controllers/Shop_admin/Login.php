@@ -4,7 +4,7 @@ namespace App\Controllers\Shop_admin;
 
 use App\Controllers\BaseController;
 use App\Models\UsersModel;
-use App\Models\licenseModel;
+use App\Models\LicenseModel;
 use App\Models\RolesModel;
 
 class Login extends BaseController
