@@ -19,13 +19,11 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-
                     <div class="card">
                         <div class="card-header">
                             <a href="<?php echo base_url('agent/delivery_boy_create');?>" class="btn btn-xs btn-primary w-25 float-right">Create</a>
@@ -36,7 +34,6 @@
                             <div class="col-md-12">
                                 <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
                             </div>
-
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
@@ -82,6 +79,5 @@
 
 
 <?= $this->section('java_script') ?>
-    <script>
-    </script>
+    <script></script>
 <?= $this->endSection() ?>
