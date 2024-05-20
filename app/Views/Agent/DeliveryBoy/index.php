@@ -83,6 +83,5 @@
 
 <?= $this->section('java_script') ?>
     <script>
-
     </script>
 <?= $this->endSection() ?>
