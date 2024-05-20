@@ -19,7 +19,6 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -35,7 +34,6 @@
                             <div class="col-md-12">
                                 <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
                             </div>
-
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
