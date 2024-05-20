@@ -25,7 +25,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-
                     <div class="card">
                         <div class="card-header">
                             <a href="<?php echo base_url('agent/delivery_boy_create');?>" class="btn btn-xs btn-primary w-25 float-right">Create</a>
@@ -82,6 +81,5 @@
 
 
 <?= $this->section('java_script') ?>
-    <script>
-    </script>
+    <script></script>
 <?= $this->endSection() ?>
