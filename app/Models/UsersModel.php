@@ -14,7 +14,7 @@ class UsersModel extends Model
     protected $primaryKey = 'user_id';
     protected $returnType = 'object';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['user_id','sch_id','email', 'password','pass','name','mobile','address','balance','pic','country','ComName','role_id','status','createdDtm', 'createdBy', 'updateDtm', 'updatedBy', 'deleted', 'deletedRole'];
+    protected $allowedFields = ['user_id','sch_id','email', 'password','pass','name','mobile','address','balance','pic','country','is_default','ComName','role_id','status','createdDtm', 'createdBy', 'updateDtm', 'updatedBy', 'deleted', 'deletedRole'];
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
