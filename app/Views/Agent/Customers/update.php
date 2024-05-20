@@ -130,41 +130,46 @@
                                                     <form action="<?= base_url('agent/customer_address_update'); ?>" method="post">
                                                         <div class="form-group">
                                                             <label for="varchar">Division </label>
-                                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)"  >
+                                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)">
                                                                 <option>Please Select</option>
-                                                                <?= divisionView($address->division) ; ?>
+                                                                <?php echo (!empty($address))?divisionView($address->division):divisionView(); ?>
+                                                            </select>
+
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="varchar">District </label>
+                                                            <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district">
+                                                                <option>Please Select</option>
+                                                                <?php echo (!empty($address))?districtselect($address->zila,$address->division):districtselect(); ?>
+                                                            </select>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="varchar">Upazila </label>
+                                                            <select class="form-control" name="upazila" id="upazila">
+                                                                <option>Please Select</option>
+                                                                <?php echo (!empty($address))?upazilaselect($address->upazila,$address->zila):upazilaselect(); ?>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label for="varchar">District  </label>
-                                                            <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" required>
-                                                                <option>Please Select</option>
-                                                                <?= districtselect($address->zila,$address->division) ; ?>
-                                                            </select>
-                                                        </div>
+                                                            <label for="varchar">Pourashava/Union </label> <span style="color: red;">*</span>
 
-                                                        <div class="form-group">
-                                                            <label for="varchar">Upazila  </label>
-                                                            <select class="form-control" name="upazila" id="upazila"  required>
+                                                            <select class="form-control" name="pourashava">
                                                                 <option>Please Select</option>
-                                                                <?= upazilaselect($address->upazila,$address->zila) ; ?>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="varchar">Pourashava/Union  </label>
-                                                            <select class="form-control" name="pourashava"  >
-                                                                <option>Please Select</option>
-                                                                <?= pourashavaUnion($address->pourashava) ; ?>
+                                                                <?php echo (!empty($address))?pourashavaUnion($address->pourashava):pourashavaUnion(); ?>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="varchar">Ward </label>
-                                                            <select class="form-control" name="ward">
-                                                                <option>Please Select</option>
-                                                                <?= wardView($address->ward) ; ?>
+                                                            <span style="color: red;">*</span>
+                                                            <select class="form-control" name="ward" required>
+                                                                <option value="">Please Select</option>
+                                                                <?php echo (!empty($address))?wardView($address->ward):wardView(); ?>
                                                             </select>
                                                         </div>
 
