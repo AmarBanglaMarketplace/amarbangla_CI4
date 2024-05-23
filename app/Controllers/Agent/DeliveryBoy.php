@@ -56,6 +56,7 @@ class DeliveryBoy extends BaseController
         $data['password'] = SHA1($this->request->getPost('password'));
         $data['con_password'] = SHA1($this->request->getPost('con_password'));
         $data['pass'] = $this->request->getPost('password');
+        $data['agent_id'] = Auth_agent()->agent_id;
         $data['role_id'] = '3';
         $data['balance'] = '0';
         $data['createdBy'] = Auth_agent()->agent_id;
