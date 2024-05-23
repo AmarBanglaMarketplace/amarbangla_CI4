@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Libraries\Permission;
 use App\Models\AgentModel;
 use App\Models\AgentpermittedareaModel;
+use App\Models\GensettingsagentModel;
 use App\Models\GlobaladdressModel;
 use App\Models\ShopsModel;
 
@@ -17,6 +18,7 @@ class Agent extends BaseController
     protected $globaladdressModel;
     protected $agentpermittedareaModel;
     protected $shopsModel;
+    protected $gensettingsagentModel;
 
     protected $crop;
     protected $permission;
@@ -27,6 +29,7 @@ class Agent extends BaseController
         $this->globaladdressModel = new GlobaladdressModel();
         $this->agentpermittedareaModel = new AgentpermittedareaModel();
         $this->shopsModel = new ShopsModel();
+        $this->gensettingsagentModel = new GensettingsagentModel();
         $this->validation = \Config\Services::validation();
         $this->session = \Config\Services::session();
         $this->permission = new Permission();
@@ -87,6 +90,9 @@ class Agent extends BaseController
             $check = checkUniqueField($data['mobile'], 'mobile', 'agent');
             if ($check == true) {
                 $this->agentModel->insert($data);
+                $agentId = $this->agentModel->getInsertID();
+
+                $this->gensettingsagentModel->set('agent_id',$agentId)->set('label','order_management_numbers')->insert();
 
                 $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Create Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 return redirect()->to('super_admin/agent_create');

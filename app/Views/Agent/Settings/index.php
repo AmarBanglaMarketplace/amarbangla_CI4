@@ -52,11 +52,16 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="longtext">Password </label>
-                                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="" />
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="" required />
                                             </div>
                                             <div class="form-group">
                                                 <label for="longtext">Confirm Password </label>
-                                                <input type="password" class="form-control " name="con_password" id="password" placeholder="Confirm Password" />
+                                                <input type="password" class="form-control " name="con_password" id="password" placeholder="Confirm Password" required />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="longtext">Order Management Numbers</label>
+                                                <input type="text" class="form-control " name="order_management_numbers" value="<?= $order_management_numbers;?>" placeholder="Order Management Numbers" />
                                             </div>
 
                                             <button type="submit" class="btn btn-primary">Update</button>
