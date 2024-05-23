@@ -135,7 +135,7 @@
                                                             <label for="varchar">Division </label>
                                                             <select class="form-control" name="division" onchange="viewdistrict(this.value)">
                                                                 <option>Please Select</option>
-                                                                <?php echo divisionView($address->division); ?>
+                                                                <?php echo (!empty($address))?divisionView($address->division):divisionView(); ?>
                                                             </select>
 
 
@@ -145,7 +145,7 @@
                                                             <label for="varchar">District </label>
                                                             <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district">
                                                                 <option>Please Select</option>
-                                                                <?php echo districtselect($address->zila,$address->division); ?>
+                                                                <?php echo (!empty($address))?districtselect($address->zila,$address->division):districtselect(); ?>
                                                             </select>
 
                                                         </div>
@@ -154,7 +154,7 @@
                                                             <label for="varchar">Upazila </label>
                                                             <select class="form-control" name="upazila" id="upazila">
                                                                 <option>Please Select</option>
-                                                                <?php echo upazilaselect($address->upazila,$address->zila); ?>
+                                                                <?php echo (!empty($address))?upazilaselect($address->upazila,$address->zila):upazilaselect(); ?>
                                                             </select>
                                                         </div>
 
@@ -163,7 +163,7 @@
 
                                                             <select class="form-control" name="pourashava">
                                                                 <option>Please Select</option>
-                                                                <?php echo pourashavaUnion($address->pourashava); ?>
+                                                                <?php echo (!empty($address))?pourashavaUnion($address->pourashava):pourashavaUnion(); ?>
                                                             </select>
                                                         </div>
 
@@ -172,7 +172,7 @@
                                                             <span style="color: red;">*</span>
                                                             <select class="form-control" name="ward" required>
                                                                 <option value="">Please Select</option>
-                                                                <?php echo wardView($address->ward); ?>
+                                                                <?php echo (!empty($address))?wardView($address->ward):wardView(); ?>
                                                             </select>
                                                         </div>
 

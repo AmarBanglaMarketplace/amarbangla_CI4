@@ -5,6 +5,7 @@ namespace App\Controllers\Agent;
 use App\Controllers\BaseController;
 use App\Libraries\Permission;
 use App\Models\AgentModel;
+use App\Models\GensettingsagentModel;
 use App\Models\PackageModel;
 
 class Settings extends BaseController
@@ -14,11 +15,13 @@ class Settings extends BaseController
     protected $permission;
     protected $crop;
     protected $agentModel;
+    protected $gensettingsagentModel;
 
 
     public function __construct()
     {
         $this->agentModel = new AgentModel();
+        $this->gensettingsagentModel = new GensettingsagentModel();
         $this->session = \Config\Services::session();
         $this->validation = \Config\Services::validation();
         $this->permission = new permission();
@@ -27,7 +30,8 @@ class Settings extends BaseController
 
 
     public function index() {
-        echo view('Agent/Settings/index');
+        $data['order_management_numbers'] = $this->gensettingsagentModel->where('agent_id',Auth_agent()->agent_id)->where('label','order_management_numbers')->first()->value;
+        echo view('Agent/Settings/index',$data);
     }
     public function update_action(){
         $data['agent_id'] = Auth_agent()->agent_id;
@@ -37,6 +41,8 @@ class Settings extends BaseController
         $data['password'] = SHA1($this->request->getPost('password'));
         $data['con_password'] = SHA1($this->request->getPost('con_password'));
         $data['pass'] = $this->request->getPost('password');
+
+        $order_management_numbers = $this->request->getPost('order_management_numbers');
 
         $this->validation->setRules([
             'agent_name' => ['label' => 'name', 'rules' => 'required'],
@@ -51,6 +57,8 @@ class Settings extends BaseController
             return redirect()->to('agent/settings');
         } else {
             $this->agentModel->update($data['agent_id'],$data);
+
+            $this->gensettingsagentModel->set('value', $order_management_numbers)->where('agent_id',Auth_agent()->agent_id)->where('label','order_management_numbers')->update();
 
             $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Update Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('agent/settings');

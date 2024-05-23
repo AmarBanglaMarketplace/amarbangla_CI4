@@ -117,7 +117,7 @@ class Shops extends BaseController
                 //create users in users table (start)
                 $userData['sch_id'] = $shopsId;
                 $userData['role_id'] = $roleId;
-                $userData['is_default'] = 1;
+                $userData['is_default'] = '1';
                 $userData['name'] = $this->request->getPost('name');
                 $userData['email'] = $this->request->getPost('email');
                 $userData['password'] = sha1($this->request->getPost('password'));
@@ -130,7 +130,7 @@ class Shops extends BaseController
 
                 //create Vat in vat_register table (start)
                 $vatData['sch_id'] = $shopsId;
-                $vatData['is_default'] = 1;
+                $vatData['is_default'] = '1';
                 $vatData['name'] = "Default Vat Name";
                 $vatData['vat_register_no'] = "BIN-0000-01";
                 $vatData['createdBy'] = $supuserId;
