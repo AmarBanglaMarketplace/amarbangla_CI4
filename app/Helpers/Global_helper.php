@@ -1496,10 +1496,12 @@ function selectOptions($selected = '', $array = null){
 function unitArray()
 {
     $status = [
-        '1' => 'Piece',
-        // '2' => 'KG',
-        // '3' => 'LETTER',
-        // '4' => 'TON'
+         '1' => 'Piece',
+         '2' => 'KG',
+         '3' => 'LETTER',
+         '4' => 'TON',
+         '5' => 'GM',
+         '6' => 'ML',
     ];
     return $status;
 }

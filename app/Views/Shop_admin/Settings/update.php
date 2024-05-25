@@ -201,12 +201,7 @@
                                                     <?= upazilaselect($upazila, $zila); ?>
                                                 </select>
                                             </div>
-                                            <?php if ($pourashava == 0) {
-                                                $pour = 'style="display:none"';
-                                            } else {
-                                                $pour = '';
-                                            } ?>
-                                            <div class="form-group" id="pourashava" <?= $pour; ?>>
+                                            <div class="form-group" id="pourashava" >
                                                 <label for="varchar">Pourashava/Union  </label>
                                                 <select class="form-control" name="pourashava" id="reuq">
                                                     <option value="">Please Select</option>

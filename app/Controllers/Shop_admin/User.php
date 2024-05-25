@@ -54,8 +54,8 @@ class User extends BaseController
         $data['sch_id'] = Auth()->sch_id;
         $data['name'] = $this->request->getPost('name');
         $data['email'] = $this->request->getPost('email');
-        $data['password'] = $this->request->getPost('password');
-        $data['con_password'] = $this->request->getPost('con_password');
+        $data['password'] = sha1($this->request->getPost('password'));
+        $data['con_password'] = sha1($this->request->getPost('con_password'));
         $data['role_id'] = $this->request->getPost('role_id');
         $data['status'] = $this->request->getPost('status');
         $data['createdBy'] = Auth()->user_id;
@@ -74,9 +74,16 @@ class User extends BaseController
             $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('shop_admin/user_create');
         } else {
-            $this->usersModel->insert($data);
-            $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Add Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-            return redirect()->to('shop_admin/user_create');
+            $emailUnique = is_unique_super('users', 'email', $data['email']);
+            if ($emailUnique == true) {
+                $data['pass'] = $this->request->getPost('password');
+                $this->usersModel->insert($data);
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Add Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('shop_admin/user_create');
+            }else {
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Email already in use <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('shop_admin/user_create');
+            }
 
         }
     }
@@ -97,8 +104,8 @@ class User extends BaseController
         $data['user_id'] = $this->request->getPost('user_id');
         $data['name'] = $this->request->getPost('name');
         $data['email'] = $this->request->getPost('email');
-        $data['password'] = $this->request->getPost('password');
-        $data['con_password'] = $this->request->getPost('con_password');
+        $data['password'] = sha1($this->request->getPost('password'));
+        $data['con_password'] = sha1($this->request->getPost('con_password'));
         $data['status'] = $this->request->getPost('status');
         $data['updatedBy'] = Auth()->user_id;
         $data['updatedDtm'] = date('Y-m-d h:i:s');
@@ -115,9 +122,16 @@ class User extends BaseController
             $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('shop_admin/user_update/'.$data['user_id'].'?active=general');
         } else {
-            $this->usersModel->update($data['user_id'],$data);
-            $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Update Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-            return redirect()->to('shop_admin/user_update/'.$data['user_id'].'?active=general');
+            $emailUnique = is_unique_super_update('users', 'email', $data['email'], 'user_id', $data['user_id']);
+            if ($emailUnique == true) {
+                $data['pass'] = $this->request->getPost('password');
+                $this->usersModel->update($data['user_id'], $data);
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Update Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('shop_admin/user_update/' . $data['user_id'] . '?active=general');
+            }else {
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Email already in use <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('shop_admin/user_update/' . $data['user_id'] . '?active=general');
+            }
 
         }
     }

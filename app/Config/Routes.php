@@ -28,6 +28,7 @@ $routes->post('super_admin/shops_personal_update', 'Super_admin\Shops::personal_
 $routes->post('super_admin/shops_photo_update', 'Super_admin\Shops::photo_update');
 $routes->post('super_admin/shops_user_update', 'Super_admin\Shops::user_update');
 $routes->post('super_admin/shops_category_update', 'Super_admin\Shops::category_update');
+$routes->post('super_admin/shops_address_action', 'Super_admin\Shops::address_action');
 $routes->get('super_admin/shops_delete(:num)', 'Super_admin\Shops::delete/$1');
 
 $routes->post('super_admin/shops_search', 'Super_admin\Shops::search');

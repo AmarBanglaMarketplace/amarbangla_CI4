@@ -39,26 +39,26 @@
                                 <div class="col-md-12 row" >
                                     <div class="form-group col-md-3">
                                         <label for="int">Category </label>
-                                        <select class="form-control"  onchange="showSubCategory(this.value,'<?php echo site_url('super_admin/demo_product_get_sub_cat') ?>')" name="category" id="category">
+                                        <select class="form-control"  onchange="showSubCategory(this.value,'<?php echo site_url('super_admin/demo_product_get_sub_cat') ?>')" name="category" id="category" required>
                                             <option value="">Please Select</option>
                                             <?php echo getCatListInOptionsuper(''); ?>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="int">Sub Category </label>
-                                        <select class="form-control" name="sub_category" id="subCat">
+                                        <select class="form-control" name="sub_category" id="subCat" required>
                                             <option value="">Please Select</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="varchar">Name </label>
-                                        <input type="text" class="form-control" name="name" id="name" placeholder="Name"/>
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" required/>
                                         <input type="hidden" class="form-control" name="qty" id="qty" value="1"/>
                                     </div>
 
                                     <div class="form-group col-md-3">
                                         <label for="int">Unit</label>
-                                        <select class="form-control" name="unit">
+                                        <select class="form-control" name="unit" required>
                                             <?php echo selectOptions('1', unitArray()); ?>
                                         </select>
                                     </div>
