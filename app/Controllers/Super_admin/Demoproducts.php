@@ -208,32 +208,45 @@ class Demoproducts extends BaseController
         print $options;
     }
     public function addCart(){
-        $subCatId = $this->request->getPost('subCatId');
-        $category = $this->request->getPost('category');
-        $name = $this->request->getPost('name');
-        $unit = $this->request->getPost('unit');
-        $qty = $this->request->getPost('qty');
 
-        $i = count($this->cart->contents());
+        $data['subCatId'] = $this->request->getPost('subCatId');
+        $data['category'] = $this->request->getPost('category');
+        $data['name'] = $this->request->getPost('name');
+        $data['unit'] = $this->request->getPost('unit');
+        $data['qty'] = $this->request->getPost('qty');
 
-        $data = array(
-            'id' => ++$i,
-            'name' => strval($name),
-            'unit' => $unit,
-            'qty' => $qty,
-            'price' => '0',
-        );
+        $this->validation->setRules([
+            'subCatId' => ['label' => 'sub category', 'rules' => 'required'],
+            'category' => ['label' => 'category', 'rules' => 'required'],
+            'name' => ['label' => 'name', 'rules' => 'required'],
+            'unit' => ['label' => 'unit', 'rules' => 'required'],
+            'qty' => ['label' => 'qty', 'rules' => 'required'],
+        ]);
 
-        if (!empty($subCatId)) {
-            $data['cat_id'] = $subCatId;
+        if ($this->validation->run($data) == FALSE) {
+            print '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
         } else {
-            $data['cat_id'] = $category;
-        }
+            $i = count($this->cart->contents());
 
-        if ($this->cart->insert($data)) {
-            print '<div class="alert alert-success alert-dismissible" role="alert">Add to cart Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-        }else{
-            print '<div class="alert alert-danger alert-dismissible" role="alert">Something went wrong please try again! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            $dataInsert = array(
+                'id' => ++$i,
+                'name' => strval($data['name']),
+                'unit' => $data['unit'],
+                'qty' => $data['qty'],
+                'price' => '0',
+            );
+
+            if (!empty($data['subCatId'])) {
+                $dataInsert['cat_id'] = $data['subCatId'];
+            } else {
+                $dataInsert['cat_id'] = $data['category'];
+            }
+
+            if ($this->cart->insert($dataInsert)) {
+                print '<div class="alert alert-success alert-dismissible" role="alert">Add to cart Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            } else {
+                print '<div class="alert alert-danger alert-dismissible" role="alert">Something went wrong please try again! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            }
         }
     }
     public function remove_cart()

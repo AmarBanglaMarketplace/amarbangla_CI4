@@ -47,7 +47,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link <?php echo(!empty($_GET) && ($_GET['active'] == 'user'))?'active':'';?>" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">User Update</a>
                                         </li>
-
+                                        <li class="nav-item">
+                                            <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'address'))?'active':'';?>" id="custom-tabs-four-address-tab" data-toggle="pill" href="#custom-tabs-four-address" role="tab" aria-controls="custom-tabs-four-address" aria-selected="false">Address</a>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link <?php echo(!empty($_GET) && ($_GET['active'] == 'shop_category'))?'active':'';?>" id="custom-tabs-four-shopcategory-tab" data-toggle="pill" href="#custom-tabs-four-shopcategory" role="tab" aria-controls="custom-tabs-four-shopcategory" aria-selected="false">Shop category</a>
                                         </li>
@@ -179,7 +181,62 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'address'))?'active show':'';?>" id="custom-tabs-four-address" role="tabpanel" aria-labelledby="custom-tabs-four-address-tab">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <form action="<?= base_url('super_admin/shops_address_action'); ?>" method="post">
+                                                        <div class="form-group">
+                                                            <label for="varchar">Division </label>
+                                                            <select class="form-control" name="division" onchange="viewdistrict(this.value)">
+                                                                <option>Please Select</option>
+                                                                <?= divisionView($division); ?>
+                                                            </select>
+                                                        </div>
 
+                                                        <div class="form-group">
+                                                            <label for="varchar">District  </label>
+                                                            <select class="form-control" name="district" onchange="viewupazila(this.value)" id="district" required>
+                                                                <option value="">Please Select</option>
+                                                                <?= districtselect($zila, $division); ?>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="varchar">Upazila  </label>
+                                                            <select class="form-control" name="upazila" id="upazila" onchange="checkCity(this.value)" required>
+                                                                <option value="">Please Select</option>
+                                                                <?= upazilaselect($upazila, $zila); ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group" id="pourashava" >
+                                                            <label for="varchar">Pourashava/Union  </label>
+                                                            <select class="form-control" name="pourashava" id="reuq">
+                                                                <option value="">Please Select</option>
+                                                                <?= pourashavaUnion($pourashava); ?>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="varchar">Ward </label>
+                                                            <select class="form-control" name="ward" required>
+                                                                <option value="">Please Select</option>
+                                                                <?= wardView($ward); ?>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="varchar">House Address </label>
+                                                            <input name="address" class="form-control" value="<?= $shops->address ?>">
+                                                        </div>
+
+
+                                                        <input type="hidden" name="sch_id" value="<?php echo $shops->sch_id; ?>" >
+                                                        <button type="submit" class="btn btn-primary">Update</button>
+                                                        <a href="<?php echo site_url('super_admin/shops') ?>" class="btn btn-danger">Cancel</a>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="tab-pane fade <?php echo(!empty($_GET) && ($_GET['active'] == 'shop_category'))?'active show':'';?>" id="custom-tabs-four-shopcategory" role="tabpanel" aria-labelledby="custom-tabs-four-shopcategory-tab">
                                             <div class="row">
                                                 <div class="col-md-6">
