@@ -27,7 +27,6 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Message List</h3>
-                <a href="<?= base_url('shop_admin/my_post_create'); ?>" class="btn btn-xs btn-primary w-25 float-right">Create</a>
             </div>
             <div class="card-body p-3">
                 <table id="example1" class="table table-striped projects text-capitalize">

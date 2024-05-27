@@ -36,7 +36,7 @@
                                 <a href="<?php echo site_url('super_admin/order_filter_status/3') ?>" class="btn btn-danger btn-xs">Cancel</a>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control" name="shop" onchange="allshoporder(this.value)">
+                                <select class="form-control select2" name="shop" onchange="allshoporder(this.value)">
                                     <option value="0">Shop by Order filter</option>
                                     <?php foreach ($shope as $view) { ?>
                                         <option value="<?php echo $view->sch_id ?>"><?php echo $view->name ?></option>

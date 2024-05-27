@@ -61,8 +61,8 @@ class Settings extends BaseController
         $data['user_id'] = $this->request->getPost('user_id');
         $data['name'] = $this->request->getPost('name');
         $data['email'] = $this->request->getPost('email');
-        $data['password'] = sha1($this->request->getPost('password'));
-        $data['con_password'] = sha1($this->request->getPost('con_password'));
+        $data['password'] = $this->request->getPost('password');
+        $data['con_password'] = $this->request->getPost('con_password');
         $data['status'] = $this->request->getPost('status');
 
         $this->validation->setRules([
@@ -76,11 +76,8 @@ class Settings extends BaseController
             $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('super_admin/settings_update/'.$data['user_id']. '?active=general');
         } else {
-            DB()->transStart();
-
+            $data['password'] = sha1($this->request->getPost('password'));
             $this->adminModel->update($data['user_id'],$data);
-
-            DB()->transComplete();
 
             $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Create Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('super_admin/settings_update/'.$data['user_id']. '?active=general');

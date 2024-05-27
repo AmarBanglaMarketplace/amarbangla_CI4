@@ -171,6 +171,7 @@ $routes->get('super_admin/agent_delete/(:num)', 'Super_admin\Agent::delete/$1');
 $routes->get('super_admin/agent_commission/(:num)', 'Super_admin\Agent::commission/$1');
 $routes->get('super_admin/delete_area/(:num)/(:num)', 'Super_admin\Agent::delete_area/$1/$2');
 $routes->post('super_admin/agent_filter', 'Super_admin\Agent::filter');
+$routes->get('super_admin/agent_login/(:num)', 'Super_admin\Agent::login/$1');
 //super admin Agent
 
 //super admin Globaladdress
