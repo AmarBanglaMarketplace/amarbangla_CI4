@@ -643,6 +643,7 @@
         let upazila = $('[name=upazila]').val();
         let pourashava = $('[name=pourashava]').val();
         let ward = $('[name=ward]').val();
+        let status = $('[name=status]').val();
 
         if (division == '') {
             $('[name=division]').css('border-color', '#ff0000');
@@ -660,7 +661,8 @@
                     district: district,
                     upazila: upazila,
                     pourashava: pourashava,
-                    ward: ward
+                    ward: ward,
+                    status: status,
                 },
                 success: function(msg) {
                     $('#shopOrder').html(msg);

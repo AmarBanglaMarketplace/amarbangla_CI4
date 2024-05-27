@@ -325,4 +325,25 @@ class Agent extends BaseController
         }
     }
 
+    public function login($agent_id){
+        $result = $this->agentModel->where('agent_id', $agent_id)->first();
+
+        if (!empty($result)) {
+            $sessionArray = array(
+                'agentId' => $result->agent_id,
+                'agentName' => $result->agent_name,
+                'isLoggedInAgent' => TRUE
+            );
+            $this->session->set($sessionArray);
+            return redirect()->to(site_url("agent/dashboard"));
+        }else{
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Agent not exist! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/agent');
+        }
+    }
+
+
+
+
+
 }

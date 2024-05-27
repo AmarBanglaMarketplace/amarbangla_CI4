@@ -40,21 +40,21 @@
                     <div class="card-header p-0 border-bottom-0">
                         <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'account'))?'active':'';?> <?= (empty($_GET))?'active':'';?>" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Account Holder</a>
+                                <a class="nav-link <?= (!empty($_GET['active']) && ($_GET['active'] == 'account'))?'active':'';?> <?= (empty($_GET['active']))?'active':'';?>" href="<?= base_url('shop_admin/get_product?active=account')?>" >Account Holder</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'suppliers'))?'active':'';?> " id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Suppliers</a>
+                                <a class="nav-link <?= (!empty($_GET['active']) && ($_GET['active'] == 'suppliers'))?'active':'';?> " href="<?= base_url('shop_admin/get_product?active=suppliers')?>" >Suppliers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'bank'))?'active':'';?>" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Bank</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'cash'))?'active':'';?>" id="custom-tabs-four-vat-tab" data-toggle="pill" href="#custom-tabs-four-vat" role="tab" aria-controls="custom-tabs-four-vat" aria-selected="false">Cash</a>
+                                <a class="nav-link <?= (!empty($_GET['active']) && ($_GET['active'] == 'bank'))?'active':'';?>" href="<?= base_url('shop_admin/get_product?active=bank')?>" >Bank</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link <?= (!empty($_GET) && ($_GET['active'] == 'product'))?'active':'';?>" id="custom-tabs-four-address-tab" data-toggle="pill" href="#custom-tabs-four-address" role="tab" aria-controls="custom-tabs-four-address" aria-selected="false">Product</a>
+                                <a class="nav-link <?= (!empty($_GET['active']) && ($_GET['active'] == 'cash'))?'active':'';?>" href="<?= base_url('shop_admin/get_product?active=cash')?>" >Cash</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link <?= (!empty($_GET['active']) && ($_GET['active'] == 'product'))?'active':'';?>"   href="<?= base_url('shop_admin/get_product?active=product')?>"  >Product</a>
                             </li>
 
 
@@ -62,7 +62,7 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-four-tabContent">
-                            <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'account'))?'active show':'';?> <?= (empty($_GET))?'active show':'';?> " id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                            <div class="tab-pane fade <?= (!empty($_GET['active']) && ($_GET['active'] == 'account'))?'active show':'';?> <?= (empty($_GET['active']))?'active show':'';?> " id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <form action="<?php echo base_url('shop_admin/get_product_account_holder'); ?>" method="post">
@@ -97,7 +97,7 @@
 
                             </div>
 
-                            <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'suppliers'))?'active show':'';?>" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                            <div class="tab-pane fade <?= (!empty($_GET['active']) && ($_GET['active'] == 'suppliers'))?'active show':'';?>" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <form action="<?php echo base_url('shop_admin/get_product_suppliers'); ?>" method="post" enctype="multipart/form-data">
@@ -133,7 +133,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'bank'))?'active show':'';?>" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                            <div class="tab-pane fade <?= (!empty($_GET['active']) && ($_GET['active'] == 'bank'))?'active show':'';?>" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <form action="<?php echo base_url('shop_admin/get_product_bank'); ?>" method="post">
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'cash'))?'active show':'';?>" id="custom-tabs-four-vat" role="tabpanel" aria-labelledby="custom-tabs-four-vat-tab">
+                            <div class="tab-pane fade <?= (!empty($_GET['active']) && ($_GET['active'] == 'cash'))?'active show':'';?>" id="custom-tabs-four-vat" role="tabpanel" aria-labelledby="custom-tabs-four-vat-tab">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <form action="<?php echo base_url('shop_admin/get_product_cash'); ?>" method="post">
@@ -195,7 +195,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade <?= (!empty($_GET) && ($_GET['active'] == 'product'))?'active show':'';?>" id="custom-tabs-four-address" role="tabpanel" aria-labelledby="custom-tabs-four-address-tab">
+                            <div class="tab-pane fade <?= (!empty($_GET['active']) && ($_GET['active'] == 'product'))?'active show':'';?>" id="custom-tabs-four-address" role="tabpanel" aria-labelledby="custom-tabs-four-address-tab">
                                 <div class="row">
 
                                     <div class="form-group col-md-6">

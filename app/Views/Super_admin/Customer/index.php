@@ -41,7 +41,7 @@
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Division </label>
                                             <select class="form-control" name="division"
-                                                    onchange="viewdistrict(this.value)">
+                                                    onchange="viewdistrict(this.value)" required>
                                                 <option value="">Please Select</option>
                                                 <?php echo divisionView(); ?>
                                             </select>
@@ -53,7 +53,7 @@
                                             <label for="varchar">District</label>
                                             <select class="form-control" name="district"
                                                     onchange="viewupazila(this.value)"
-                                                    id="district" required>
+                                                    id="district" >
                                                 <option value="">Please Select</option>
                                                 <?php echo districtselect(); ?>
                                             </select>
@@ -63,7 +63,7 @@
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Upazila </label>
-                                            <select class="form-control" name="upazila" id="upazila" required>
+                                            <select class="form-control" name="upazila" id="upazila" >
                                                 <option value="">Please Select</option>
                                                 <?php echo upazilaselect(); ?>
                                             </select>

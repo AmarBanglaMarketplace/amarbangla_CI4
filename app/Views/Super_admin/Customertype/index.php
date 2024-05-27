@@ -41,7 +41,7 @@
                                 <tbody>
                                 <?php  foreach ($customer as $val){ ?>
                                     <tr>
-                                        <td><?php echo $val->cus_type_id;?></td>
+                                        <td width="10"><?php echo $val->cus_type_id;?></td>
                                         <td><?php echo $val->type_name;?></td>
                                         <td width="160px">
                                             <a href="<?php echo base_url('super_admin/customer_type_update/'.$val->cus_type_id);?>" class="btn btn-xs btn-warning ">Update</a>
