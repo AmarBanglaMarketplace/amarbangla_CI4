@@ -31,7 +31,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form action="<?php echo site_url('super_admin/demo_product_create_action') ?>" method="POST" >
+
                             <div class="row" >
                                 <div class="col-md-12" id="message">
                                     <?php echo  isset(newSession()->message) ? newSession()->message :''; ?>
@@ -68,50 +68,55 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="box" id="box_bac">
-                                        <div class="box-header">
-                                            <h3 class="box-title">Cart Product List</h3>
-                                        </div>
-                                        <div class="box-body " id="table-reload" >
-                                            <table class="table table-bordered table-striped" id="example2">
-                                                <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Name</th>
-                                                    <th>Unit</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php $i=''; foreach (Cart()->contents() as $row) {?>
+                            </div>
+                            <form action="<?php echo site_url('super_admin/demo_product_create_action') ?>" method="POST" >
+                                <div class="row" >
+                                    <div class="col-md-12">
+                                        <div class="box" id="box_bac">
+                                            <div class="box-header">
+                                                <h3 class="box-title">Cart Product List</h3>
+                                            </div>
+                                            <div class="box-body " id="table-reload" >
+                                                <table class="table table-bordered table-striped" id="example2">
+                                                    <thead>
                                                     <tr>
-                                                        <td width="20"><input type="hidden" class="form-control" name="prod_cat_id[]" id="prod_cat_id[]"  value="<?php echo $row['cat_id'] ;?>"  /><?php echo ++$i ;?></td>
-                                                        <td><input type="hidden" class="form-control" name="name[]" id="name"  value="<?php echo $row['name'] ;?>"  /><?php echo $row['name'] ;?> </td>
-                                                        <td><input type="hidden" class="form-control" name="unit[]" id="unit"  value="<?php echo $row['unit'] ;?>"  /><?php echo showUnitName($row['unit']);?> </td>
-                                                        <td width="120px">
-                                                            <button class="btn btn-xs btn-danger" type="button"    onclick="javasciprt: return confirm('Are You Sure ?'),remove_cart_data('<?php echo $row['rowid']?>')">Cancel</button>
-                                                        </td>
+                                                        <th>No</th>
+                                                        <th>Name</th>
+                                                        <th>Unit</th>
+                                                        <th>Action</th>
                                                     </tr>
-                                                <?php }?>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php $i=''; foreach (Cart()->contents() as $row) {?>
+                                                        <tr>
+                                                            <td width="20"><input type="hidden" class="form-control" name="prod_cat_id[]" id="prod_cat_id[]"  value="<?php echo $row['cat_id'] ;?>"  /><?php echo ++$i ;?></td>
+                                                            <td><input type="hidden" class="form-control" name="name[]" id="name"  value="<?php echo $row['name'] ;?>"  /><?php echo $row['name'] ;?> </td>
+                                                            <td><input type="hidden" class="form-control" name="unit[]" id="unit"  value="<?php echo $row['unit'] ;?>"  /><?php echo showUnitName($row['unit']);?> </td>
+                                                            <td width="120px">
+                                                                <button class="btn btn-xs btn-danger" type="button"    onclick="javasciprt: return confirm('Are You Sure ?'),remove_cart_data('<?php echo $row['rowid']?>')">Cancel</button>
+                                                            </td>
+                                                        </tr>
+                                                    <?php }?>
 
-                                                </tbody>
-                                                <tfoot>
-                                                <tr>
-                                                    <th colspan="8"><button style="float: right; margin-right: 40px;" onclick="javasciprt: return confirm('Are You Sure ?'),clearCart()" class="btn btn-info btn-xs" type="button" >Clear All</button></th>
-                                                </tr>
-                                                </tfoot>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th colspan="8"><button style="float: right; margin-right: 40px;" onclick="javasciprt: return confirm('Are You Sure ?'),clearCart()" class="btn btn-info btn-xs" type="button" >Clear All</button></th>
+                                                    </tr>
+                                                    </tfoot>
 
-                                            </table>
-                                            <!-- <div id="cart"></div> -->
+                                                </table>
+                                                <!-- <div id="cart"></div> -->
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12" >
+                                        <button type="submit" class="btn btn-primary geniusSubmit-btn" style="float: right;">Insert</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-12" >
-                                    <button type="submit" class="btn btn-primary geniusSubmit-btn" style="float: right;">Insert</button>
-                                </div>
-                            </div>
                             </form>
+
+
                         </div>
                         <!-- /.card-body -->
                     </div>

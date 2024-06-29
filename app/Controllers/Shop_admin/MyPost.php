@@ -59,8 +59,6 @@ class MyPost extends BaseController
 
         $this->validation->setRules([
             'title' => ['label' => 'title', 'rules' => 'required'],
-            'youtube_video' => ['label' => 'youtube_video', 'rules' => 'required'],
-            'facebook_video' => ['label' => 'facebook_video', 'rules' => 'required'],
         ]);
 
         if ($this->validation->run($data) == FALSE) {
@@ -98,8 +96,6 @@ class MyPost extends BaseController
                 $data['banner_2'] = $pro_nameimg;
             }
 
-
-
             $this->adpostModel->insert($data);
             $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Add Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             return redirect()->to('shop_admin/my_post_create');
@@ -130,8 +126,6 @@ class MyPost extends BaseController
 
         $this->validation->setRules([
             'title' => ['label' => 'title', 'rules' => 'required'],
-            'youtube_video' => ['label' => 'youtube_video', 'rules' => 'required'],
-            'facebook_video' => ['label' => 'facebook_video', 'rules' => 'required'],
         ]);
 
         if ($this->validation->run($data) == FALSE) {

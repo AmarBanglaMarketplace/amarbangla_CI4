@@ -56,12 +56,12 @@
 
                             <div class="form-group">
                                 <label for="varchar">Youtube video </label>
-                                <input type="text" class="form-control" name="youtube_video" id="youtube_video" value="<?= htmlspecialchars($adpost->youtube_video);?>" required />
+                                <input type="text" class="form-control" name="youtube_video" id="youtube_video" value="<?= htmlspecialchars($adpost->youtube_video);?>"  />
                             </div>
 
                             <div class="form-group">
                                 <label for="varchar">Facebook video </label>
-                                <input type="text" class="form-control" name="facebook_video" id="facebook_video" value="<?= htmlspecialchars($adpost->facebook_video);?>" required />
+                                <input type="text" class="form-control" name="facebook_video" id="facebook_video" value="<?= htmlspecialchars($adpost->facebook_video);?>"  />
                             </div>
 
                             <div class="form-group">
