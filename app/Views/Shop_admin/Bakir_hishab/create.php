@@ -52,7 +52,7 @@
                                 <label for="enum">Transaction Type </label>
                                 <select class="form-control" name="trangaction_type" onchange="changepaymenttype(this.value,'loPo')" id="trangaction_type">
                                     <option value="">Please Select</option>
-                                    <option value="1">খরচ (Cr.)</option>
+                                    <option value="1">ধার দিলাম (Cr.)</option>
                                     <option value="2">জমা (Dr.)</option>
                                 </select>
                             </div>

@@ -44,22 +44,23 @@
 
                             <div class="form-group">
                                 <label for="varchar">Banner one </label>
-                                <input type="file" class="form-control" name="banner_1" required />
+                                <input type="file" class="form-control" name="banner_1"  />
                             </div>
 
                             <div class="form-group">
                                 <label for="varchar">Banner two </label>
-                                <input type="file" class="form-control" name="banner_2" id="banner_2" required />
+                                <input type="file" class="form-control" name="banner_2" id="banner_2"  />
                             </div>
 
                             <div class="form-group">
-                                <label for="varchar">Youtube video </label>
-                                <input type="text" class="form-control" name="youtube_video" id="youtube_video" required />
+                                <label for="varchar">Youtube video embed </label><br>
+                                <small>https://www.youtube.com/embed/00000</small>
+                                <input type="text" class="form-control" name="youtube_video" id="youtube_video"  />
                             </div>
 
                             <div class="form-group">
-                                <label for="varchar">Facebook video </label>
-                                <input type="text" class="form-control" name="facebook_video" id="facebook_video" required />
+                                <label for="varchar">Facebook video embed </label>
+                                <input type="text" class="form-control" name="facebook_video" id="facebook_video"  />
                             </div>
 
                             <div class="form-group">
