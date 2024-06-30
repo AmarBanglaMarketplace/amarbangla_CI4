@@ -4,7 +4,7 @@ namespace App\Controllers\Shop_admin;
 
 use App\Controllers\BaseController;
 use App\Models\UsersModel;
-use App\Models\licenseModel;
+use App\Models\LicenseModel;
 use App\Models\RolesModel;
 
 class Login extends BaseController
@@ -21,7 +21,7 @@ class Login extends BaseController
         $this->session = \Config\Services::session();
         $this->email = \Config\Services::email();
         $this->userModel = new UsersModel();
-        $this->licenseModel = new licenseModel();
+        $this->licenseModel = new LicenseModel();
         $this->rolesModel = new RolesModel();
     }
 

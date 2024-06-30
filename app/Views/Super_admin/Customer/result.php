@@ -41,9 +41,9 @@
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Division </label>
                                             <select class="form-control" name="division"
-                                                    onchange="viewdistrict(this.value)">
+                                                    onchange="viewdistrict(this.value)" required>
                                                 <option value="">Please Select</option>
-                                                <?php echo divisionView($address->division); ?>
+                                                <?php echo divisionView($division); ?>
                                             </select>
 
 
@@ -53,9 +53,9 @@
                                             <label for="varchar">District</label>
                                             <select class="form-control" name="district"
                                                     onchange="viewupazila(this.value)"
-                                                    id="district" required>
+                                                    id="district" >
                                                 <option value="">Please Select</option>
-                                                <?php echo districtselect($address->zila,$address->division); ?>
+                                                <?php echo districtselect($zila,$division); ?>
                                             </select>
 
 
@@ -63,25 +63,25 @@
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Upazila </label>
-                                            <select class="form-control" name="upazila" id="upazila" required>
+                                            <select class="form-control" name="upazila" id="upazila" >
                                                 <option value="">Please Select</option>
-                                                <?php echo upazilaselect($address->upazila,$address->zila); ?>
+                                                <?php echo upazilaselect($upazila,$zila); ?>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Pourashava/Union</label>
-                                            <select class="form-control" name="pourashava" required>
+                                            <select class="form-control" name="pourashava" >
                                                 <option value="">Please Select</option>
-                                                <?php echo pourashavaUnion($address->pourashava); ?>
+                                                <?php echo pourashavaUnion($pourashava); ?>
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-2">
                                             <label for="varchar">Ward</label>
-                                            <select class="form-control" name="ward" required>
+                                            <select class="form-control" name="ward" >
                                                 <option value="">Please Select</option>
-                                                <?php echo wardView($address->ward); ?>
+                                                <?php echo wardView($ward); ?>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
@@ -105,7 +105,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($customer as $val) { ?>
+                                <?php foreach ($customer as $value) { foreach ($value as $val ){ ?>
                                     <tr>
                                         <td><?php echo $val->customer_id; ?></td>
                                         <td><?php echo $val->customer_name ?></td>
@@ -121,7 +121,7 @@
                                                class="btn btn-xs btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php } } ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

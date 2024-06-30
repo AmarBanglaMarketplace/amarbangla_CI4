@@ -36,6 +36,7 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Shop</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Image</th>
@@ -49,6 +50,7 @@
                                 <?php $i=1; $j=1; foreach ($campaign as $val){ ?>
                                     <tr>
                                         <td width="20"><?php echo $val->campaign_id;?></td>
+                                        <td><?php echo get_data_by_id('name','shops','sch_id',$val->sch_id) ?></td>
                                         <td><?php echo $val->title ?></td>
                                         <td><?php echo $val->description ?></td>
                                         <td width="200">
@@ -73,6 +75,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>No</th>
+                                    <th>Shop</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Image</th>

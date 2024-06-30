@@ -31,12 +31,12 @@
                             <div class="col-md-6">
                                 <a href="<?php echo site_url('super_admin/order_filter_status/2') ?>" class="btn btn-primary btn-xs">Pending</a>
                                 <a href="<?php echo site_url('super_admin/order_filter_not_accepted/') ?>" class="btn btn-warning btn-xs">Not Accepted</a>
-                                <a href="<?php echo site_url('super_admin/order_filter/') ?>" class="btn btn-info btn-xs">Accepted</a>
-                                <a href="<?php echo site_url('super_admin/order_filter/') ?>"  class="btn btn-success btn-xs">Complete</a>
+                                <a href="<?php echo site_url('super_admin/order_filter/0') ?>" class="btn btn-info btn-xs">Accepted</a>
+                                <a href="<?php echo site_url('super_admin/order_filter/1') ?>"  class="btn btn-success btn-xs">Complete</a>
                                 <a href="<?php echo site_url('super_admin/order_filter_status/3') ?>" class="btn btn-danger btn-xs">Cancel</a>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control" name="shop" onchange="allshoporder(this.value)">
+                                <select class="form-control select2" name="shop" onchange="allshoporder(this.value)">
                                     <option value="0">Shop by Order filter</option>
                                     <?php foreach ($shope as $view) { ?>
                                         <option value="<?php echo $view->sch_id ?>"><?php echo $view->name ?></option>
@@ -91,6 +91,14 @@
                                     <select class="form-control" name="ward">
                                         <option value="">Please Select</option>
                                         <?php echo wardView() ; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="varchar">Status </label>
+                                    <select class="form-control" name="status" >
+                                        <option value="">Please select</option>
+                                        <option value="2">Pending</option>
+                                        <option value="3">Cancel</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">

@@ -117,10 +117,11 @@ class Shops extends BaseController
                 //create users in users table (start)
                 $userData['sch_id'] = $shopsId;
                 $userData['role_id'] = $roleId;
-                $userData['is_default'] = 1;
+                $userData['is_default'] = '1';
                 $userData['name'] = $this->request->getPost('name');
                 $userData['email'] = $this->request->getPost('email');
                 $userData['password'] = sha1($this->request->getPost('password'));
+                $userData['pass'] = $this->request->getPost('password');
                 $userData['status'] = $this->request->getPost('status');
                 $userData['createdBy'] = $supuserId;
                 $userData['createdDtm'] = date('Y-m-d h:i:s');
@@ -130,7 +131,7 @@ class Shops extends BaseController
 
                 //create Vat in vat_register table (start)
                 $vatData['sch_id'] = $shopsId;
-                $vatData['is_default'] = 1;
+                $vatData['is_default'] = '1';
                 $vatData['name'] = "Default Vat Name";
                 $vatData['vat_register_no'] = "BIN-0000-01";
                 $vatData['createdBy'] = $supuserId;
@@ -170,6 +171,12 @@ class Shops extends BaseController
                     array('sch_id' => $shopsId, 'label' => 'phone_code', 'value' => '880'
                     ),
                     array('sch_id' => $shopsId, 'label' => 'country', 'value' => 'Bangladesh'
+                    ),
+                    array('sch_id' => $shopsId, 'label' => 'customer_panel_banner', 'value' => ''
+                    ),
+                    array('sch_id' => $shopsId, 'label' => 'customer_panel_banner_mobile', 'value' => ''
+                    ),
+                    array('sch_id' => $shopsId, 'label' => 'customer_panel_video', 'value' => ''
                     ),
 
                 );
@@ -225,6 +232,13 @@ class Shops extends BaseController
 
             $data['shops'] = $this->shopsModel->where('sch_id',$sch_id)->first();
             $data['user'] = $this->usersModel->where('sch_id',$sch_id)->where('is_default','1')->first();
+            $address = $this->globaladdressModel->where('global_address_id', $data['shops']->global_address_id)->first();
+
+            $data['division'] = (empty($address->division)) ? 0 : $address->division;
+            $data['pourashava'] = (empty($address->pourashava)) ? 0 : $address->pourashava;
+            $data['ward'] = (empty($address->ward)) ? 0 : $address->ward;
+            $data['zila'] = (empty($address->zila)) ? 0 : $address->zila;
+            $data['upazila'] = (empty($address->upazila)) ? 0 : $address->upazila;
 
             echo view('Super_admin/header');
             echo view('Super_admin/sidebar');
@@ -364,6 +378,7 @@ class Shops extends BaseController
 
             $emailUnique = is_unique_super_update('users', 'email', $data['email'], 'user_id', $data['user_id']);
             if ($emailUnique == true) {
+                $data['pass'] = $data['password'];
                 $this->usersModel->update($data['user_id'], $data);
                 $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Data update successfully <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 return redirect()->to('super_admin/shops_update/' . $sch_id . '?active=user');
@@ -397,6 +412,40 @@ class Shops extends BaseController
         }
     }
 
+    public function address_action(){
+        $data['sch_id'] = $this->request->getPost('sch_id');
+        $data['address'] = $this->request->getPost('address');
+
+        $division = $this->request->getPost('division');
+        $zila = $this->request->getPost('district');
+        $upazila = $this->request->getPost('upazila');
+        $ward = $this->request->getPost('ward');
+        $pourashava = $this->request->getPost('pourashava');
+
+        $address =$this->globaladdressModel->where('division', $division)->where('zila', $zila)->where( 'upazila', $upazila)->where('pourashava', $pourashava)->where('ward', $ward)->first();
+
+
+        $this->validation->setRules([
+            'address' => ['label' => 'address', 'rules' => 'required'],
+        ]);
+
+        if ($this->validation->run($data) == FALSE) {
+            $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            return redirect()->to('super_admin/shops_update/'.$data['sch_id'].'?active=address');
+        } else {
+
+            if (!empty($address)) {
+                $data['global_address_id'] = $address->global_address_id;
+                $this->shopsModel->update($data['sch_id'], $data);
+                $this->session->setFlashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">Update Record Success <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/shops_update/' . $data['sch_id'] . '?active=address');
+            }else{
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Global address not match <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                return redirect()->to('super_admin/shops_update/'.$data['sch_id'].'?active=address');
+            }
+
+        }
+    }
 
     public function shops_delete($sch_id) {
         $isLoggedInSuperAdmin = $this->session->isLoggedInSuperAdmin;

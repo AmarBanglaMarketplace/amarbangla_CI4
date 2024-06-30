@@ -467,10 +467,6 @@ class Sellers extends BaseController
             $data['ward'] = $this->request->getPost('ward');
             $this->validation->setRules([
                 'division' => ['label' => 'division', 'rules' => 'required'],
-                'zila' => ['label' => 'zila', 'rules' => 'required'],
-                'upazila' => ['label' => 'upazila', 'rules' => 'required'],
-                'pourashava' => ['label' => 'pourashava', 'rules' => 'required'],
-                'ward' => ['label' => 'ward', 'rules' => 'required'],
             ]);
 
             if ($this->validation->run($data) == FALSE) {
@@ -478,10 +474,20 @@ class Sellers extends BaseController
                 return redirect()->to('super_admin/sellers');
             } else {
 
-                $glAddress = $this->globaladdressModel->where($data)->first();
+                $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
+                $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
+                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
+                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
+                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
 
-                $data['address'] = $glAddress;
-                $data['seller'] = $this->sellerModel->where('global_address_id',$glAddress->global_address_id)->where('deleted IS NULL')->findAll();
+                $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
+                $seller = array();
+                if (!empty($query)) {
+                    foreach ($query as $k => $v) {
+                        $seller[$k] = $this->sellerModel->where('global_address_id', $v->global_address_id)->where('deleted IS NULL')->findAll();
+                    }
+                }
+                $data['seller'] = $seller;
 
                 echo view('Super_admin/header');
                 echo view('Super_admin/sidebar');

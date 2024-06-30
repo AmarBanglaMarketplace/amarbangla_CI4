@@ -46,7 +46,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; foreach ($suppLedger as $row){ $purchaseId =($row->purchase_id == NULL)? '<a href="'.site_url('transaction/read/'.$row->trans_id).'">TRNS_'.$row->trans_id.'</a>' : '<a href="'.site_url('purchase/read/'.$row->purchase_id).'" >PURS_'.$row->purchase_id.'</a>'; ?>
+                    <?php $i=1; foreach ($suppLedger as $row){ $purchaseId =($row->purchase_id == NULL)? '<a href="#">TRNS_'.$row->trans_id.'</a>' : '<a href="'.site_url('shop_admin/purchase_view/'.$row->purchase_id).'" >PURS_'.$row->purchase_id.'</a>'; ?>
                         <tr>
                             <td><?= $row->ledg_sup_id ;?></td>
                             <td><?= $row->createdDtm ;?></td>

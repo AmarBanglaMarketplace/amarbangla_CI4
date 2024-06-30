@@ -1,4 +1,5 @@
 *.jpg
+!no_imagebn.jpg
 !no_image.jpg
 !noImage.jpg
 !logo_no_img.jpg

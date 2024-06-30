@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Filters\AgentCheckFilter;
+use App\Filters\AgentLoggedInFilter;
 use App\Filters\AlreadyLoggedInFilter;
 use App\Filters\AuthCheckFilter;
 use CodeIgniter\Config\BaseConfig;
@@ -28,6 +30,8 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'AuthCheck' => AuthCheckFilter::class,
         'AlreadyLoggedIn' => AlreadyLoggedInFilter::class,
+        'AgentLoggedIn' => AgentLoggedInFilter::class,
+        'AgentAuthCheck' => AgentCheckFilter::class,
     ];
 
     /**

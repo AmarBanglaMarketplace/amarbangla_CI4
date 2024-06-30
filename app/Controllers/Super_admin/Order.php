@@ -206,6 +206,7 @@ class Order extends BaseController
         $upazila1 = $this->request->getPost('upazila');
         $pourashava1 = $this->request->getPost('pourashava');
         $ward1 = $this->request->getPost('ward');
+        $status = $this->request->getPost('status');
 
 
         $division = empty($division1) ? '1=1' : array('division' => $division1);
@@ -213,6 +214,7 @@ class Order extends BaseController
         $upazila = empty($upazila1) ? '1=1' : array('upazila' => $upazila1);
         $pourashava = empty($pourashava1) ? '1=1' : array('pourashava'=> $pourashava1);
         $ward = empty($ward1) ? '1=1' : array('ward' => $ward1);
+        $status = empty($status) ? '1=1' : array('status' => $status);
 
 
         $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
@@ -221,7 +223,7 @@ class Order extends BaseController
         $j=1;
         if (!empty($query)) {
             foreach ($query as $k => $v ) {
-                $inv = $this->invoiceModel->where('global_address_id', $v->global_address_id );
+                $inv = $this->invoiceModel->where('global_address_id', $v->global_address_id )->where($status);
                 foreach($inv->findAll() as $row){
                     $invUrl = site_url('super_admin/order_invoice/' . $row->invoice_id);
                     $orUrl = site_url('super_admin/customer_order_list/'.$row->customer_id);

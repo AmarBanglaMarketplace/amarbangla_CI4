@@ -52,6 +52,10 @@
                                     <td><?php echo $shops->address;?></td>
                                 </tr>
                                 <tr>
+                                    <td>Password</td>
+                                    <td><?php echo get_data_by_id('pass','users','sch_id',$shops->sch_id) ;?></td>
+                                </tr>
+                                <tr>
                                     <td></td>
                                     <td><a href="<?php echo site_url('super_admin/shops') ?>" class="btn btn-danger">Cancel</a></td>
                                 </tr>
