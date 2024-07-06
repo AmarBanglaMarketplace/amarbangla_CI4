@@ -97,7 +97,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php  foreach ($agent as $value){ foreach ($value as $val){ ?>
+                                <?php foreach ($agent as $val){ ?>
                                     <tr>
                                         <td width="20"><?php echo $val->agent_id;?></td>
                                         <td><?php echo $val->agent_name ?></td>
@@ -110,7 +110,7 @@
                                             <a href="<?php echo base_url('super_admin/agent_delete/'.$val->agent_id);?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-xs btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php }  ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>

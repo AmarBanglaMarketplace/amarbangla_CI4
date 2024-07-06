@@ -302,19 +302,15 @@ class Agent extends BaseController
                 $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">' . $this->validation->listErrors() . ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 return redirect()->to('super_admin/agent');
             } else {
-                $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
-                $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
-                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
-                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
-                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
+                $division = empty($this->request->getPost('division')) ? '1=1' : array('global_address.division' => $this->request->getPost('division'));
+                $district = empty($this->request->getPost('district')) ? '1=1' : array('global_address.zila' => $this->request->getPost('district'));
+                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('global_address.upazila' => $this->request->getPost('upazila'));
+                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('global_address.pourashava' => $this->request->getPost('pourashava'));
+                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('global_address.ward' => $this->request->getPost('ward'));
 
-                $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
-                $agent = array();
-                if (!empty($query)) {
-                    foreach ($query as $k => $v) {
-                        $agent[$k] = $this->agentModel->where('global_address_id', $v->global_address_id)->where('deleted IS NULL')->findAll();
-                    }
-                }
+
+                $agent = $this->globaladdressModel->join('agent','agent.global_address_id = global_address.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->where('agent.deleted IS NULL')->findAll();
+
                 $data['agent'] = $agent;
 
                 echo view('Super_admin/header');

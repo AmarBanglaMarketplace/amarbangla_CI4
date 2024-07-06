@@ -304,34 +304,32 @@ class Demoproducts extends BaseController
 
         $view = '';
         if ($parentCat == 0) {
-            $subCatId = $this->democategoryModel->where('parent_pro_cat', $keyWord)->findAll();
-            foreach ($subCatId as $row) {
-                $data = $this->demoproductsModel->where('prod_cat_id', $row->cat_id)->findAll();
-                foreach ($data as $val) {
-                    $image = demo_singleImage_by_productId($val->id,'70','0','');
-                    $url1 = "updateFunction('".$val->id."', 'purchase_price', '".$val->purchase_price ."', 'pur_view_".$val->id."', 'pur_price_update_".$val->id ."','update_row_".$val->id."')";
-                    $url2 = "updateFunction('".$val->id ."', 'selling_price', '". $val->selling_price ."', 'sel_view_". $val->id ."', 'sell_price_update_". $val->id."','update_row_".$val->id."')";
-                    $view .= '<tr id="update_row_'.$val->id.'">
-                        <td>' . $val->id . '</td>
-                        <td>' . $val->name . '</td>
-                        <td>' . $image . '</td>
-                        <td>' . get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) . '</td>
-                        <td>
-                            <p onclick="'.$url1.'" >'.showWithCurrencySymbol($val->purchase_price).'</p>
-                            <p id="pur_view_'.$val->id.'"></p>
-                        </td>
-                    	<td>
-                    	<p onclick="'.$url2.'">'.showWithCurrencySymbol($val->selling_price).'</p>
-                        <p id="sel_view_'.$val->id.'"></p>
-                        </td>
-                        <td>
-                            <a href="' . site_url('super_admin/demo_product_update/' . $val->id) . '" class="btn btn-xs btn-info " >Edit</a>
-                            <a href="' . site_url('super_admin/demo_product_delete/' . $val->id) . '" class="btn btn-xs btn-danger" >Delete</a>
-                        </td>
-                    </tr>';
-                }
 
+            $data = $this->democategoryModel->join('demo_products','demo_products.prod_cat_id = demo_category.cat_id')->where('demo_category.parent_pro_cat', $keyWord)->findAll();
+            foreach ($data as $val) {
+                $image = demo_singleImage_by_productId($val->id,'70','0','');
+                $url1 = "updateFunction('".$val->id."', 'purchase_price', '".$val->purchase_price ."', 'pur_view_".$val->id."', 'pur_price_update_".$val->id ."','update_row_".$val->id."')";
+                $url2 = "updateFunction('".$val->id ."', 'selling_price', '". $val->selling_price ."', 'sel_view_". $val->id ."', 'sell_price_update_". $val->id."','update_row_".$val->id."')";
+                $view .= '<tr id="update_row_'.$val->id.'">
+                    <td>' . $val->id . '</td>
+                    <td>' . $val->name . '</td>
+                    <td>' . $image . '</td>
+                    <td>' . get_data_by_id('product_category', 'demo_category', 'cat_id', $val->prod_cat_id) . '</td>
+                    <td>
+                        <p onclick="'.$url1.'" >'.showWithCurrencySymbol($val->purchase_price).'</p>
+                        <p id="pur_view_'.$val->id.'"></p>
+                    </td>
+                    <td>
+                    <p onclick="'.$url2.'">'.showWithCurrencySymbol($val->selling_price).'</p>
+                    <p id="sel_view_'.$val->id.'"></p>
+                    </td>
+                    <td>
+                        <a href="' . site_url('super_admin/demo_product_update/' . $val->id) . '" class="btn btn-xs btn-info " >Edit</a>
+                        <a href="' . site_url('super_admin/demo_product_delete/' . $val->id) . '" class="btn btn-xs btn-danger" >Delete</a>
+                    </td>
+                </tr>';
             }
+
         } else {
             $data2 = $this->demoproductsModel->where('prod_cat_id', $keyWord)->findAll();
             foreach ($data2 as $val) {

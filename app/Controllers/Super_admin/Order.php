@@ -155,46 +155,47 @@ class Order extends BaseController
     public function order_filter_shop(){
         $shopId = $this->request->getPost('sch_id');
 
-        $invoiceID = $this->packageModel->where('sch_id', $shopId)->findAll();
         $data = '';
         $status = '';
         $i = 1;
-        foreach ($invoiceID as $inv){
 
-            $order = $this->invoiceModel->where('invoice_id', $inv->invoice_id)->findAll();
-            foreach($order as $or){
-                $link = site_url('super_admin/order_invoice/'.$or->invoice_id);
-                $orLink = site_url('super_admin/customer_order_list/'.$or->customer_id);
-                if (!empty(deliverystatus($or->invoice_id))) {
-                    foreach (deliverystatus($or->invoice_id) as $row) {
-                        $detail = 'Delivery By Admin';
-                        if (!empty($row->delivery_boy_id)) {
-                            $name = get_data_by_id('name', 'delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
-                            $phone = get_data_by_id('mobile', 'delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
-                            $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
-                        }
-                        if ($row->status == 0) {
-                            $status = '<span class="label bg-info p-1">Accepted</span><br>' .$detail. '<br>';
-                        }
-                        if ($row->status == 1) {
-                            $status = '<span class="label bg-success p-1">Complete</span><br>' . $detail . '<br>';
-                        }
+        $order = $this->packageModel->join('invoice','invoice.invoice_id = package.invoice_id')->where('package.sch_id', $shopId)->findAll();
+
+        foreach($order as $or){
+            $link = site_url('super_admin/order_invoice/'.$or->invoice_id);
+            $orLink = site_url('super_admin/customer_order_list/'.$or->customer_id);
+            $deliverystatus = deliverystatus($or->invoice_id);
+            if (!empty($deliverystatus)) {
+                foreach ($deliverystatus as $row) {
+                    $detail = 'Delivery By Admin';
+                    if (!empty($row->delivery_boy_id)) {
+                        $deliveryBoyData = get_all_row_by_id('delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
+                        $name = $deliveryBoyData->name;
+                        $phone = $deliveryBoyData->mobile;
+                        $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
                     }
-                }else{
-                    $status = '<span class="label bg-warning p-1">Not Accepted</span>';
+                    if ($row->status == 0) {
+                        $status = '<span class="label bg-info p-1">Accepted</span><br>' .$detail. '<br>';
+                    }
+                    if ($row->status == 1) {
+                        $status = '<span class="label bg-success p-1">Complete</span><br>' . $detail . '<br>';
+                    }
                 }
-
-                $data .= '<tr>
-                <td>'.$i++ .'</td>
-                <td><a href="'.$link.'">View Invoice</a></td>
-                <td>'. showWithCurrencySymbol($or->final_amount).'</td>
-                <td>'.invoiceDateFormat($or->createdDtm).'</td> 
-                <td>'.getinvoiceStatusNew($or->invoice_id).'</td>
-                <td>'.$status.'</td> 
-                <td><a href="'.$orLink.'" class="btn btn-xs btn-success" target="_blank">Order list</a></td> 
-            </tr>';
+            }else{
+                $status = '<span class="label bg-warning p-1">Not Accepted</span>';
             }
+
+            $data .= '<tr>
+            <td>'.$i++ .'</td>
+            <td><a href="'.$link.'">View Invoice</a></td>
+            <td>'. showWithCurrencySymbol($or->final_amount).'</td>
+            <td>'.invoiceDateFormat($or->createdDtm).'</td> 
+            <td>'.getinvoiceStatusNew($or->invoice_id).'</td>
+            <td>'.$status.'</td> 
+            <td><a href="'.$orLink.'" class="btn btn-xs btn-success" target="_blank">Order list</a></td> 
+        </tr>';
         }
+
 
 
         print $data;
@@ -209,60 +210,55 @@ class Order extends BaseController
         $status = $this->request->getPost('status');
 
 
-        $division = empty($division1) ? '1=1' : array('division' => $division1);
-        $district = empty($zila1) ? '1=1' : array('zila' => $zila1);
-        $upazila = empty($upazila1) ? '1=1' : array('upazila' => $upazila1);
-        $pourashava = empty($pourashava1) ? '1=1' : array('pourashava'=> $pourashava1);
-        $ward = empty($ward1) ? '1=1' : array('ward' => $ward1);
-        $status = empty($status) ? '1=1' : array('status' => $status);
-
-
-        $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
+        $division = empty($division1) ? '1=1' : array('global_address.division' => $division1);
+        $district = empty($zila1) ? '1=1' : array('global_address.zila' => $zila1);
+        $upazila = empty($upazila1) ? '1=1' : array('global_address.upazila' => $upazila1);
+        $pourashava = empty($pourashava1) ? '1=1' : array('global_address.pourashava'=> $pourashava1);
+        $ward = empty($ward1) ? '1=1' : array('global_address.ward' => $ward1);
+        $status = empty($status) ? '1=1' : array('invoice.status' => $status);
 
         $view = '';
         $j=1;
-        if (!empty($query)) {
-            foreach ($query as $k => $v ) {
-                $inv = $this->invoiceModel->where('global_address_id', $v->global_address_id )->where($status);
-                foreach($inv->findAll() as $row){
-                    $invUrl = site_url('super_admin/order_invoice/' . $row->invoice_id);
-                    $orUrl = site_url('super_admin/customer_order_list/'.$row->customer_id);
-                    $view .='<tr>
-                        <td>'.$j++.'</td>
-                        <td><a href="'.$invUrl.'">View Invoice</a></td>
-                        <td>'.showWithCurrencySymbol($row->final_amount).'</td>
-                        <td>'.invoiceDateFormat($row->createdDtm).'</td>
-                        <td>'.getinvoiceStatusNew($row->invoice_id).'</td>
-                        <td>';
 
-                    if (!empty(deliverystatus($row->invoice_id))) {
-                        foreach (deliverystatus($row->invoice_id) as $val) {
-                            $detail = 'Delivery By Admin';
-                            if (!empty($val->delivery_boy_id)) {
-                                $name = get_data_by_id('name', 'delivery_boy', 'delivery_boy_id', $val->delivery_boy_id);
-                                $phone = get_data_by_id('mobile', 'delivery_boy', 'delivery_boy_id', $val->delivery_boy_id);
-                                $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
-                            }
-
-                            if ($val->status == 0) {
-                                $view .= '<span class="label bg-info p-1">Accepted</span><br>' .$detail. '<br>';
-                            }
-                            if ($val->status == 1) {
-                                $view .= '<span class="label bg-success p-1">Complete</span><br>' . $detail . '<br>';
-
-                            }
-                        }
-                    }else{
-                        $view .= '<span class="label bg-warning p-1">Not Accepted</span>';
+        $inv = $this->globaladdressModel->join('invoice','invoice.global_address_id = global_address.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->where($status);
+        foreach($inv->findAll() as $row){
+            $invUrl = site_url('super_admin/order_invoice/' . $row->invoice_id);
+            $orUrl = site_url('super_admin/customer_order_list/'.$row->customer_id);
+            $view .='<tr>
+                <td>'.$j++.'</td>
+                <td><a href="'.$invUrl.'">View Invoice</a></td>
+                <td>'.showWithCurrencySymbol($row->final_amount).'</td>
+                <td>'.invoiceDateFormat($row->createdDtm).'</td>
+                <td>'.getinvoiceStatusNew($row->invoice_id).'</td>
+                <td>';
+            $deliverystatus = deliverystatus($row->invoice_id);
+            if (!empty($deliverystatus)) {
+                foreach ($deliverystatus as $val) {
+                    $detail = 'Delivery By Admin';
+                    if (!empty($val->delivery_boy_id)) {
+                        $deliveryBoyData = get_all_row_by_id('delivery_boy', 'delivery_boy_id', $val->delivery_boy_id);
+                        $name = $deliveryBoyData->name;
+                        $phone = $deliveryBoyData->mobile;
+                        $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
                     }
 
-                    $view .='</td>
-                        <td><a href="'.$orUrl.'" class="btn btn-xs btn-success" target="_blank">Order list</a></td>
-                    </tr>';
-                }
+                    if ($val->status == 0) {
+                        $view .= '<span class="label bg-info p-1">Accepted</span><br>' .$detail. '<br>';
+                    }
+                    if ($val->status == 1) {
+                        $view .= '<span class="label bg-success p-1">Complete</span><br>' . $detail . '<br>';
 
+                    }
+                }
+            }else{
+                $view .= '<span class="label bg-warning p-1">Not Accepted</span>';
             }
+
+            $view .='</td>
+                <td><a href="'.$orUrl.'" class="btn btn-xs btn-success" target="_blank">Order list</a></td>
+            </tr>';
         }
+
 
         print $view;
     }

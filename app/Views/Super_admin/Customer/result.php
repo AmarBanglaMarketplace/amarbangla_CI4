@@ -105,7 +105,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($customer as $value) { foreach ($value as $val ){ ?>
+                                <?php foreach ($customer as $val ){ ?>
                                     <tr>
                                         <td><?php echo $val->customer_id; ?></td>
                                         <td><?php echo $val->customer_name ?></td>
@@ -121,7 +121,7 @@
                                                class="btn btn-xs btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php }  ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

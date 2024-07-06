@@ -79,19 +79,13 @@ class Callingrequest extends BaseController
     public function search_address(){
         $division = $this->request->getPost('division');
         if (!empty($division)){
-            $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
-            $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
-            $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
-            $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
-            $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
+            $division = empty($this->request->getPost('division')) ? '1=1' : array('global_address.division' => $this->request->getPost('division'));
+            $district = empty($this->request->getPost('district')) ? '1=1' : array('global_address.zila' => $this->request->getPost('district'));
+            $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('global_address.upazila' => $this->request->getPost('upazila'));
+            $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('global_address.pourashava' => $this->request->getPost('pourashava'));
+            $ward = empty($this->request->getPost('ward')) ? '1=1' : array('global_address.ward' => $this->request->getPost('ward'));
 
-            $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
-            $calling = array();
-            if (!empty($query)) {
-                foreach ($query as $k => $v) {
-                    $calling[$k] = $this->callingrequestModel->join('customers','customers.customer_id = calling_request.customer_id')->where('customers.global_address_id',$v->global_address_id)->findAll();
-                }
-            }
+            $calling = $this->callingrequestModel->join('customers','customers.customer_id = calling_request.customer_id')->join('global_address','global_address.global_address_id = customers.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
 
             $data['calling'] = $calling;
             $data['division'] = $this->request->getPost('division');
