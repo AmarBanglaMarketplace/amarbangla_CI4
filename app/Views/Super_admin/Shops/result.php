@@ -95,7 +95,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php  foreach ($shop_data as $shops){ foreach ($shops as $val){ ?>
+                                <?php   foreach ($shop_data as $val){ ?>
                                     <tr>
                                         <td><?php echo $val->sch_id;?></td>
                                         <td><?php echo $val->name;?></td>
@@ -109,7 +109,7 @@
                                             <!--                                                <a href="--><?php //echo base_url('super_admin/shops_delete/'.$val->sch_id);?><!--" class="btn btn-xs btn-danger">Delete</a>-->
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php }  ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

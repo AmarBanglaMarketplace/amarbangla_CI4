@@ -20,12 +20,15 @@ function newSession()
 
 function showWithCurrencySymbol($money)
 {
-    $table = DB()->table('gen_settings');
+//    $table = DB()->table('gen_settings');
+//
+//    $currency_before_symbol = $table->where("label", "currency_before_symbol")->get()->getRow();
+//    $currency_after_symbol = $table->where("label" , "currency_after_symbol")->get()->getRow();
 
-    $currency_before_symbol = $table->where("label", "currency_before_symbol")->get()->getRow();
-    $currency_after_symbol = $table->where("label" , "currency_after_symbol")->get()->getRow();
+//    $result = $currency_before_symbol->value . " " . number_format($money, 2, '.', ',') . " " . $currency_after_symbol->value;
+//    return $result;
 
-    $result = $currency_before_symbol->value . " " . number_format($money, 2, '.', ',') . " " . $currency_after_symbol->value;
+    $result = "৳ " . number_format($money, 2, '.', ',') . " /-";
     return $result;
 }
 
@@ -56,6 +59,16 @@ function get_data_by_id($needCol, $table, $whereCol, $whereInfo)
         $col = false;
     }
     return $col;
+}
+
+function get_all_row_by_id($table, $whereCol, $whereInfo)
+{
+    $table = DB()->table($table);
+
+    $query = $table->where($whereCol,$whereInfo)->get();
+    $findResult = $query->getRow();
+
+    return $findResult;
 }
 
 function image_view($url, $slug, $image, $no_image, $class = '', $id = '')

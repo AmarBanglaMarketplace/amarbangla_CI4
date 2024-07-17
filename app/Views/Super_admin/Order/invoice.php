@@ -15,7 +15,9 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    <?php
+        $invoiceData = get_all_row_by_id('invoice', 'invoice_id', $invoiceId);
+    ?>
     <section class="content" id="printDiv">
         <div class="container-fluid">
             <div class="row">
@@ -27,7 +29,7 @@
                             <div class="col-12">
                                 <h4>
                                     <?php echo image_view('uploads/schools', '', 'amarBangla.jpg', 'no_image.jpg', '', '');?>
-                                    <small class="float-right">Date: <?php echo invoiceDateFormat(get_data_by_id('createdDtm', 'invoice', 'invoice_id', $invoiceId)); ?></small>
+                                    <small class="float-right">Date: <?php echo invoiceDateFormat($invoiceData->createdDtm); ?></small>
                                 </h4>
                             </div>
                             <!-- /.col -->
@@ -36,7 +38,7 @@
                         <div class="row invoice-info">
                             <div class="col-sm-4 invoice-col">
                                 <b>Invoice</b> Inv_<?php echo $invoiceId ?>
-                                <p>Placed on <?php echo invoiceDateFormat(get_data_by_id('createdDtm', 'invoice', 'invoice_id', $invoiceId)); ?></p>
+                                <p>Placed on <?php echo invoiceDateFormat($invoiceData->createdDtm); ?></p>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-4 invoice-col">
@@ -53,11 +55,10 @@
                         <!-- Table row -->
                         <div class="row">
                             <?php
-
-                            $package = invoice_id_by_package($invoiceId);
-                            foreach ($package as $row) {
-                                $product = package_id_by_product($row->package_id);
-                                ?>
+                                $package = invoice_id_by_package($invoiceId);
+                                foreach ($package as $row) {
+                                    $product = package_id_by_product($row->package_id);
+                            ?>
                                 <div class="col-md-12 col-xs-12"
                                      style="border:1px solid #e4e0e0; margin-top: 10px; text-transform: capitalize; ">
                                     <h4 style="border-bottom:1px solid #e4e0e0; ">
@@ -67,12 +68,14 @@
                                         <small style="float: right; padding-right: 10px;">
                                             <?php echo getPackageStatus($row->package_id); ?>
                                         </small>
-                                        <?php $agentId = get_data_by_id('agent_id', 'shops', 'sch_id', $row->sch_id); ?>
-                                        <?php echo get_data_by_id('name', 'shops', 'sch_id', $row->sch_id); ?><br>
-                                        <small><?php echo get_data_by_id('mobile', 'shops', 'sch_id', $row->sch_id); ?></small><br>
+                                        <?php $shopData = get_all_row_by_id('shops', 'sch_id', $row->sch_id);?>
+                                        <?php $agentId = $shopData->agent_id; ?>
+                                        <?php echo $shopData->name; ?><br>
+                                        <small><?php echo $shopData->mobile; ?></small><br>
                                         <?php if(!empty($agentId)){?>
-                                            <small class="no-print">Agent Name: <?php echo get_data_by_id('agent_name', 'agent', 'agent_id', $agentId); ?></small><br>
-                                            <small class="no-print">Agent Phone: <?php echo get_data_by_id('mobile', 'agent', 'agent_id', $agentId); ?></small><br>
+                                            <?php $agentData = get_all_row_by_id('agent', 'agent_id', $agentId);?>
+                                            <small class="no-print">Agent Name: <?php echo $agentData->agent_name; ?></small><br>
+                                            <small class="no-print">Agent Phone: <?php echo $agentData->mobile; ?></small><br>
                                         <?php } ?>
                                         <small>delivery charge : <?php echo showWithCurrencySymbol($row->delivery_charge); ?></small>
 
@@ -80,16 +83,17 @@
                                     </h4>
 
                                     <?php $product = package_id_by_product($row->package_id);
-                                    foreach ($product as $pro) {
-                                        $suplier_id = get_data_by_id('supplier_id', 'products', 'prod_id', $pro->prod_id);
-                                        $supName = get_data_by_id('name', 'suppliers', 'supplier_id', $suplier_id);
-                                        $supPhone = get_data_by_id('phone', 'suppliers', 'supplier_id', $suplier_id);
-                                        $productPurchase = get_data_by_id('purchase_price', 'products', 'prod_id', $pro->prod_id);
+                                        foreach ($product as $pro) {
+                                            $productData = get_all_row_by_id('products', 'prod_id', $pro->prod_id);
+                                            $productPurchase = $productData->purchase_price;
+                                            $productName = $productData->name;
+                                            $proPrice = $productData->selling_price;
 
-                                        $productName = get_data_by_id('name', 'products', 'prod_id', $pro->prod_id);
-                                        $proPrice = get_data_by_id('selling_price', 'products', 'prod_id', $pro->prod_id);
-                                        //$proPrice =  get_data_by_id('selling_price','products','prod_id',$pro->prod_id);
-                                        ?>
+                                            $supplierData = get_all_row_by_id('suppliers', 'supplier_id', $productData->supplier_id);
+                                            $supName = $supplierData->name;
+                                            $supPhone = $supplierData->phone;
+
+                                    ?>
                                         <div class="row">
                                             <div class="col-md-2 col-xs-2">
                                                 <?php echo singleImage_by_productId($pro->prod_id, 70, 0, 'check-out-img') ?>
@@ -100,12 +104,11 @@
                                                     x<?php echo $pro->quantity ?>
                                                 </p>
                                                 <small class="no-print">
-                                                    Suplier: <?php echo $supName ?> <?php echo $supPhone ?><br>
+                                                    Supplier: <?php echo $supName ?> <?php echo $supPhone ?><br>
                                                     Purchase Price: <?php echo showWithCurrencySymbol($productPurchase); ?>
                                                 </small>
                                             </div>
                                         </div>
-                                        <!-- <span style="float:right;">delevery</span> -->
                                     <?php } ?>
                                 </div>
                             <?php } ?>
@@ -119,16 +122,16 @@
                                 <p><b>Cash on delivery</b></p>
                                 <p>Customer delivery address</p>
                                 <?php if (!empty($customerId)) { ?>
+                                    <?php $customerData = get_all_row_by_id('customers', 'customer_id', $customerId);?>
                                     <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;"><b>
-                                            Name:</b> <?php echo get_data_by_id('customer_name', 'customers', 'customer_id', $customerId); ?>
+                                            Name:</b> <?php echo $customerData->customer_name; ?>
                                         <br><b>Phone:</b>
-                                        +880 <?php echo get_data_by_id('mobile', 'customers', 'customer_id', $customerId); ?>
+                                        +880 <?php echo $customerData->mobile; ?>
 
-                                        <?php
-                                        $cus_global_address_id = get_data_by_id('global_address_id', 'invoice', 'invoice_id', $invoiceId);
+                                    <?php
+                                        $cus_global_address_id = $invoiceData->global_address_id;
                                         $address = global_address_id_by_address($cus_global_address_id);
-
-                                        ?>
+                                    ?>
 
                                         <br><b>Division:</b> <?php echo divisionname($address->division); ?>
                                         <br><b>District:</b> <?php echo districtname($address->zila); ?>
@@ -136,34 +139,34 @@
                                         <br><b>Pourashava/Union:</b> <?php echo pourashavaUnionName($address->pourashava); ?>
                                         <br><b>Ward:</b> <?php echo getwardname($address->ward); ?>
                                         <br><b>Home
-                                            Address:</b> <?php echo get_data_by_id('address', 'invoice', 'invoice_id', $invoiceId); ?>
+                                            Address:</b> <?php echo $invoiceData->address; ?>
                                     </p>
                                 <?php } ?>
                             </div>
                             <!-- /.col -->
                             <div class="col-6">
-                                <p class="lead">Amount Due <?php echo invoiceDateFormat(get_data_by_id('createdDtm', 'invoice', 'invoice_id', $invoiceId)); ?></p>
+                                <p class="lead">Amount Due <?php echo invoiceDateFormat($invoiceData->createdDtm); ?></p>
 
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
                                         <tr>
                                             <th style="width:50%">Subtotal:</th>
-                                            <td><?php echo showWithCurrencySymbol(get_data_by_id('amount', 'invoice', 'invoice_id', $invoiceId)); ?></td>
+                                            <td><?php echo showWithCurrencySymbol($invoiceData->amount); ?></td>
                                         </tr>
 
                                         <tr>
                                             <th>Delivery charge:</th>
-                                            <td><?php echo showWithCurrencySymbol(get_data_by_id('delivery_charge', 'invoice', 'invoice_id', $invoiceId)); ?>
+                                            <td><?php echo showWithCurrencySymbol($invoiceData->delivery_charge); ?>
                                         </tr>
                                         <tr>
                                             <th>Total:</th>
-                                            <td><?php echo showWithCurrencySymbol(get_data_by_id('final_amount', 'invoice', 'invoice_id', $invoiceId)); ?></td>
+                                            <td><?php echo showWithCurrencySymbol($invoiceData->final_amount); ?></td>
                                         </tr>
                                         <?php //}?>
                                         <?php
 
-                                        $nagadPay = get_data_by_id('nagad_paid', 'invoice', 'invoice_id', $invoiceId);
+                                        $nagadPay = $invoiceData->nagad_paid;
                                         if ($nagadPay != 0) {
                                             echo '<tr>
 		                <th>Cash Pay:</th>
@@ -171,7 +174,7 @@
 		              </tr>';
                                         }
 
-                                        $bankPay = get_data_by_id('bank_paid', 'invoice', 'invoice_id', $invoiceId);
+                                        $bankPay = $invoiceData->bank_paid;
                                         if ($bankPay != 0) {
                                             echo '<tr>
 		                <th>Bank Pay:</th>
@@ -179,7 +182,7 @@
 		              </tr>';
                                         }
 
-                                        $chaquePay = get_data_by_id('chaque_paid', 'invoice', 'invoice_id', $invoiceId);
+                                        $chaquePay = $invoiceData->chaque_paid;
                                         if ($chaquePay != 0) {
                                             echo '<tr>
 		                <th>Cheque Pay:</th>

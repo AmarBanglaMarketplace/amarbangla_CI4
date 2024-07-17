@@ -97,7 +97,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php  foreach ($seller as $value){ foreach ($value as $val){ ?>
+                                <?php foreach ($seller as $val){ ?>
                                     <tr>
                                         <td width="10"><?php echo $val->seller_id;?></td>
                                         <td><?php echo $val->name ?></td>
@@ -110,7 +110,7 @@
                                             <a href="<?php echo base_url('super_admin/sellers_delete/'.$val->seller_id);?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-xs btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php } ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

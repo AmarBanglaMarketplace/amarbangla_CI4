@@ -47,7 +47,7 @@ class Shopscommission extends BaseController
             return redirect()->to(site_url("super_admin"));
         } else {
 
-            $data['shops'] = $this->shopsModel->findAll();
+            $data['shops'] = $this->shopsModel->join('supper_commision','supper_commision.sch_id = shops.sch_id')->findAll();
 
             echo view('Super_admin/header');
             echo view('Super_admin/sidebar');
@@ -217,34 +217,24 @@ class Shopscommission extends BaseController
         } else {
             $div = $this->request->getPost('division');
             $sta = $this->request->getPost('status');
-            if ((!empty($div)) || (!empty($sta)) ) {
+            if (!empty($div)) {
 
-                $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
-                $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
-                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
-                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
-                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
+                $division = empty($this->request->getPost('division')) ? '1=1' : array('global_address.division' => $this->request->getPost('division'));
+                $district = empty($this->request->getPost('district')) ? '1=1' : array('global_address.zila' => $this->request->getPost('district'));
+                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('global_address.upazila' => $this->request->getPost('upazila'));
+                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('global_address.pourashava' => $this->request->getPost('pourashava'));
+                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('global_address.ward' => $this->request->getPost('ward'));
 
-                if (!empty($div)) {
-                    $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
-                    $shops = array();
-                    if (!empty($query)) {
-                        if (!empty($sta)){
-                            foreach ($query as $k => $v) {
-                                if ($sta == '1') {
-                                    $shops[$k] = $this->shopsModel->join('supper_commision', 'supper_commision.sch_id = shops.sch_id')->where('shops.global_address_id', $v->global_address_id)->where('supper_commision.due_commision', null)->findAll();
+                $this->globaladdressModel->join('shops','shops.global_address_id = global_address.global_address_id')->join('supper_commision', 'supper_commision.sch_id = shops.sch_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward);
 
-                                }else{
-                                    $shops[$k] = $this->shopsModel->join('supper_commision', 'supper_commision.sch_id = shops.sch_id')->where('shops.global_address_id', $v->global_address_id)->where('supper_commision.due_commision !=', null)->findAll();
-                                }
-                            }
-                        }else{
-                            foreach ($query as $k => $v) {
-                                $shops[$k] = $this->shopsModel->where('global_address_id', $v->global_address_id)->findAll();
-                            }
-                        }
-
+                if (!empty($sta)){
+                    if ($sta == '1') {
+                        $shops = $this->globaladdressModel->where('supper_commision.due_commision', null)->findAll();
+                    }else{
+                        $shops = $this->globaladdressModel->where('supper_commision.due_commision !=', null)->findAll();
                     }
+                }else{
+                    $shops = $this->globaladdressModel->findAll();
                 }
 
 
@@ -262,7 +252,7 @@ class Shopscommission extends BaseController
                 echo view('Super_admin/Shopscommission/result', $data);
                 echo view('Super_admin/footer');
             }else {
-                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Sorry! Something is wrong. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                $this->session->setFlashdata('message', '<div class="alert alert-danger alert-dismissible" role="alert">Sorry! Division field is required. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 return redirect()->to('super_admin/shops_commission');
             }
         }

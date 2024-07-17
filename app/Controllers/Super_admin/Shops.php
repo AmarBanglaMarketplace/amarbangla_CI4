@@ -519,14 +519,7 @@ class Shops extends BaseController
                 $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
                 $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
 
-                $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward);
-                $shops = array();
-                if (!empty($query->countAllResults())) {
-                    $query2 = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward);
-                    foreach ($query2->findAll() as $k => $v) {
-                        $shops[$k] = $this->shopsModel->where('global_address_id', $v->global_address_id)->findAll();
-                    }
-                }
+                $shops = $this->globaladdressModel->join('shops','shops.global_address_id = global_address.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
 
                 $data['shop_data'] = $shops;
                 $data['division'] = $this->request->getPost('division');

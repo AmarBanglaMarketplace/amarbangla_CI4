@@ -49,7 +49,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php $i=1; $j=1; foreach ($campaign as $value){ foreach ($value as $val){ ?>
+                                <?php $i=1; $j=1; foreach ($campaign as $val){ ?>
                                     <tr>
                                         <td width="20"><?php echo $val->campaign_id;?></td>
                                         <td><?php echo $val->title ?></td>
@@ -71,7 +71,7 @@
                                             <a href="<?php echo base_url('agent/campaign_update/'.$val->campaign_id);?>" class="btn btn-xs btn-warning ">Update</a>
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>

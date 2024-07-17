@@ -440,19 +440,15 @@ class Deliveryboy extends BaseController
                 return redirect()->to('super_admin/delivery_boy');
             } else {
 
-                $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
-                $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
-                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
-                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
-                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
+                $division = empty($this->request->getPost('division')) ? '1=1' : array('global_address.division' => $this->request->getPost('division'));
+                $district = empty($this->request->getPost('district')) ? '1=1' : array('global_address.zila' => $this->request->getPost('district'));
+                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('global_address.upazila' => $this->request->getPost('upazila'));
+                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('global_address.pourashava' => $this->request->getPost('pourashava'));
+                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('global_address.ward' => $this->request->getPost('ward'));
 
-                $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
-                $deliveryboy = array();
-                if (!empty($query)) {
-                    foreach ($query as $k => $v) {
-                        $deliveryboy[$k] = $this->deliveryboyModel->where('global_address_id', $v->global_address_id)->where('deleted IS NULL')->findAll();
-                    }
-                }
+
+                $deliveryboy = $this->globaladdressModel->join('delivery_boy','delivery_boy.global_address_id = global_address.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->where('delivery_boy.deleted IS NULL')->findAll();
+
                 $data['deliveryboy'] = $deliveryboy;
 
                 echo view('Super_admin/header');

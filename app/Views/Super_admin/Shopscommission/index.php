@@ -108,9 +108,9 @@
                                     <tr>
                                         <td><?php echo $val->sch_id;?></td>
                                         <td><?php echo $val->name;?></td>
-                                        <td><?php echo showWithCurrencySymbol(get_data_by_id('commision', 'supper_commision', 'sch_id', $val->sch_id)); ?></td>
-                                        <td><?php echo showWithCurrencySymbol(get_data_by_id('due_commision', 'supper_commision', 'sch_id', $val->sch_id)); ?></td>
-                                        <td><?php echo showWithCurrencySymbol(get_data_by_id('pay_commision', 'supper_commision', 'sch_id', $val->sch_id)); ?></td>
+                                        <td><?php echo showWithCurrencySymbol($val->commision); ?></td>
+                                        <td><?php echo showWithCurrencySymbol($val->due_commision); ?></td>
+                                        <td><?php echo showWithCurrencySymbol($val->pay_commision); ?></td>
                                         <td width="260px">
                                             <a href="<?php echo site_url('super_admin/shops_commission_unpaid_list/' . $val->sch_id) ?>" class="btn btn-xs btn-info">Unpaid List</a>
 

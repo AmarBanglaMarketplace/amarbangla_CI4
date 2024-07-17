@@ -41,15 +41,9 @@ class Customers extends BaseController
 
 
     public function index() {
-        $permitted_area = $this->agentpermittedareaModel->where('agent_id', Auth_agent()->agent_id)->findAll();
 
-        $customers = array();
-        foreach ($permitted_area as $val) {
-            $dataCus = $this->customersModel->where('global_address_id', $val->global_address_id)->where('deleted IS NULL')->findAll();
-            if (!empty($dataCus)) {
-                $customers[] = $dataCus;
-            }
-        }
+        $customers = $this->agentpermittedareaModel->join('customers','customers.global_address_id = agent_permitted_area.global_address_id')->where('agent_permitted_area.agent_id', Auth_agent()->agent_id)->where('customers.deleted IS NULL')->findAll();
+
         $data['result'] = $customers;
         echo view('Agent/Customers/index',$data);
     }
