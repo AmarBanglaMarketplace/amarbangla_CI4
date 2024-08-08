@@ -97,7 +97,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php  foreach ($deliveryboy as $value){ foreach ($value as $val){ ?>
+                                <?php foreach ($deliveryboy as $val){ ?>
                                     <tr>
                                         <td width="10"><?php echo $val->delivery_boy_id;?></td>
                                         <td><?php echo $val->name ?></td>
@@ -111,7 +111,7 @@
                                             <a href="<?php echo base_url('super_admin/delivery_boy_delete/'.$val->delivery_boy_id);?>" onclick="javasciprt: return confirm('Are You Sure ?')" class="btn btn-xs btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                <?php } } ?>
+                                <?php } ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

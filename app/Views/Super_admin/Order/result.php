@@ -74,12 +74,14 @@
 
                                         <td>
                                             <?php
-                                            if (!empty(deliverystatus($view->invoice_id))) {
-                                                foreach (deliverystatus($view->invoice_id) as $row) {
+                                            $deliverystatus = deliverystatus($view->invoice_id);
+                                            if (!empty($deliverystatus)) {
+                                                foreach ($deliverystatus as $row) {
                                                     $detail = 'Delivery By Admin';
                                                     if (!empty($row->delivery_boy_id)) {
-                                                        $name = get_data_by_id('name', 'delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
-                                                        $phone = get_data_by_id('mobile', 'delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
+                                                        $deliveryBoyData = get_all_row_by_id('delivery_boy', 'delivery_boy_id', $row->delivery_boy_id);
+                                                        $name = $deliveryBoyData->name;
+                                                        $phone = $deliveryBoyData->mobile;
                                                         $detail = $name . '<br>' . showWithPhoneNummberCountryCode($phone);
                                                     }
 

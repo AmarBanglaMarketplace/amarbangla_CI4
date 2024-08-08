@@ -474,19 +474,14 @@ class Sellers extends BaseController
                 return redirect()->to('super_admin/sellers');
             } else {
 
-                $division = empty($this->request->getPost('division')) ? '1=1' : array('division' => $this->request->getPost('division'));
-                $district = empty($this->request->getPost('district')) ? '1=1' : array('zila' => $this->request->getPost('district'));
-                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('upazila' => $this->request->getPost('upazila'));
-                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('pourashava' => $this->request->getPost('pourashava'));
-                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('ward' => $this->request->getPost('ward'));
+                $division = empty($this->request->getPost('division')) ? '1=1' : array('global_address.division' => $this->request->getPost('division'));
+                $district = empty($this->request->getPost('district')) ? '1=1' : array('global_address.zila' => $this->request->getPost('district'));
+                $upazila = empty($this->request->getPost('upazila')) ? '1=1' : array('global_address.upazila' => $this->request->getPost('upazila'));
+                $pourashava = empty($this->request->getPost('pourashava')) ? '1=1' : array('global_address.pourashava' => $this->request->getPost('pourashava'));
+                $ward = empty($this->request->getPost('ward')) ? '1=1' : array('global_address.ward' => $this->request->getPost('ward'));
 
-                $query = $this->globaladdressModel->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->findAll();
-                $seller = array();
-                if (!empty($query)) {
-                    foreach ($query as $k => $v) {
-                        $seller[$k] = $this->sellerModel->where('global_address_id', $v->global_address_id)->where('deleted IS NULL')->findAll();
-                    }
-                }
+                $seller = $this->globaladdressModel->join('seller','seller.global_address_id = global_address.global_address_id')->where($division)->where($district)->where($upazila)->where($pourashava)->where($ward)->where('seller.deleted IS NULL')->findAll();
+
                 $data['seller'] = $seller;
 
                 echo view('Super_admin/header');

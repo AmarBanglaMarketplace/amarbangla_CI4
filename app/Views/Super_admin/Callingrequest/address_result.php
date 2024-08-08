@@ -99,7 +99,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php  foreach ($calling as $value){ foreach ($value as $val){ $img = (!empty($val->image))?$val->image:'noImage.jpg'; ?>
+                                <?php  foreach ($calling as $val){ $img = (!empty($val->image))?$val->image:'noImage.jpg'; ?>
                                     <tr>
                                         <td><?php echo $val->calling_id;?></td>
                                         <td><?php echo get_data_by_id('customer_name','customers','customer_id',$val->customer_id);  ?></td>
@@ -131,7 +131,7 @@
                                         </td>
                                     </tr>
                                     </tr>
-                                <?php } } ?>
+                                <?php }  ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>

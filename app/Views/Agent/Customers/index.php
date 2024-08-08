@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i=1; foreach ($result as $value){ foreach ($value as $val){ ?>
+                    <?php $i=1; foreach ($result as $val){ ?>
                         <tr>
                             <td width="20"> <?= $i++;?> </td>
                             <td><?= $val->customer_name ?></td>
@@ -51,7 +51,7 @@
                                 <a href="<?= base_url('agent/customer_update/' . $val->customer_id); ?>" class="btn btn-xs btn-warning">Update</a>
                             </td>
                         </tr>
-                    <?php } } ?>
+                    <?php }  ?>
 
                     </tbody>
                 </table>

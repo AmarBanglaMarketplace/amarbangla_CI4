@@ -32,15 +32,9 @@ class Campaign extends BaseController
         $this->crop = \Config\Services::image();
     }
     public function index() {
-        $agAddId = get_data_by_id('global_address_id','agent','agent_id',Auth_agent()->agent_id);
-        $campaign = array();
-        $query = $this->shopsModel->where('agent_id', Auth_agent()->agent_id)->where('deleted', null );
-        foreach ($query->findAll() as $k => $v ) {
-            $dataCus = $this->campaignModel->where('sch_id', $v->sch_id)->findAll();
-            if (!empty($dataCus)) {
-                $campaign[] = $dataCus;
-            }
-        }
+
+        $campaign = $this->shopsModel->join('campaign','campaign.sch_id = shops.sch_id')->where('shops.agent_id', Auth_agent()->agent_id)->findAll();
+        
         $data['campaign'] = $campaign;
         echo view('Agent/Campaign/index',$data);
     }

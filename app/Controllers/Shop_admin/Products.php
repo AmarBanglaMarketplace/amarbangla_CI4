@@ -352,12 +352,9 @@ class Products extends BaseController
         $view = '';
 
         if ($parentCat == 0) {
+            $data = $this->productcategoryModel->join('products','products.prod_cat_id = product_category.prod_cat_id')->where('product_category.parent_pro_cat', $keyWord)->where('products.sch_id', $shopId)->where('products.quantity >', 0)->findAll();
 
-            $subCatId = $this->productcategoryModel->where('parent_pro_cat', $keyWord)->findAll();
-            foreach ($subCatId as $row) {
-                $data = $this->productsModel->where('prod_cat_id', $row->prod_cat_id)->where('sch_id', $shopId)->where('quantity >', 0)->findAll();
-
-                foreach ($data as $row) {
+            foreach ($data as $row) {
                     $chec = ($row->show_global_price == '1') ? 'checked' : '';
                     $red = ($row->show_global_price == '1') ? 'readonly' : '';
                     $message = ($row->purchase_price > $row->selling_price) ? '<span style="color:red;">ক্রয় মূল্য থেকে বিক্রয়মূলক কম হয়ে গেছে।</span>' : '';
@@ -381,7 +378,7 @@ class Products extends BaseController
 
                     $view .= '</td></tr>';
                 }
-            }
+
         } else {
             $data = $this->productsModel->where('prod_cat_id', $keyWord)->where('sch_id', $shopId)->where('quantity >', 0)->findAll();
 
